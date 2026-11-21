@@ -538,6 +538,10 @@
       </div>
       <h3 class="font-calligraphy text-2xl sm:text-3xl font-bold text-forest mb-2" data-i18n="modal_reg_title">تم استلام طلبك بنجاح!</h3>
       <p id="regSuccessSummary" class="text-sm text-charcoal/80 mb-6 leading-relaxed"></p>
+      <div id="regPaymentOptions" class="hidden text-right bg-cream-light border border-gold/30 rounded-2xl p-4 mb-4 space-y-3">
+        <a id="regPaymentLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden block text-center py-3 rounded-xl bg-forest text-white font-bold text-sm"></a>
+        <div id="regBankDetails" class="hidden text-xs leading-7 text-charcoal whitespace-pre-line"></div>
+      </div>
       <div class="space-y-3">
         <a id="regWhatsappConfirmBtn" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
@@ -711,7 +715,8 @@
               <select id="pkgCourseId" required class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light"></select>
               <input type="number" id="pkgSessions" required min="1" placeholder="عدد الحصص شهرياً (مثلاً 8) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
               <input type="number" id="pkgDuration" required min="15" value="45" placeholder="مدة الحصة بالدقائق (مثلاً 45) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
-              <input type="number" id="pkgPrice" required min="0" step="any" placeholder="السعر الشهري *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="number" id="pkgPrice" min="0" step="any" placeholder="السعر الشهري (اختياري عند إخفاء السعر)" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <label class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-gold/30 bg-cream-light text-xs font-bold text-forest cursor-pointer"><input type="checkbox" id="pkgHidePrice" class="w-4 h-4 accent-forest" /><span>إخفاء سعر الباقة (السعر حسب الاتفاق)</span></label>
               <label class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-gold/30 bg-cream-light text-xs font-bold text-forest cursor-pointer">
                 <input type="checkbox" id="pkgPopular" class="w-4 h-4 accent-forest" />
                 <span>تمييز كـ "الأكثر طلباً"</span>
@@ -801,6 +806,22 @@
                   <option value="EUR">يورو (EUR €)</option>
                 </select>
               </div>
+              <div class="border-t border-gold/20 pt-4 space-y-3">
+                <h5 class="font-bold text-forest">الدفع الإلكتروني للطلاب الدوليين</h5>
+                <label class="block text-xs font-bold text-forest mb-1">رابط الدفع (PayPal أو بوابة دفع أخرى)</label>
+                <input type="url" id="setPaymentUrl" dir="ltr" placeholder="https://www.paypal.com/..." class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
+                <label class="block text-xs font-bold text-forest mb-1">نص زر الدفع</label>
+                <input type="text" id="setPaymentLabel" placeholder="Pay Online / ادفع الآن" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
+              </div>
+              <div class="border-t border-gold/20 pt-4 space-y-3">
+                <h5 class="font-bold text-forest">بيانات التحويل البنكي</h5>
+                <input type="text" id="setBankName" placeholder="اسم البنك" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
+                <input type="text" id="setAccountName" placeholder="اسم صاحب الحساب" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
+                <input type="text" id="setAccountNumber" dir="ltr" placeholder="رقم الحساب" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
+                <input type="text" id="setIban" dir="ltr" placeholder="IBAN" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
+                <input type="text" id="setSwift" dir="ltr" placeholder="SWIFT / BIC للتحويل الدولي" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
+                <textarea id="setBankInstructions" rows="2" placeholder="تعليمات التحويل للطالب" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+              </div>
               <div>
                 <label class="block text-xs font-bold text-forest mb-1">الرقم السري للوحة الإدارة (PIN)</label>
                 <input type="text" id="setPin" required minlength="4" placeholder="أدخل رقماً سرياً قوياً" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" />
@@ -860,7 +881,8 @@
       settings: {
         whatsapp: '201018301386',
         currency: 'EGP',
-        pin: '1234'
+        pin: '1234',
+        paymentUrl: '', paymentLabel: 'ادفع الآن', bankName: '', accountName: '', accountNumber: '', iban: '', swift: '', bankInstructions: ''
       }
     };
 
@@ -1422,10 +1444,8 @@
               </div>
               <div class="text-xs text-charcoal/65 mb-5">${p.duration || 45} ${t('minutes_label')}</div>
 
-              <div class="py-4 my-4 border-y border-gold/20 flex items-baseline gap-1">
-                <span class="text-3xl font-extrabold text-forest font-jakarta">${p.price}</span>
-                <span class="text-sm font-bold text-gold-dark">${curr}</span>
-                <span class="text-xs text-charcoal/60">${t('per_month')}</span>
+              <div class="py-4 my-4 border-y border-gold/20">
+                ${p.hidePrice ? `<span class="text-sm font-bold text-gold-dark">${currentLang === 'ar' ? 'السعر يُحدد حسب احتياج المشترك' : 'Price available on request'}</span>` : `<div class="flex items-baseline gap-1"><span class="text-3xl font-extrabold text-forest font-jakarta">${p.price}</span><span class="text-sm font-bold text-gold-dark">${curr}</span><span class="text-xs text-charcoal/60">${t('per_month')}</span></div>`}
               </div>
             </div>
 
@@ -1565,7 +1585,7 @@
       if (!matching.length) matching = state.packages;
 
       pkgSelect.innerHTML = matching.map(p =>
-        `<option value="${p.id}">${p.sessions} ${t('sessions_label')} (${p.duration || 45} ${t('minutes_label')}) — ${p.price} ${curr}</option>`
+        `<option value="${p.id}">${p.sessions} ${t('sessions_label')} (${p.duration || 45} ${t('minutes_label')}) — ${p.hidePrice ? (currentLang === 'ar' ? 'السعر حسب الاتفاق' : 'Custom price') : `${p.price} ${curr}`}</option>`
       ).join('');
     };
 
@@ -1666,7 +1686,7 @@
         courseId,
         courseName: courseObj ? courseObj.titleAr : courseId,
         packageId: pkgId,
-        packageLabel: pkgObj ? `${pkgObj.sessions} حصص (${pkgObj.price} ${curr})` : pkgId,
+        packageLabel: pkgObj ? `${pkgObj.sessions} حصص (${pkgObj.hidePrice ? 'السعر حسب الاتفاق' : `${pkgObj.price} ${curr}`})` : pkgId,
         teacherId: teacherId || '',
         teacherName: teacherObj ? teacherObj.nameAr : 'أي معلم متاح',
         notes: document.getElementById('regNotes').value.trim(),
@@ -1704,6 +1724,27 @@
 
         document.getElementById('registrationForm').reset();
         window.syncRegistrationPackages();
+        const paymentOptions = document.getElementById('regPaymentOptions');
+        const paymentLink = document.getElementById('regPaymentLink');
+        const bankDetails = document.getElementById('regBankDetails');
+        const paymentUrl = String(state.settings.paymentUrl || '').trim();
+        const safePaymentUrl = /^https:\/\//i.test(paymentUrl) ? paymentUrl : '';
+        if (safePaymentUrl) {
+          paymentLink.href = safePaymentUrl;
+          paymentLink.textContent = state.settings.paymentLabel || (currentLang === 'ar' ? 'ادفع الآن' : 'Pay online');
+          paymentLink.classList.remove('hidden');
+        } else { paymentLink.classList.add('hidden'); paymentLink.removeAttribute('href'); }
+        const bankLines = [
+          state.settings.bankName ? `البنك: ${state.settings.bankName}` : '',
+          state.settings.accountName ? `اسم صاحب الحساب: ${state.settings.accountName}` : '',
+          state.settings.accountNumber ? `رقم الحساب: ${state.settings.accountNumber}` : '',
+          state.settings.iban ? `IBAN: ${state.settings.iban}` : '',
+          state.settings.swift ? `SWIFT / BIC: ${state.settings.swift}` : '',
+          state.settings.bankInstructions ? `تعليمات التحويل: ${state.settings.bankInstructions}` : ''
+        ].filter(Boolean);
+        if (bankLines.length) { bankDetails.textContent = bankLines.join('\n'); bankDetails.classList.remove('hidden'); }
+        else bankDetails.classList.add('hidden');
+        paymentOptions.classList.toggle('hidden', !safePaymentUrl && !bankLines.length);
         document.getElementById('regSuccessModal').classList.remove('hidden');
       } catch (err) {
         console.error('Registration error:', err);
@@ -2138,7 +2179,7 @@
           <div class="flex items-center justify-between gap-2 p-3.5 rounded-xl bg-cream-light border border-gold/25">
             <div>
               <div class="text-[11px] font-bold text-gold-dark">${escapeHtml(course ? course.titleAr : '')}</div>
-              <div class="font-bold text-sm text-forest">${p.sessions} حصص — ${p.price} ${curr}</div>
+              <div class="font-bold text-sm text-forest">${p.sessions} حصص — ${p.hidePrice ? 'السعر مخفي / حسب الاتفاق' : `${p.price} ${curr}`}</div>
               <div class="text-[11px] text-charcoal/60">${p.duration || 45} دقيقة ${p.popular ? '• ⭐ الأكثر طلباً' : ''}</div>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
@@ -2159,7 +2200,8 @@
         courseId: document.getElementById('pkgCourseId').value,
         sessions: Number(document.getElementById('pkgSessions').value),
         duration: Number(document.getElementById('pkgDuration').value),
-        price: Number(document.getElementById('pkgPrice').value),
+        price: Number(document.getElementById('pkgPrice').value) || 0,
+        hidePrice: document.getElementById('pkgHidePrice').checked,
         popular: document.getElementById('pkgPopular').checked
       };
       try {
@@ -2185,7 +2227,8 @@
       document.getElementById('pkgCourseId').value = p.courseId;
       document.getElementById('pkgSessions').value = p.sessions;
       document.getElementById('pkgDuration').value = p.duration || 45;
-      document.getElementById('pkgPrice').value = p.price;
+      document.getElementById('pkgPrice').value = p.price || '';
+      document.getElementById('pkgHidePrice').checked = !!p.hidePrice;
       document.getElementById('pkgPopular').checked = !!p.popular;
       const banner = document.getElementById('packageEditBanner');
       banner.textContent = `✏️ جاري تعديل باقة: ${p.sessions} حصص (${p.price})`;
@@ -2456,6 +2499,8 @@
       }
       if (cur) cur.value = state.settings.currency || 'EGP';
       if (pin) pin.value = state.settings.pin || '1234';
+      const settingFields = { setPaymentUrl: 'paymentUrl', setPaymentLabel: 'paymentLabel', setBankName: 'bankName', setAccountName: 'accountName', setAccountNumber: 'accountNumber', setIban: 'iban', setSwift: 'swift', setBankInstructions: 'bankInstructions' };
+      Object.entries(settingFields).forEach(([elementId, key]) => { const el = document.getElementById(elementId); if (el) el.value = state.settings[key] || ''; });
     }
 
     window.handleSaveSettings = async function(e) {
@@ -2463,8 +2508,17 @@
       const newSettings = {
         whatsapp: document.getElementById('setWhatsapp').value.trim(),
         currency: document.getElementById('setCurrency').value,
-        pin: document.getElementById('setPin').value.trim()
+        pin: document.getElementById('setPin').value.trim(),
+        paymentUrl: document.getElementById('setPaymentUrl').value.trim(),
+        paymentLabel: document.getElementById('setPaymentLabel').value.trim() || 'ادفع الآن',
+        bankName: document.getElementById('setBankName').value.trim(),
+        accountName: document.getElementById('setAccountName').value.trim(),
+        accountNumber: document.getElementById('setAccountNumber').value.trim(),
+        iban: document.getElementById('setIban').value.trim(),
+        swift: document.getElementById('setSwift').value.trim(),
+        bankInstructions: document.getElementById('setBankInstructions').value.trim()
       };
+      if (newSettings.paymentUrl && !/^https:\/\//i.test(newSettings.paymentUrl)) { showToast('رابط الدفع يجب أن يبدأ بـ https://', 'error'); return; }
       try {
         if (isFirebaseConnected && db) {
           await setDoc(doc(db, 'settings', 'academy'), newSettings);
