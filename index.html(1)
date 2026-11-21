@@ -546,6 +546,10 @@
         <a id="regPaymentBtn" href="#" target="_blank" rel="noopener noreferrer" class="hidden w-full py-3.5 rounded-2xl bg-[#1769aa] hover:bg-[#12558a] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all">
           <span id="regPaymentBtnLabel">الدفع الإلكتروني</span>
         </a>
+        <div id="regBankDetails" class="hidden text-right rounded-2xl border border-gold/40 bg-cream-light p-4 space-y-2">
+          <h4 class="font-bold text-forest text-sm">التحويل البنكي</h4>
+          <p id="regBankInfo" class="text-xs text-charcoal leading-7 whitespace-pre-line"></p>
+        </div>
         <button onclick="closeModal('regSuccessModal')" class="w-full py-3 rounded-2xl bg-cream hover:bg-cream-dark text-forest font-bold text-sm transition-all" data-i18n="btn_close">إغلاق</button>
       </div>
     </div>
@@ -817,6 +821,16 @@
                 <label class="block text-xs font-bold text-forest mb-1">اسم زر الدفع (اختياري)</label>
                 <input type="text" id="setPaymentLabel" placeholder="الدفع الإلكتروني / Pay online" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
               </div>
+              <div class="border-t border-gold/30 pt-4 space-y-3">
+                <h5 class="font-bold text-forest text-sm">بيانات التحويل البنكي (تظهر للطالب بعد التسجيل)</h5>
+                <div><label class="block text-xs font-bold text-forest mb-1">اسم البنك</label><input type="text" id="setBankName" placeholder="اسم البنك" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" /></div>
+                <div><label class="block text-xs font-bold text-forest mb-1">اسم صاحب الحساب</label><input type="text" id="setBankAccountName" placeholder="اسم صاحب الحساب" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" /></div>
+                <div><label class="block text-xs font-bold text-forest mb-1">رقم الحساب</label><input type="text" id="setBankAccount" dir="ltr" placeholder="Account number" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" /></div>
+                <div><label class="block text-xs font-bold text-forest mb-1">IBAN (اختياري للتحويل الدولي)</label><input type="text" id="setBankIban" dir="ltr" placeholder="IBAN" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" /></div>
+                <div><label class="block text-xs font-bold text-forest mb-1">SWIFT / BIC (اختياري)</label><input type="text" id="setBankSwift" dir="ltr" placeholder="SWIFT / BIC" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" /></div>
+                <div><label class="block text-xs font-bold text-forest mb-1">تعليمات التحويل (اختياري)</label><textarea id="setBankInstructions" rows="2" placeholder="مثلاً: اكتب اسم الطالب في سبب التحويل، ثم أرسل صورة الإيصال على واتساب." class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea></div>
+                <p class="text-[11px] text-charcoal/60">املأ البيانات التي تريد إظهارها فقط. لا تضع بيانات بطاقة بنكية أو الرقم السري أو رمز التحقق.</p>
+              </div>
               <div>
                 <label class="block text-xs font-bold text-forest mb-1">الرقم السري للوحة الإدارة (PIN)</label>
                 <input type="text" id="setPin" required minlength="4" placeholder="أدخل رقماً سرياً قوياً" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" />
@@ -878,7 +892,13 @@
         currency: 'EGP',
         pin: '1234',
         paymentUrl: '',
-        paymentLabel: 'الدفع الإلكتروني'
+        paymentLabel: 'الدفع الإلكتروني',
+        bankName: '',
+        bankAccountName: '',
+        bankAccount: '',
+        bankIban: '',
+        bankSwift: '',
+        bankInstructions: ''
       }
     };
 
@@ -1733,6 +1753,23 @@
           paymentBtn.classList.add('hidden');
           paymentBtn.removeAttribute('href');
         }
+        const bankPanel = document.getElementById('regBankDetails');
+        const bankInfo = document.getElementById('regBankInfo');
+        const bankLines = [
+          state.settings.bankName ? `البنك: ${state.settings.bankName}` : '',
+          state.settings.bankAccountName ? `صاحب الحساب: ${state.settings.bankAccountName}` : '',
+          state.settings.bankAccount ? `رقم الحساب: ${state.settings.bankAccount}` : '',
+          state.settings.bankIban ? `IBAN: ${state.settings.bankIban}` : '',
+          state.settings.bankSwift ? `SWIFT/BIC: ${state.settings.bankSwift}` : '',
+          state.settings.bankInstructions || ''
+        ].filter(Boolean);
+        if (bankPanel && bankInfo && bankLines.length) {
+          bankInfo.textContent = bankLines.join('\n');
+          bankPanel.classList.remove('hidden');
+        } else if (bankPanel) {
+          bankPanel.classList.add('hidden');
+          if (bankInfo) bankInfo.textContent = '';
+        }
 
         document.getElementById('registrationForm').reset();
         window.syncRegistrationPackages();
@@ -2197,364 +2234,4 @@
       };
       try {
         if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'packages', id), data);
-        } else {
-          const idx = state.packages.findIndex(p => p.id === id);
-          if (idx >= 0) state.packages[idx] = data; else state.packages.push(data);
-          saveLocalFallback();
-          renderAll();
-        }
-        window.resetPackageForm();
-        showToast(editId ? 'تم تحديث سعر وعدد حصص الباقة بنجاح.' : 'تمت إضافة الباقة بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ الباقة.', 'error');
-      }
-    };
-
-    window.editPackage = function(id) {
-      const p = state.packages.find(x => x.id === id);
-      if (!p) return;
-      document.getElementById('editPackageId').value = p.id;
-      document.getElementById('pkgCourseId').value = p.courseId;
-      document.getElementById('pkgSessions').value = p.sessions;
-      document.getElementById('pkgDuration').value = p.duration || 45;
-      document.getElementById('pkgPrice').value = p.price ?? '';
-      document.getElementById('pkgHidePrice').checked = !!p.hidePrice;
-      document.getElementById('pkgPopular').checked = !!p.popular;
-      const banner = document.getElementById('packageEditBanner');
-      banner.textContent = `✏️ جاري تعديل باقة: ${p.sessions} حصص (${p.price})`;
-      banner.classList.remove('hidden');
-      document.getElementById('packageSubmitBtn').textContent = 'حفظ التعديلات';
-      highlightEditCard('packageFormCard');
-      showToast('تم تحميل الباقة في النموذج — عدّل السعر أو الحصص ثم اضغط "حفظ التعديلات".', 'info');
-    };
-
-    window.resetPackageForm = function() {
-      document.getElementById('adminPackageForm').reset();
-      document.getElementById('editPackageId').value = '';
-      document.getElementById('packageEditBanner')?.classList.add('hidden');
-      const btn = document.getElementById('packageSubmitBtn');
-      if (btn) btn.textContent = 'حفظ الباقة';
-    };
-
-    window.deletePackage = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'packages', id));
-        } else {
-          state.packages = state.packages.filter(p => p.id !== id);
-          saveLocalFallback();
-          renderAll();
-        }
-        if (document.getElementById('editPackageId').value === id) window.resetPackageForm();
-        showToast('تم حذف الباقة.');
-      } catch (err) {
-        showToast('تعذر حذف الباقة.', 'error');
-      }
-    };
-
-    // --- TEACHERS ADMIN ---
-    function renderAdminTeachers() {
-      const list = document.getElementById('adminTeachersList');
-      if (!list) return;
-      const getSpecName = (id) => {
-        const sp = state.specialties.find(s => s.id === id);
-        return sp ? sp.nameAr : id;
-      };
-      list.innerHTML = state.teachers.map(tc => `
-        <div class="bg-white rounded-2xl p-4 border border-gold/30 shadow-sm flex flex-col justify-between gap-3">
-          <div>
-            <div class="font-bold text-forest text-sm">${escapeHtml(tc.nameAr)}</div>
-            <div class="text-xs text-gold-dark font-bold">${escapeHtml(getSpecName(tc.spec))}</div>
-            <div class="text-xs text-charcoal/60">${escapeHtml(tc.nameEn)} • ${tc.exp} سنوات خبرة</div>
-            <p class="text-xs text-charcoal/80 mt-2">${escapeHtml(tc.bioAr)}</p>
-          </div>
-          <div class="flex items-center gap-2 pt-2 border-t border-gold/15">
-            <button type="button" onclick="editTeacher('${tc.id}')" class="flex-1 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">تعديل</button>
-            <button type="button" onclick="deleteTeacher('${tc.id}')" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.handleSaveTeacher = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editTeacherId').value;
-      const id = editId || ('t_' + Date.now());
-      const data = {
-        id,
-        nameAr: document.getElementById('teacherNameAr').value.trim(),
-        nameEn: document.getElementById('teacherNameEn').value.trim(),
-        spec: document.getElementById('teacherSpec').value,
-        exp: Number(document.getElementById('teacherExp').value),
-        langs: document.getElementById('teacherLangs').value.trim(),
-        bioAr: document.getElementById('teacherBioAr').value.trim(),
-        bioEn: document.getElementById('teacherBioEn').value.trim()
-      };
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'teachers', id), data);
-        } else {
-          const idx = state.teachers.findIndex(x => x.id === id);
-          if (idx >= 0) state.teachers[idx] = data; else state.teachers.push(data);
-          saveLocalFallback();
-          renderAll();
-        }
-        window.resetTeacherForm();
-        showToast(editId ? 'تم حفظ تعديلات المعلم بنجاح.' : 'تمت إضافة المعلم بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ المعلم.', 'error');
-      }
-    };
-
-    window.editTeacher = function(id) {
-      const tc = state.teachers.find(x => x.id === id);
-      if (!tc) return;
-      document.getElementById('editTeacherId').value = tc.id;
-      document.getElementById('teacherNameAr').value = tc.nameAr;
-      document.getElementById('teacherNameEn').value = tc.nameEn;
-      document.getElementById('teacherSpec').value = tc.spec;
-      document.getElementById('teacherExp').value = tc.exp;
-      document.getElementById('teacherLangs').value = tc.langs;
-      document.getElementById('teacherBioAr').value = tc.bioAr;
-      document.getElementById('teacherBioEn').value = tc.bioEn;
-      const banner = document.getElementById('teacherEditBanner');
-      banner.textContent = `✏️ جاري تعديل: ${tc.nameAr}`;
-      banner.classList.remove('hidden');
-      document.getElementById('teacherSubmitBtn').textContent = 'حفظ التعديلات';
-      highlightEditCard('teacherFormCard');
-      showToast('تم تحميل بيانات المعلم في النموذج — عدّلها ثم اضغط "حفظ التعديلات".', 'info');
-    };
-
-    window.resetTeacherForm = function() {
-      document.getElementById('adminTeacherForm').reset();
-      document.getElementById('editTeacherId').value = '';
-      document.getElementById('teacherEditBanner')?.classList.add('hidden');
-      const btn = document.getElementById('teacherSubmitBtn');
-      if (btn) btn.textContent = 'حفظ المعلم';
-    };
-
-    window.deleteTeacher = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'teachers', id));
-        } else {
-          state.teachers = state.teachers.filter(x => x.id !== id);
-          saveLocalFallback();
-          renderAll();
-        }
-        if (document.getElementById('editTeacherId').value === id) window.resetTeacherForm();
-        showToast('تم حذف المعلم.');
-      } catch (err) {
-        showToast('تعذر حذف المعلم.', 'error');
-      }
-    };
-
-    // --- REVIEWS ADMIN ---
-    function renderAdminReviews() {
-      const list = document.getElementById('adminReviewsList');
-      const pendingBadge = document.getElementById('adminReviewsPendingBadge');
-      const pendingCount = state.reviews.filter(r => r.status === 'pending').length;
-      if (pendingBadge) {
-        pendingBadge.textContent = pendingCount;
-        pendingBadge.classList.toggle('hidden', pendingCount === 0);
-      }
-      if (!list) return;
-
-      if (!state.reviews.length) {
-        list.innerHTML = '<div class="col-span-full bg-white rounded-2xl p-8 text-center text-sm text-charcoal/60 border border-gold/25">لا توجد آراء مسجلة حتى الآن.</div>';
-        return;
-      }
-
-      list.innerHTML = state.reviews.map(r => {
-        const isApproved = r.status === 'approved';
-        const stars = '★'.repeat(Math.max(1, Math.min(5, Number(r.rating) || 5)));
-        return `
-          <div class="bg-white rounded-2xl p-4 border ${isApproved ? 'border-gold/30' : 'border-amber-400 bg-amber-50/40'} shadow-sm flex flex-col justify-between gap-3">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-1">
-                <span class="font-bold text-forest text-sm">${escapeHtml(r.name)}</span>
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${isApproved ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-200 text-amber-900'}">${isApproved ? 'منشور' : 'بانتظار الموافقة'}</span>
-              </div>
-              <div class="text-xs text-charcoal/60 mb-1">${escapeHtml(r.role || '')} • <span class="text-gold">${stars}</span></div>
-              <p class="text-xs text-charcoal/85 leading-relaxed">${escapeHtml(r.textAr)}</p>
-            </div>
-            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-gold/15">
-              ${!isApproved ? `<button type="button" onclick="approveReview('${r.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold">اعتماد ونشر</button>` : ''}
-              <button type="button" onclick="editReview('${r.id}')" class="flex-1 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">تعديل</button>
-              <button type="button" onclick="deleteReview('${r.id}')" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    window.handleSaveReview = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editReviewId').value;
-      const id = editId || ('rev_' + Date.now());
-      const existing = state.reviews.find(r => r.id === id);
-      const data = {
-        id,
-        name: document.getElementById('revName').value.trim(),
-        role: document.getElementById('revRole').value.trim(),
-        rating: Number(document.getElementById('revRating').value) || 5,
-        status: document.getElementById('revStatus').value,
-        textAr: document.getElementById('revTextAr').value.trim(),
-        textEn: document.getElementById('revTextEn').value.trim(),
-        createdAtMs: existing ? existing.createdAtMs : Date.now()
-      };
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'reviews', id), data);
-        } else {
-          const idx = state.reviews.findIndex(r => r.id === id);
-          if (idx >= 0) state.reviews[idx] = data; else state.reviews.unshift(data);
-          saveLocalFallback();
-          renderAll();
-        }
-        window.resetReviewForm();
-        showToast(editId ? 'تم حفظ تعديلات الرأي بنجاح.' : 'تمت إضافة الرأي بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ الرأي.', 'error');
-      }
-    };
-
-    window.approveReview = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await updateDoc(doc(db, 'reviews', id), { status: 'approved' });
-        } else {
-          const item = state.reviews.find(r => r.id === id);
-          if (item) item.status = 'approved';
-          saveLocalFallback();
-          renderAll();
-        }
-        showToast('تم اعتماد الرأي ونشره في الموقع.');
-      } catch (err) {
-        showToast('تعذر اعتماد الرأي.', 'error');
-      }
-    };
-
-    window.editReview = function(id) {
-      const r = state.reviews.find(x => x.id === id);
-      if (!r) return;
-      document.getElementById('editReviewId').value = r.id;
-      document.getElementById('revName').value = r.name || '';
-      document.getElementById('revRole').value = r.role || '';
-      document.getElementById('revRating').value = r.rating || 5;
-      document.getElementById('revStatus').value = r.status || 'approved';
-      document.getElementById('revTextAr').value = r.textAr || '';
-      document.getElementById('revTextEn').value = r.textEn || '';
-      const banner = document.getElementById('reviewEditBanner');
-      banner.textContent = `✏️ جاري تعديل رأي: ${r.name}`;
-      banner.classList.remove('hidden');
-      document.getElementById('reviewSubmitBtn').textContent = 'حفظ التعديلات';
-      highlightEditCard('reviewFormCard');
-      showToast('تم تحميل الرأي في النموذج — عدّله ثم اضغط "حفظ التعديلات".', 'info');
-    };
-
-    window.resetReviewForm = function() {
-      document.getElementById('adminReviewForm').reset();
-      document.getElementById('editReviewId').value = '';
-      document.getElementById('reviewEditBanner')?.classList.add('hidden');
-      const btn = document.getElementById('reviewSubmitBtn');
-      if (btn) btn.textContent = 'حفظ الرأي';
-    };
-
-    window.deleteReview = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'reviews', id));
-        } else {
-          state.reviews = state.reviews.filter(x => x.id !== id);
-          saveLocalFallback();
-          renderAll();
-        }
-        if (document.getElementById('editReviewId').value === id) window.resetReviewForm();
-        showToast('تم حذف الرأي.');
-      } catch (err) {
-        showToast('تعذر حذف الرأي.', 'error');
-      }
-    };
-
-    // --- SETTINGS ADMIN ---
-    function renderAdminSettings() {
-      const wa = document.getElementById('setWhatsapp');
-      const cur = document.getElementById('setCurrency');
-      const pin = document.getElementById('setPin');
-      const paymentUrl = document.getElementById('setPaymentUrl');
-      const paymentLabel = document.getElementById('setPaymentLabel');
-      if (wa) {
-        wa.value = (state.settings.whatsapp && state.settings.whatsapp !== '201000000000')
-          ? state.settings.whatsapp
-          : '201018301386';
-      }
-      if (cur) cur.value = state.settings.currency || 'EGP';
-      if (pin) pin.value = state.settings.pin || '1234';
-      if (paymentUrl) paymentUrl.value = state.settings.paymentUrl || '';
-      if (paymentLabel) paymentLabel.value = state.settings.paymentLabel || 'الدفع الإلكتروني';
-    }
-
-    window.handleSaveSettings = async function(e) {
-      e.preventDefault();
-      const newSettings = {
-        whatsapp: document.getElementById('setWhatsapp').value.trim(),
-        currency: document.getElementById('setCurrency').value,
-        pin: document.getElementById('setPin').value.trim(),
-        paymentUrl: document.getElementById('setPaymentUrl').value.trim(),
-        paymentLabel: document.getElementById('setPaymentLabel').value.trim() || 'الدفع الإلكتروني'
-      };
-      if (newSettings.paymentUrl && !/^https:\/\//i.test(newSettings.paymentUrl)) {
-        showToast('رابط الدفع يجب أن يبدأ بـ https://', 'error');
-        return;
-      }
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'settings', 'academy'), newSettings);
-        } else {
-          state.settings = newSettings;
-          saveLocalFallback();
-          renderAll();
-        }
-        showToast('تم حفظ إعدادات الأكاديمية بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ الإعدادات.', 'error');
-      }
-    };
-
-    // =========================================================================
-    // 10. MENUS, WIDGETS & STARTUP
-    // =========================================================================
-    window.toggleMobileMenu = function() {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    };
-
-    window.toggleWhatsAppWidget = function() {
-      document.getElementById('waWidgetPopup').classList.toggle('hidden');
-    };
-
-    document.addEventListener('click', (e) => {
-      const container = document.getElementById('waWidgetContainer');
-      const popup = document.getElementById('waWidgetPopup');
-      if (container && popup && !popup.classList.contains('hidden') && !container.contains(e.target)) {
-        popup.classList.add('hidden');
-      }
-    });
-
-    window.closeModal = function(id) {
-      document.getElementById(id).classList.add('hidden');
-    };
-
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-    // Support direct secret URL entry (?admin or #admin)
-    if (window.location.search.includes('admin') || window.location.hash === '#admin') {
-      setTimeout(() => openAdminGate(), 600);
-    }
-
-    // Boot application
-    initFirebaseAndData();
-  </script>
-</body>
-</html>
+          await setDoc(doc(db, 'packages', id
