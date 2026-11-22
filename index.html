@@ -190,10 +190,11 @@
             </div>
 
             <div class="flex justify-center lg:justify-start">
-              <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gold text-forest-dark font-bold text-sm sm:text-base shadow-gold">
+              <button type="button" onclick="openTrialModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gold hover:bg-gold-light text-forest-dark font-bold text-sm sm:text-base shadow-gold transition-all hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-forest/30">
                 <span>🎁</span>
                 <span data-i18n="trial_badge">حصة تجريبية مجانية 30 دقيقة لكافة البرامج التعليمية</span>
-              </div>
+                <span class="px-2.5 py-0.5 rounded-full bg-forest text-white text-xs" data-i18n="trial_book_now">احجزها الآن</span>
+              </button>
             </div>
 
             <h1 class="font-calligraphy text-4xl sm:text-5xl lg:text-6xl font-bold text-forest leading-tight" data-i18n="hero_title">
@@ -270,10 +271,10 @@
                       <span class="w-6 h-6 rounded-full bg-forest text-gold-light flex items-center justify-center shrink-0 text-xs">✓</span>
                       <span data-i18n="hero_feat_3">معلمون ومعلمات مجازون بالعربية والإنجليزية</span>
                     </div>
-                    <div class="flex items-center gap-2.5">
+                    <button type="button" onclick="openTrialModal()" class="w-full text-start flex items-center gap-2.5 rounded-xl bg-gold/15 hover:bg-gold/30 px-2 py-1.5 -mx-2 transition-colors">
                       <span class="w-6 h-6 rounded-full bg-gold text-forest-dark flex items-center justify-center shrink-0 text-xs">✓</span>
                       <span class="font-bold text-forest" data-i18n="hero_feat_4">حصة تجريبية مجانية 30 دقيقة لكافة البرامج التعليمية</span>
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -367,7 +368,7 @@
             <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#C5A059 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
             <h2 class="relative z-10 font-calligraphy text-3xl sm:text-4xl font-bold mb-2" data-i18n="reg_title">سجّل بياناتك واحجز حصتك الآن</h2>
             <p class="relative z-10 text-sm sm:text-base text-cream/85" data-i18n="reg_subtitle">املأ النموذج التالي وسيتواصل معك فريق الأكاديمية لتأكيد الموعد المناسب لك</p>
-            <p class="relative z-10 mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold text-forest-dark text-sm font-bold"><span>🎁</span><span data-i18n="reg_trial_note">متاح حصة تجريبية مجانية 30 دقيقة لكافة البرامج التعليمية</span></p>
+            <button type="button" onclick="openTrialModal()" class="relative z-10 mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold hover:bg-gold-light text-forest-dark text-sm font-bold transition-all"><span>🎁</span><span data-i18n="reg_trial_note">متاح حصة تجريبية مجانية 30 دقيقة لكافة البرامج التعليمية</span></button>
           </div>
 
           <form id="registrationForm" onsubmit="handleRegistrationSubmit(event)" class="p-6 sm:p-10 space-y-6">
@@ -512,6 +513,67 @@
           <span data-i18n="modal_reg_wa">تأكيد سريع عبر واتساب</span>
         </a>
         <button onclick="closeModal('regSuccessModal')" class="w-full py-3 rounded-2xl bg-cream hover:bg-cream-dark text-forest font-bold text-sm transition-all" data-i18n="btn_close">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1b. Free Trial Session Modal -->
+  <div id="trialModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-gold/40 animate-toast my-auto">
+      <div class="flex items-start justify-between mb-2">
+        <h3 class="font-calligraphy text-2xl sm:text-3xl font-bold text-forest" data-i18n="trial_modal_title">🎁 احجز حصتك التجريبية المجانية</h3>
+        <button type="button" onclick="closeModal('trialModal')" class="p-1.5 rounded-xl hover:bg-cream text-charcoal/60" aria-label="Close">✕</button>
+      </div>
+      <p class="text-xs sm:text-sm text-charcoal/70 mb-5 leading-relaxed" data-i18n="trial_modal_desc">30 دقيقة مجاناً بدون أي التزام، سجّل بياناتك وسنتواصل معك لتحديد الموعد.</p>
+      <form id="trialForm" onsubmit="handleTrialSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-forest mb-1" data-i18n="field_name">الاسم الكامل *</label>
+          <input type="text" id="trialName" required class="w-full px-4 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm outline-none focus:border-forest" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-forest mb-1" data-i18n="field_phone">رقم الواتساب (مع كود الدولة) *</label>
+          <input type="tel" id="trialPhone" required dir="ltr" placeholder="+20 100 000 0000" class="w-full px-4 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm text-start outline-none focus:border-forest" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-forest mb-1" data-i18n="trial_field_country">الدولة *</label>
+            <input type="text" id="trialCountry" required class="w-full px-4 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm outline-none focus:border-forest" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-forest mb-1" data-i18n="field_category">الفئة العمرية *</label>
+            <select id="trialCategory" required class="w-full px-4 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm outline-none focus:border-forest">
+              <option value="child" data-i18n="opt_child">طفل (أقل من 15 سنة)</option>
+              <option value="adult" data-i18n="opt_adult">كبير (15 سنة فأكثر)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-forest mb-1" data-i18n="trial_field_program">البرنامج التعليمي المهتم به *</label>
+          <select id="trialCourse" required class="w-full px-4 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm outline-none focus:border-forest"></select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-forest mb-1" data-i18n="trial_field_time">الوقت المناسب للحصة (اختياري)</label>
+          <input type="text" id="trialTime" class="w-full px-4 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm outline-none focus:border-forest" />
+        </div>
+        <button type="submit" id="trialSubmitBtn" class="w-full py-3.5 rounded-2xl bg-forest hover:bg-forest-light text-white font-bold text-sm shadow-md transition-all disabled:opacity-60" data-i18n="trial_submit">احجز الحصة التجريبية المجانية</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 1c. Free Trial Success Modal -->
+  <div id="trialSuccessModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 text-center shadow-2xl border border-gold/40 animate-toast">
+      <div class="w-16 h-16 mx-auto rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4">
+        <svg class="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <h3 class="font-calligraphy text-2xl sm:text-3xl font-bold text-forest mb-2" data-i18n="trial_success_title">تم حجز حصتك التجريبية!</h3>
+      <p id="trialSuccessSummary" class="text-sm text-charcoal/80 mb-6 leading-relaxed"></p>
+      <div class="space-y-3">
+        <a id="trialWhatsappBtn" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md transition-all">
+          <span data-i18n="modal_reg_wa">تأكيد سريع عبر واتساب</span>
+        </a>
+        <button type="button" onclick="closeModal('trialSuccessModal'); document.getElementById('courses').scrollIntoView({behavior:'smooth'});" class="w-full py-3 rounded-2xl bg-gold/20 hover:bg-gold/40 text-forest font-bold text-sm transition-all" data-i18n="trial_explore_btn">اكتشف الدورات والأسعار</button>
+        <button type="button" onclick="closeModal('trialSuccessModal')" class="w-full py-3 rounded-2xl bg-cream hover:bg-cream-dark text-forest font-bold text-sm transition-all" data-i18n="btn_close">إغلاق</button>
       </div>
     </div>
   </div>
@@ -1015,6 +1077,16 @@
         hero_feat_4: 'حصة تجريبية مجانية 30 دقيقة لكافة البرامج التعليمية',
         trial_badge: 'حصة تجريبية مجانية 30 دقيقة لكافة البرامج التعليمية',
         reg_trial_note: 'متاح حصة تجريبية مجانية 30 دقيقة لكافة البرامج التعليمية',
+        trial_book_now: 'احجزها الآن',
+        trial_modal_title: '🎁 احجز حصتك التجريبية المجانية',
+        trial_modal_desc: '30 دقيقة مجاناً بدون أي التزام، سجّل بياناتك وسنتواصل معك لتحديد الموعد.',
+        trial_field_country: 'الدولة *',
+        trial_field_program: 'البرنامج التعليمي المهتم به *',
+        trial_field_time: 'الوقت المناسب للحصة (اختياري)',
+        trial_opt_undecided: 'لم أحدد بعد / أحتاج استشارة',
+        trial_submit: 'احجز الحصة التجريبية المجانية',
+        trial_success_title: 'تم حجز حصتك التجريبية!',
+        trial_explore_btn: 'اكتشف الدورات والأسعار',
         courses_badge: 'برامج الأكاديمية',
         courses_title: 'المسارات والدورات التعليمية',
         courses_subtitle: 'مناهج مصممة بعناية لتناسب جميع الأعمار والمستويات من العرب والأعاجم',
@@ -1105,6 +1177,16 @@
         hero_feat_4: 'Free 30-minute trial session in all educational programs',
         trial_badge: 'Free 30-minute trial session in all educational programs',
         reg_trial_note: 'A free 30-minute trial session is available in all educational programs',
+        trial_book_now: 'Book now',
+        trial_modal_title: '🎁 Book Your Free Trial Session',
+        trial_modal_desc: '30 minutes free with no commitment. Share your details and we will contact you to set the time.',
+        trial_field_country: 'Country *',
+        trial_field_program: 'Educational Program of Interest *',
+        trial_field_time: 'Preferred time (optional)',
+        trial_opt_undecided: 'Not decided yet / need advice',
+        trial_submit: 'Book Free Trial Session',
+        trial_success_title: 'Your trial session is booked!',
+        trial_explore_btn: 'Explore Courses & Pricing',
         courses_badge: 'Academy Programs',
         courses_title: 'Educational Tracks & Courses',
         courses_subtitle: 'Carefully crafted curricula for all ages and levels, Arabs and Non-Arabs',
@@ -1652,6 +1734,15 @@
         courseSelect.value = prevCourse;
       }
 
+      const trialSelect = document.getElementById('trialCourse');
+      if (trialSelect) {
+        const prevTrial = trialSelect.value;
+        trialSelect.innerHTML = state.courses.map(c =>
+          `<option value="${c.id}">${escapeHtml(currentLang === 'ar' ? c.titleAr : c.titleEn)}</option>`
+        ).join('') + `<option value="undecided">${t('trial_opt_undecided')}</option>`;
+        if (prevTrial) trialSelect.value = prevTrial;
+      }
+
       const prevTeacher = teacherSelect.value;
       teacherSelect.innerHTML = `<option value="">${t('any_teacher')}</option>` + state.teachers.map(tc =>
         `<option value="${tc.id}">${escapeHtml(currentLang === 'ar' ? tc.nameAr : tc.nameEn)}</option>`
@@ -1840,6 +1931,69 @@
       }
     };
 
+    window.openTrialModal = function() {
+      document.getElementById('trialModal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('trialName')?.focus(), 100);
+    };
+
+    window.handleTrialSubmit = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('trialSubmitBtn');
+      if (btn) btn.disabled = true;
+
+      const courseId = document.getElementById('trialCourse').value;
+      const courseObj = state.courses.find(c => c.id === courseId);
+      const preferredTime = document.getElementById('trialTime').value.trim();
+
+      const leadData = {
+        type: 'trial',
+        name: document.getElementById('trialName').value.trim(),
+        phone: document.getElementById('trialPhone').value.trim(),
+        email: '',
+        country: document.getElementById('trialCountry').value.trim(),
+        category: document.getElementById('trialCategory').value,
+        background: '',
+        courseId,
+        courseName: courseObj ? courseObj.titleAr : 'لم يحدد بعد / يحتاج استشارة',
+        packageId: 'trial',
+        packageLabel: 'حصة تجريبية مجانية (30 دقيقة)',
+        teacherId: '',
+        teacherName: 'أي معلم متاح',
+        notes: preferredTime ? `الوقت المناسب: ${preferredTime}` : '',
+        status: 'new',
+        createdAtMs: Date.now()
+      };
+
+      try {
+        if (isFirebaseConnected && db) {
+          await addDoc(collection(db, 'registrations'), { ...leadData, createdAt: serverTimestamp() });
+        } else {
+          throw new Error('Database offline');
+        }
+
+        document.getElementById('trialSuccessSummary').textContent = currentLang === 'ar'
+          ? `أهلاً بك يا ${leadData.name}! تم استلام طلب حصتك التجريبية المجانية، وسيتواصل معك فريق الأكاديمية عبر واتساب لتحديد الموعد. وبعد التجربة يمكنك اختيار الدورة المناسبة والتسجيل فيها.`
+          : `Welcome ${leadData.name}! Your free trial session request has been received. Our team will contact you on WhatsApp to set the time. After the trial you can pick the course that suits you and register.`;
+
+        const waNum = (state.settings.whatsapp && state.settings.whatsapp !== '201000000000')
+          ? state.settings.whatsapp.replace(/\D/g, '')
+          : '201018301386';
+        const waMsg = encodeURIComponent(
+          `السلام عليكم، حجزت حصة تجريبية مجانية في أكاديمية القلم:\nالاسم: ${leadData.name}\nالدولة: ${leadData.country}\nالبرنامج: ${leadData.courseName}` + (preferredTime ? `\nالوقت المناسب: ${preferredTime}` : '')
+        );
+        document.getElementById('trialWhatsappBtn').href = `https://wa.me/${waNum}?text=${waMsg}`;
+
+        document.getElementById('trialForm').reset();
+        closeModal('trialModal');
+        document.getElementById('trialSuccessModal').classList.remove('hidden');
+      } catch (err) {
+        console.error('Trial registration error:', err);
+        showToast(currentLang === 'ar' ? 'حدث خطأ أثناء إرسال الطلب، حاول مرة أخرى.' : 'Error submitting request. Please try again.', 'error');
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    };
+
     window.openPublicReviewModal = function() {
       document.getElementById('publicReviewForm').reset();
       document.getElementById('publicReviewModal').classList.remove('hidden');
@@ -1991,14 +2145,16 @@
               <div class="flex flex-wrap items-center gap-2">
                 <span class="font-bold text-forest text-base">${escapeHtml(lead.name)}</span>
                 <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${st.cls}">${st.text}</span>
+                ${lead.type === 'trial' ? '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-gold text-forest-dark">🎁 حصة تجريبية</span>' : ''}
                 <span class="text-[11px] text-charcoal/50">${escapeHtml(dateStr)}</span>
               </div>
               <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-charcoal/80">
                 <span dir="ltr" class="font-jakarta font-bold text-forest">📱 ${escapeHtml(lead.phone)}</span>
                 ${lead.email ? `<span dir="ltr" class="font-jakarta">✉️ ${escapeHtml(lead.email)}</span>` : ''}
                 <span>📚 ${escapeHtml(lead.courseName)}</span>
-                <span>💳 ${escapeHtml(lead.packageLabel)}</span>
-                <span>👨‍🏫 ${escapeHtml(lead.teacherName || 'أي معلم')}</span>
+                ${lead.country ? `<span>🌍 ${escapeHtml(lead.country)}</span>` : ''}
+                ${lead.type === 'trial' ? '' : `<span>💳 ${escapeHtml(lead.packageLabel)}</span>
+                <span>👨‍🏫 ${escapeHtml(lead.teacherName || 'أي معلم')}</span>`}
               </div>
               ${lead.notes ? `<p class="text-xs text-charcoal/70 bg-cream-light px-3 py-1.5 rounded-lg border border-gold/20">📝 ${escapeHtml(lead.notes)}</p>` : ''}
             </div>
@@ -2052,9 +2208,9 @@
         showToast('لا توجد بيانات لتصديرها.', 'info');
         return;
       }
-      const headers = ['الاسم', 'الواتساب', 'البريد', 'الفئة', 'اللغة', 'الدورة', 'الباقة', 'المعلم', 'الحالة', 'ملاحظات', 'التاريخ'];
+      const headers = ['النوع', 'الدولة', 'الاسم', 'الواتساب', 'البريد', 'الفئة', 'اللغة', 'الدورة', 'الباقة', 'المعلم', 'الحالة', 'ملاحظات', 'التاريخ'];
       const rows = state.registrations.map(l => [
-        l.name, l.phone, l.email, l.category, l.background, l.courseName, l.packageLabel, l.teacherName, l.status, l.notes,
+        l.type === 'trial' ? 'حصة تجريبية' : 'تسجيل دورة', l.country, l.name, l.phone, l.email, l.category, l.background, l.courseName, l.packageLabel, l.teacherName, l.status, l.notes,
         l.createdAtMs ? new Date(l.createdAtMs).toLocaleString('ar-EG') : ''
       ].map(v => `"${String(v || '').replace(/"/g, '""')}"`).join(','));
       const csv = '\uFEFF' + [headers.join(','), ...rows].join('\n');
