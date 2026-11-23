@@ -191,6 +191,7 @@
           <a href="#about" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_about">عن الأكاديمية</a>
           <a href="#courses" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_courses">المسارات والدورات</a>
           <a href="#curricula" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_curricula">المناهج</a>
+          <a href="#programs" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_programs">برامج الأطفال</a>
           <a href="#videos" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_videos">فيديوهات شرح</a>
           <a href="#pricing" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_pricing">الباقات والأسعار</a>
           <a href="#teachers" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_teachers">نخبة المعلمين</a>
@@ -217,6 +218,7 @@
         <a href="#about" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_about">عن الأكاديمية</a>
         <a href="#courses" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_courses">المسارات والدورات</a>
         <a href="#curricula" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_curricula">المناهج</a>
+        <a href="#programs" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_programs">برامج الأطفال</a>
         <a href="#videos" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_videos">فيديوهات شرح</a>
         <a href="#pricing" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_pricing">الباقات والأسعار</a>
         <a href="#teachers" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_teachers">نخبة المعلمين</a>
@@ -405,6 +407,27 @@
         </div>
         <div id="curriculaFilters" class="flex flex-wrap items-center justify-center gap-2 mb-10"></div>
         <div id="curriculaGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1.55: KIDS EDUCATIONAL & FOUNDATION PROGRAMS (DB-driven)      -->
+    <!-- ===================================================================== -->
+    <section id="programs" class="py-16 lg:py-24 bg-white border-b border-gold/25">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span id="progBadge" class="inline-block px-3.5 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold tracking-wide mb-3"></span>
+          <h2 id="progTitle" class="font-calligraphy text-3xl sm:text-4xl font-bold text-forest mb-1"></h2>
+          <div id="progTitleAlt" class="text-sm font-bold text-gold-dark font-jakarta mb-3"></div>
+          <p id="progSub" class="text-sm sm:text-base text-charcoal/75"></p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-10">
+          <input type="search" id="progSearch" oninput="renderProgramGrid()" class="px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest outline-none text-sm" />
+          <select id="progCat" onchange="renderProgramGrid()" class="px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest outline-none text-sm"></select>
+          <select id="progLevel" onchange="renderProgramGrid()" class="px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest outline-none text-sm"></select>
+          <select id="progAge" onchange="renderProgramGrid()" class="px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest outline-none text-sm"></select>
+        </div>
+        <div id="programsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </div>
     </section>
 
@@ -748,6 +771,13 @@
     </div>
   </div>
 
+  <!-- Program details modal -->
+  <div id="programModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6" onclick="if(event.target===this)closeModal('programModal')">
+    <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border border-gold/40">
+      <div id="programModalBody"></div>
+    </div>
+  </div>
+
   <!-- 3. Full Admin Dashboard Modal -->
   <div id="adminDashboardModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-2 sm:p-6">
     <div class="bg-cream rounded-3xl w-full max-w-6xl max-h-[92vh] flex flex-col shadow-2xl border border-gold/40 overflow-hidden">
@@ -783,6 +813,7 @@
           <span id="adminReviewsPendingBadge" class="hidden px-2 py-0.5 rounded-full text-[11px] bg-amber-500 text-white font-bold">0</span>
         </button>
         <button onclick="switchAdminTab('curricula')" id="tabBtn_curricula" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">المناهج</button>
+        <button onclick="switchAdminTab('programs')" id="tabBtn_programs" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">برامج الأطفال</button>
         <button onclick="switchAdminTab('videos')" id="tabBtn_videos" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الفيديوهات</button>
         <button onclick="switchAdminTab('settings')" id="tabBtn_settings" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">إعدادات الأكاديمية</button>
       </div>
@@ -970,6 +1001,46 @@
           <div id="adminCurriculaList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
         </div>
 
+        <!-- TAB: KIDS PROGRAMS MANAGEMENT -->
+        <div id="adminTab_programs" class="admin-tab-panel hidden space-y-4">
+          <div class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-3">
+            <h4 class="font-bold text-forest text-base border-b border-gold/20 pb-2">التصنيفات (المجالات)</h4>
+            <form id="adminProgCatForm" onsubmit="handleSaveProgCat(event)" class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+              <input type="hidden" id="editProgCatId" />
+              <input type="text" id="pcNameAr" required placeholder="اسم التصنيف (عربي) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="text" id="pcNameEn" dir="ltr" placeholder="Category name (English)" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="number" id="pcOrder" min="0" placeholder="الترتيب" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <div class="flex gap-2">
+                <button type="submit" class="flex-1 py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white font-bold text-sm">حفظ التصنيف</button>
+                <button type="button" onclick="resetProgCatForm()" class="px-3 py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest font-bold text-xs">إلغاء</button>
+              </div>
+            </form>
+            <div id="adminProgCatsList" class="flex flex-wrap gap-2"></div>
+          </div>
+
+          <div id="programFormCard" class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-4 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-2">
+              <h4 class="font-bold text-forest text-base">إضافة أو تعديل برنامج للأطفال</h4>
+              <span id="programEditBanner" class="hidden px-3 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold"></span>
+            </div>
+            <form id="adminProgramForm" onsubmit="handleSaveProgram(event)" class="space-y-4">
+              <input type="hidden" id="editProgramId" />
+              <div class="flex flex-wrap items-center gap-2">
+                <input type="text" id="pfNewLangCode" dir="ltr" maxlength="5" placeholder="كود لغة جديدة (مثل fr)" class="w-44 px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+                <input type="text" id="pfNewLangName" placeholder="اسم اللغة (مثل Français)" class="w-44 px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+                <button type="button" onclick="addProgramLang()" class="px-3 py-2.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest font-bold text-xs">+ إضافة لغة للمحتوى</button>
+              </div>
+              <div id="progFormFields" class="space-y-4"></div>
+              <div class="flex gap-2">
+                <button type="submit" id="programSubmitBtn" class="flex-1 py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white font-bold text-sm">حفظ البرنامج</button>
+                <button type="button" onclick="resetProgramForm()" class="px-3 py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest font-bold text-xs">إلغاء</button>
+              </div>
+            </form>
+            <p class="text-[11px] text-charcoal/65">الصورة: الصق رابط صورة مباشر (https). إن تركته فارغًا تظهر الأيقونة التعبيرية. اكتب كل هدف/موضوع/كتاب/مهارة في سطر مستقل.</p>
+          </div>
+          <div id="adminProgramsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
         <!-- TAB: VIDEOS MANAGEMENT -->
         <div id="adminTab_videos" class="admin-tab-panel hidden space-y-4">
           <div id="videoFormCard" class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-4 transition-all">
@@ -1126,6 +1197,8 @@
       reviews: [],
       curricula: [],
       videos: [],
+      programs: [],
+      programCategories: [],
       registrations: [],
       settings: {
         whatsapp: '201018301386',
@@ -1272,6 +1345,7 @@
         nav_reviews: 'آراء الطلاب',
         nav_about: 'عن الأكاديمية',
         nav_curricula: 'المناهج',
+        nav_programs: 'برامج الأطفال',
         nav_videos: 'فيديوهات شرح',
         about_badge: 'من نحن',
         about_title: 'نبذة عن أكاديمية القلم',
@@ -1404,6 +1478,7 @@
         nav_reviews: 'Reviews',
         nav_about: 'About',
         nav_curricula: 'Curricula',
+        nav_programs: 'Kids Programs',
         nav_videos: 'Videos',
         about_badge: 'Who we are',
         about_title: 'About Al Qalam Academy',
@@ -1599,6 +1674,7 @@
         await seedIfEmpty('teachers', SEED_TEACHERS);
         await seedIfEmpty('reviews', SEED_REVIEWS);
         try { await seedIfEmpty('curricula', SEED_CURRICULA); } catch (e) { console.warn('curricula seed skipped:', e); }
+        try { await seedIfEmpty('programCategories', SEED_PROG_CATS); await seedIfEmpty('programs', SEED_PROGRAMS); } catch (e) { console.warn('programs seed skipped:', e); }
 
         const settingsRef = doc(db, 'settings', 'academy');
         const settingsSnap = await getDoc(settingsRef);
@@ -1646,6 +1722,16 @@
           state.videos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
           renderAll();
         }, (err) => handleOptionalCollectionError('videos', err));
+
+        onSnapshot(collection(db, 'programCategories'), (snap) => {
+          state.programCategories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }, (err) => handleProgramsError('programCategories', err));
+
+        onSnapshot(collection(db, 'programs'), (snap) => {
+          state.programs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }, (err) => handleProgramsError('programs', err));
 
         onSnapshot(settingsRef, (snap) => {
           if (snap.exists()) {
@@ -1708,6 +1794,8 @@
       if (!state.teachers.length) state.teachers = [...SEED_TEACHERS];
       if (!state.reviews.length) state.reviews = [...SEED_REVIEWS];
       if (!state.curricula.length) state.curricula = [...SEED_CURRICULA];
+      if (!state.programCategories || !state.programCategories.length) state.programCategories = [...SEED_PROG_CATS];
+      if (!state.programs || !state.programs.length) state.programs = [...SEED_PROGRAMS];
       renderAll();
     }
 
@@ -2063,6 +2151,7 @@
       renderReviews();
       renderAbout();
       renderCurricula();
+      renderPrograms();
       renderVideos();
       renderRegistrationDropdowns();
       if (isAdminUnlocked) {
@@ -2072,6 +2161,7 @@
         renderAdminTeachers();
         renderAdminReviews();
         renderAdminCurricula();
+        renderAdminPrograms();
         renderAdminVideos();
         renderAdminSettings();
         renderAdminContacts();
@@ -2377,6 +2467,7 @@
       renderAdminReviews();
       renderAdminSettings();
       renderAdminContacts();
+      renderAdminPrograms();
     }
 
     window.closeAdminDashboard = function() {
@@ -3445,6 +3536,445 @@
         showToast('تعذر حذف الفيديو.', 'error');
       }
     };
+
+    // =========================================================================
+    // KIDS EDUCATIONAL & FOUNDATION PROGRAMS (stored in Firestore: programs, programCategories)
+    // =========================================================================
+    const CAT_COURSE = { pc_quran: 'course_quran', pc_arabic: 'course_arabic', pc_sharia: 'course_islamic', pc_integrated: 'course_all' };
+    const PROG_LEVELS = ['beginner', 'intermediate', 'advanced'];
+    const RTL_LANGS = ['ar', 'ur', 'fa', 'he'];
+    const PF_TEXT = ['title', 'duration', 'desc', 'goals', 'topics', 'books', 'skills'];
+    const LV_BADGE = {
+      beginner: 'bg-gold/25 text-gold-dark border border-gold/40',
+      intermediate: 'bg-forest-50 text-forest border border-forest/15',
+      advanced: 'bg-forest text-white'
+    };
+    const PT = {
+      ar: { badge: 'برامج الأطفال', title: 'البرامج التعليمية والتأسيسية للأطفال', alt: 'Kids Educational & Foundation Programs', sub: 'برامج ومناهج متدرجة في اللغة العربية والقرآن الكريم والعلوم الشرعية',
+        search: 'ابحث عن برنامج بالاسم...', allCats: 'كل المجالات', allLevels: 'كل المستويات', allAges: 'كل الأعمار', more: 'اعرف المزيد', reg: 'سجّل الآن', contact: 'تواصل مع المدرس',
+        empty: 'لا توجد برامج مطابقة لبحثك.', age: 'الفئة العمرية', level: 'المستوى', duration: 'المدة المقترحة', goals: 'الأهداف التعليمية', topics: 'الموضوعات', books: 'الكتب والمراجع',
+        skills: 'المهارات المكتسبة', teachers: 'المدرسون', years: 'سنة', beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم', uncategorized: 'غير مصنّف', close: 'إغلاق', note: 'أرغب في الالتحاق ببرنامج' },
+      en: { badge: 'Kids Programs', title: 'Kids Educational & Foundation Programs', alt: 'البرامج التعليمية والتأسيسية للأطفال', sub: 'Graded programs in Arabic, the Holy Quran and Islamic sciences',
+        search: 'Search programs by name...', allCats: 'All fields', allLevels: 'All levels', allAges: 'All ages', more: 'Learn more', reg: 'Register now', contact: 'Contact the teacher',
+        empty: 'No programs match your search.', age: 'Age group', level: 'Level', duration: 'Suggested duration', goals: 'Learning goals', topics: 'Topics', books: 'Books & references',
+        skills: 'Skills gained', teachers: 'Teachers', years: 'yrs', beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced', uncategorized: 'Uncategorized', close: 'Close', note: 'I would like to join the program' }
+    };
+    const pl = (k, lang) => (PT[lang === 'ar' ? 'ar' : 'en'])[k] || k;
+    const pt = (k) => pl(k, currentLang);
+
+    // ---- Starter content (edit freely from the admin dashboard) ----
+    const SEED_PROG_CATS = [
+      { id: 'pc_arabic', nameAr: 'تأسيس اللغة العربية', nameEn: 'Arabic Language Foundations', order: 10 },
+      { id: 'pc_quran', nameAr: 'القرآن الكريم', nameEn: 'Holy Quran', order: 20 },
+      { id: 'pc_sharia', nameAr: 'العلوم الشرعية', nameEn: 'Islamic Sciences', order: 30 },
+      { id: 'pc_integrated', nameAr: 'البرامج التأسيسية المتكاملة', nameEn: 'Integrated Foundation Programs', order: 40 }
+    ];
+    const PROG_DEF = {
+      pc_arabic: { gAr: 'قراءة الكلمات والجمل قراءة سليمة\nفهم قواعد اللغة العربية الأساسية\nالكتابة الصحيحة والتعبير', gEn: 'Read words and sentences correctly\nUnderstand core Arabic grammar\nWrite and express ideas correctly', sAr: 'القراءة\nالكتابة\nالإعراب', sEn: 'Reading\nWriting\nGrammatical parsing' },
+      pc_quran: { gAr: 'إتقان التلاوة وفق أحكام التجويد\nحفظ متقن مع المراجعة\nمحبة القرآن والتعلق به', gEn: 'Master recitation with Tajweed rules\nMemorize accurately and review regularly\nBuild love for the Quran', sAr: 'التلاوة\nالحفظ\nالتجويد', sEn: 'Recitation\nMemorization\nTajweed' },
+      pc_sharia: { gAr: 'معرفة أصول الدين بأسلوب مبسط\nتطبيق العبادات تطبيقًا صحيحًا\nالتخلق بالآداب الإسلامية', gEn: 'Learn the fundamentals of faith in a simple way\nPerform acts of worship correctly\nAdopt Islamic manners', sAr: 'فهم العقيدة\nأداء العبادات\nالأخلاق', sEn: 'Understanding creed\nPerforming worship\nGood character' },
+      pc_integrated: { gAr: 'تأسيس شامل في القرآن واللغة والعلوم الشرعية\nربط العلوم ببعضها بأسلوب مناسب للطفل', gEn: 'A comprehensive foundation in Quran, Arabic and Islamic sciences\nConnect these sciences in a child-friendly way', sAr: 'التلاوة\nالقراءة والكتابة\nالفهم الشرعي', sEn: 'Recitation\nReading & writing\nIslamic understanding' }
+    };
+    const PROG_DUR = { beginner: ['3–6 أشهر', '3–6 months'], intermediate: ['6–9 أشهر', '6–9 months'], advanced: ['9–12 شهرًا', '9–12 months'] };
+    // [key, category, level, icon, titleAr, titleEn, descAr, descEn, booksAr, booksEn]
+    const PROG_ROWS = [
+      ['noor', 'pc_arabic', 'beginner', 'أ ب ت', 'نور البيان', 'Noor Al-Bayan', 'منهج تأسيسي يعلّم الطفل القراءة العربية الصحيحة خطوة بخطوة، من الحروف إلى الحركات.', 'A foundational method that teaches children correct Arabic reading step by step, from letters to vowels.', 'كتاب نور البيان', 'Noor Al-Bayan book'],
+      ['nooraniya', 'pc_arabic', 'beginner', '📖', 'القاعدة النورانية', 'Al-Qaida Al-Nooraniyah', 'منهج متدرج لتعلّم نطق الحروف ومخارجها والقراءة السليمة للقرآن.', 'A graded method for learning letter pronunciation and reading the Quran correctly.', 'القاعدة النورانية', 'Al-Qaida Al-Nooraniyah'],
+      ['alarabiya', 'pc_arabic', 'beginner', '📚', 'العربية بين يدي أولادنا', 'Arabic in the Hands of Our Children', 'سلسلة لتعليم العربية للناشئة بدروس مبسطة وقصص وتدريبات.', 'A series teaching Arabic to young learners through simple lessons, stories and exercises.', 'سلسلة العربية بين يدي أولادنا', 'Arabic in the Hands of Our Children series'],
+      ['wadih', 'pc_arabic', 'intermediate', '✏️', 'النحو الواضح', 'Al-Nahw Al-Wadih', 'تعليم قواعد النحو بالأمثلة والتدريبات المتدرجة.', 'Arabic grammar taught through examples and graded exercises.', 'النحو الواضح (علي الجارم ومصطفى أمين)', 'Al-Nahw Al-Wadih (Ali Al-Jarim & Mustafa Amin)'],
+      ['ajurrumiyyah', 'pc_arabic', 'intermediate', '📜', 'الآجرومية', 'Al-Ajurrumiyyah', 'متن مختصر في النحو يؤسس الطالب لفهم الإعراب.', 'A concise grammar primer that lays the foundation for understanding Arabic parsing.', 'متن الآجرومية', 'Matn Al-Ajurrumiyyah'],
+      ['qatr', 'pc_arabic', 'advanced', '🖋️', 'قطر الندى وبل الصدى', 'Qatr Al-Nada wa Ball Al-Sada', 'متن في النحو لابن هشام للمرحلة التي تلي الآجرومية.', 'Ibn Hisham’s grammar text for the stage that follows Al-Ajurrumiyyah.', 'قطر الندى وبل الصدى لابن هشام', 'Qatr Al-Nada wa Ball Al-Sada by Ibn Hisham'],
+      ['rwd', 'pc_arabic', 'beginner', '✍️', 'تأسيس القراءة والكتابة والإملاء', 'Reading, Writing & Dictation Foundations', 'بناء مهارات القراءة والكتابة والإملاء السليم من الصفر.', 'Building reading, writing and spelling skills from the ground up.', '', ''],
+      ['nahw_sarf', 'pc_arabic', 'intermediate', '🧩', 'التأسيس في النحو والصرف', 'Grammar & Morphology Foundations', 'تأسيس مبسط في النحو والصرف يخدم فهم النصوص والقرآن.', 'A simple foundation in grammar and morphology that supports understanding texts and the Quran.', '', ''],
+      ['hifz', 'pc_quran', 'beginner', '🕌', 'حفظ القرآن الكريم', 'Quran Memorization', 'برنامج حفظ متدرج مع مراجعة منتظمة يناسب قدرة الطفل.', 'A graded memorization program with regular review, suited to the child’s ability.', '', ''],
+      ['tashih', 'pc_quran', 'intermediate', '🎧', 'تصحيح التلاوة', 'Recitation Correction', 'تصحيح أخطاء النطق والتلاوة بالمتابعة الفردية.', 'Correcting pronunciation and recitation errors through one-to-one follow-up.', '', ''],
+      ['tajweed', 'pc_quran', 'intermediate', '🔊', 'أحكام التجويد', 'Tajweed Rules', 'تعلم أحكام التجويد وتطبيقها عمليًا أثناء التلاوة.', 'Learning Tajweed rules and applying them while reciting.', '', ''],
+      ['qiraat', 'pc_quran', 'advanced', '🌙', 'القراءات العشر', 'The Ten Qira’at', 'دراسة القراءات العشر للمستوى المتقدم بعد إتقان التجويد.', 'Studying the Ten Qira’at at the advanced level after mastering Tajweed.', '', ''],
+      ['muraja', 'pc_quran', 'intermediate', '🔁', 'مراجعة وتثبيت الحفظ', 'Memorization Review & Consolidation', 'خطة مراجعة تثبّت المحفوظ وتمنع نسيانه.', 'A review plan that consolidates memorization and prevents forgetting.', '', ''],
+      ['qiraa_sahiha', 'pc_quran', 'beginner', '👶', 'تعليم الأطفال القراءة الصحيحة للقرآن', 'Teaching Children Correct Quran Reading', 'تعليم الطفل قراءة القرآن قراءة صحيحة بأسلوب محبّب.', 'Teaching children to read the Quran correctly in an engaging way.', '', ''],
+      ['aqeeda', 'pc_sharia', 'beginner', '☪️', 'العقيدة والتوحيد', 'Creed & Tawhid', 'تعريف الطفل بأصول الإيمان والتوحيد بأسلوب مبسط.', 'Introducing children to the fundamentals of faith and Tawhid in a simple way.', '', ''],
+      ['usul3', 'pc_sharia', 'beginner', '3️⃣', 'الأصول الثلاثة', 'The Three Fundamental Principles', 'شرح مبسط لمعرفة العبد ربه ودينه ونبيه.', 'A simple explanation of knowing one’s Lord, religion and Prophet.', 'ثلاثة الأصول وأدلتها', 'The Three Fundamental Principles and Their Evidences'],
+      ['fiqh', 'pc_sharia', 'beginner', '🕋', 'الفقه المبسط وفقه العبادات', 'Simplified Fiqh & Worship', 'تعلم أحكام الطهارة والصلاة والصيام وغيرها بأسلوب سهل.', 'Learning the rules of purification, prayer, fasting and more in an easy style.', '', ''],
+      ['arbaeen', 'pc_sharia', 'intermediate', '📿', 'الأربعون النووية', 'The Forty Hadith of Al-Nawawi', 'حفظ وشرح الأحاديث الأربعين النووية.', 'Memorizing and explaining Al-Nawawi’s Forty Hadith.', 'الأربعون النووية للإمام النووي', 'Al-Arba‘un Al-Nawawiyyah by Imam Al-Nawawi'],
+      ['hadith', 'pc_sharia', 'intermediate', '🗣️', 'حفظ الأحاديث النبوية وشرحها', 'Memorizing & Explaining Hadith', 'حفظ أحاديث مختارة مع شرح معانيها وتطبيقها.', 'Memorizing selected hadith with an explanation of their meanings and application.', '', ''],
+      ['seerah', 'pc_sharia', 'beginner', '🌟', 'السيرة النبوية', 'Prophetic Biography (Seerah)', 'عرض مبسط لسيرة النبي ﷺ بما يناسب الأطفال.', 'A child-friendly presentation of the life of the Prophet ﷺ.', '', ''],
+      ['anbiya', 'pc_sharia', 'beginner', '🐪', 'قصص الأنبياء', 'Stories of the Prophets', 'قصص الأنبياء بدروسها وعبرها بأسلوب قصصي مشوق.', 'Stories of the prophets with their lessons, told in an engaging way.', '', ''],
+      ['adab', 'pc_sharia', 'beginner', '🤝', 'الآداب والأخلاق الإسلامية', 'Islamic Manners & Ethics', 'غرس الآداب والأخلاق الإسلامية في السلوك اليومي للطفل.', 'Instilling Islamic manners and ethics in the child’s daily conduct.', '', ''],
+      ['integrated', 'pc_integrated', 'beginner', '🌱', 'البرنامج التأسيسي المتكامل للأطفال', 'Integrated Foundation Program for Children', 'برنامج واحد يجمع القرآن واللغة العربية والنحو والصرف والعقيدة والفقه والحديث والسيرة والآداب.', 'One program combining Quran, Arabic, grammar and morphology, creed, fiqh, hadith, seerah and manners.', '', '']
+    ];
+    const SEED_PROGRAMS = PROG_ROWS.map((r, i) => {
+      const [key, cat, level, icon, tAr, tEn, dAr, dEn, bAr, bEn] = r;
+      const d = PROG_DEF[cat], du = cat === 'pc_integrated' ? ['12 شهرًا', '12 months'] : PROG_DUR[level];
+      const o = {
+        id: 'prog_' + key, categoryId: cat, courseId: CAT_COURSE[cat], level, icon, image: '', audience: 'kids', hidden: false, teacherIds: [], tr: {},
+        ageMin: 5, ageMax: 15, order: (i + 1) * 10,
+        titleAr: tAr, titleEn: tEn, descAr: dAr, descEn: dEn, durationAr: du[0], durationEn: du[1],
+        goalsAr: d.gAr, goalsEn: d.gEn, skillsAr: d.sAr, skillsEn: d.sEn, booksAr: bAr, booksEn: bEn, topicsAr: '', topicsEn: ''
+      };
+      if (key === 'integrated') {
+        o.topicsAr = 'القرآن الكريم\nاللغة العربية\nالنحو والصرف\nالعقيدة\nالفقه\nالحديث\nالسيرة النبوية والآداب الإسلامية';
+        o.topicsEn = 'The Holy Quran\nArabic language\nGrammar and morphology\nCreed\nFiqh\nHadith\nProphetic biography and Islamic manners';
+      }
+      return o;
+    });
+
+    function handleProgramsError(name, err) {
+      console.warn(`Firestore listener error on "${name}" (check Firestore rules):`, err);
+      if (!state.programCategories.length) state.programCategories = [...SEED_PROG_CATS];
+      if (!state.programs.length) state.programs = [...SEED_PROGRAMS];
+      renderAll();
+    }
+
+    // ---- helpers ----
+    const gv = (p, f, lang) => {
+      lang = lang || currentLang;
+      if (lang === 'ar') return p[f + 'Ar'] || '';
+      if (lang === 'en') return p[f + 'En'] || p[f + 'Ar'] || '';
+      return (p.tr && p.tr[lang] && p.tr[lang][f]) || p[f + 'En'] || p[f + 'Ar'] || '';
+    };
+    const splitLines = (s) => String(s || '').split('\n').map(x => x.trim()).filter(Boolean);
+    function progCourse(p) {
+      const id = (p.courseId && state.courses.some(c => c.id === p.courseId)) ? p.courseId : CAT_COURSE[p.categoryId];
+      return state.courses.find(c => c.id === id) || null;
+    }
+    const courseName = (c, lang) => c ? (lang === 'ar' ? c.titleAr : (c.titleEn || c.titleAr)) : '';
+    const iconRaw = (p) => (p.icon === '🔤' || p.icon === 'أبت' ? 'أ ب ت' : (p.icon || '📘'));
+    const catOf = (id) => state.programCategories.find(c => c.id === id);
+    const catName = (id, lang) => { const c = catOf(id); return c ? ((lang || currentLang) === 'ar' ? c.nameAr : (c.nameEn || c.nameAr)) : pl('uncategorized', lang || currentLang); };
+    const sortedCats = () => [...state.programCategories].sort((a, b) => (Number(a.order) || 0) - (Number(b.order) || 0));
+    function sortPrograms(list) {
+      const co = Object.fromEntries(state.programCategories.map(c => [c.id, Number(c.order) || 0]));
+      return [...list].sort((a, b) => ((co[a.categoryId] ?? 999) - (co[b.categoryId] ?? 999)) || ((Number(a.order) || 0) - (Number(b.order) || 0)));
+    }
+    function ageText(p, lang) {
+      const a = p.ageMin === null || p.ageMin === undefined || p.ageMin === '' ? null : Number(p.ageMin);
+      const b = p.ageMax === null || p.ageMax === undefined || p.ageMax === '' ? null : Number(p.ageMax);
+      if (a === null && b === null) return '';
+      if (lang === 'ar') return a !== null && b !== null ? `من ${a} إلى ${b} سنة` : a !== null ? `من ${a} سنة فأكثر` : `حتى ${b} سنة`;
+      return a !== null && b !== null ? `Ages ${a}–${b}` : a !== null ? `Ages ${a}+` : `Up to age ${b}`;
+    }
+    function fillSel(id, opts) {
+      const el = document.getElementById(id); if (!el) return;
+      const v = el.value;
+      el.innerHTML = opts.map(([val, label]) => `<option value="${escapeHtml(val)}">${escapeHtml(label)}</option>`).join('');
+      if (opts.some(o => o[0] === v)) el.value = v;
+    }
+
+    // ---- public rendering ----
+    function renderPrograms() {
+      if (!document.getElementById('programsGrid')) return;
+      const set = (id, txt) => { const e = document.getElementById(id); if (e) e.textContent = txt; };
+      set('progBadge', pt('badge')); set('progTitle', pt('title')); set('progTitleAlt', pt('alt')); set('progSub', pt('sub'));
+      document.getElementById('progSearch').placeholder = pt('search');
+      fillSel('progCat', [['all', pt('allCats')], ...sortedCats().map(c => [c.id, currentLang === 'ar' ? c.nameAr : (c.nameEn || c.nameAr)])]);
+      fillSel('progLevel', [['all', pt('allLevels')], ...PROG_LEVELS.map(l => [l, pt(l)])]);
+      fillSel('progAge', [['all', pt('allAges')], ...['4-7', '8-11', '12-15'].map(r => [r, `${r.replace('-', '–')} ${pt('years')}`])]);
+      renderProgramGrid();
+    }
+
+    window.renderProgramGrid = function() {
+      const grid = document.getElementById('programsGrid'); if (!grid) return;
+      const q = (document.getElementById('progSearch').value || '').trim().toLowerCase();
+      const cat = document.getElementById('progCat').value, lv = document.getElementById('progLevel').value, age = document.getElementById('progAge').value;
+      let list = state.programs.filter(p => !p.hidden && (p.audience || 'kids') === 'kids');
+      if (cat !== 'all') list = list.filter(p => p.categoryId === cat);
+      if (lv !== 'all') list = list.filter(p => p.level === lv);
+      if (age !== 'all') { const [a, b] = age.split('-').map(Number); list = list.filter(p => (Number(p.ageMin) || 0) <= b && (Number(p.ageMax) || 99) >= a); }
+      if (q) list = list.filter(p => [p.titleAr, p.titleEn, ...Object.values(p.tr || {}).map(x => x.title)].join(' ').toLowerCase().includes(q));
+      list = sortPrograms(list);
+      if (!list.length) { grid.innerHTML = `<div class="col-span-full text-center py-12 text-charcoal/60">${pt('empty')}</div>`; return; }
+      grid.innerHTML = list.map(p => {
+        const alt = currentLang === 'ar' ? p.titleEn : p.titleAr;
+        const visual = isHttpUrl(p.image)
+          ? `<img src="${escapeHtml(p.image)}" alt="" loading="lazy" class="w-full h-40 object-cover" onerror="this.style.display='none'" />`
+          : `<div class="h-28 flex items-center justify-center bg-gradient-to-br from-forest to-forest-light text-5xl font-calligraphy text-gold-light">${escapeHtml(iconRaw(p))}</div>`;
+        const age = ageText(p, currentLang), dur = gv(p, 'duration');
+        const id = escapeHtml(p.id);
+        return `
+          <div class="bg-white rounded-3xl border border-gold/30 shadow-card hover:shadow-soft hover:border-forest/40 transition-all flex flex-col overflow-hidden">
+            ${visual}
+            <div class="p-6 flex flex-col flex-1 justify-between">
+              <div>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-3 py-1 rounded-full text-[11px] font-bold ${LV_BADGE[p.level] || LV_BADGE.beginner}">${pt(p.level)}</span>
+                  <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-forest-50 text-forest">${escapeHtml(catName(p.categoryId))}</span>
+                </div>
+                <h3 class="font-calligraphy text-2xl font-bold text-forest">${escapeHtml(gv(p, 'title'))}</h3>
+                ${alt ? `<div class="text-[11px] font-bold text-gold-dark mb-2" dir="auto">${escapeHtml(alt)}</div>` : ''}
+                <p class="text-xs sm:text-sm text-charcoal/75 leading-relaxed">${escapeHtml(gv(p, 'desc'))}</p>
+                <div class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-charcoal/70">
+                  ${age ? `<span>👶 ${escapeHtml(age)}</span>` : ''}${dur ? `<span>⏱ ${escapeHtml(dur)}</span>` : ''}${progCourse(p) ? `<span>🎓 ${escapeHtml(courseName(progCourse(p), currentLang))}</span>` : ''}
+                </div>
+              </div>
+              <div class="flex items-center gap-2 mt-5">
+                <button type="button" onclick="openProgram('${id}')" class="flex-1 py-2.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold transition-all">${pt('more')}</button>
+                <button type="button" onclick="registerForProgram('${id}')" class="flex-1 py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white text-xs font-bold transition-all">${pt('reg')}</button>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    };
+
+    let progModalId = null, progModalLang = 'ar';
+    window.openProgram = function(id, lang) {
+      if (!state.programs.some(x => x.id === id)) return;
+      progModalId = id; progModalLang = lang || currentLang;
+      renderProgramModal();
+      document.getElementById('programModal').classList.remove('hidden');
+    };
+
+    function renderProgramModal() {
+      const p = state.programs.find(x => x.id === progModalId); if (!p) return;
+      const L = progModalLang, dir = RTL_LANGS.includes(L) ? 'rtl' : 'ltr';
+      const codes = ['ar', 'en', ...Object.keys(p.tr || {})];
+      const chips = codes.length > 1 ? `<div class="flex flex-wrap gap-1.5 mb-4" dir="ltr">${codes.map(c => `<button type="button" onclick="openProgram('${escapeHtml(p.id)}','${escapeHtml(c)}')" class="px-3 py-1 rounded-full text-[11px] font-bold ${c === L ? 'bg-forest text-white' : 'bg-cream text-forest hover:bg-forest-50'}">${escapeHtml(c === 'ar' ? 'العربية' : c === 'en' ? 'English' : ((p.tr[c] && p.tr[c].name) || c))}</button>`).join('')}</div>` : '';
+      const sec = (label, items, ordered) => items.length ? `<div><h4 class="font-bold text-forest text-sm mb-2">${label}</h4><${ordered ? 'ol' : 'ul'} class="space-y-1.5 text-sm text-charcoal/85 ${ordered ? 'list-decimal' : 'list-disc'} ps-5">${items.map(x => `<li>${escapeHtml(x)}</li>`).join('')}</${ordered ? 'ol' : 'ul'}></div>` : '';
+      const teachers = (p.teacherIds || []).map(id => state.teachers.find(t => t.id === id)).filter(Boolean).map(t => L === 'ar' ? t.nameAr : (t.nameEn || t.nameAr));
+      const waNum = String((state.settings.whatsapp && state.settings.whatsapp !== '201000000000') ? state.settings.whatsapp : '201018301386').replace(/\D/g, '');
+      const waMsg = encodeURIComponent(`${pl('note', L)}: ${gv(p, 'title', L)}`);
+      const visual = isHttpUrl(p.image)
+        ? `<img src="${escapeHtml(p.image)}" alt="" class="w-full h-48 object-cover" onerror="this.style.display='none'" />`
+        : `<div class="h-24 flex items-center justify-center bg-gradient-to-br from-forest to-forest-light text-5xl font-calligraphy text-gold-light">${escapeHtml(iconRaw(p))}</div>`;
+      const age = ageText(p, L === 'ar' ? 'ar' : 'en'), dur = gv(p, 'duration', L);
+      const info = (label, val) => val ? `<div class="rounded-2xl bg-cream/70 border border-gold/20 px-3 py-2"><div class="text-[11px] text-charcoal/60">${label}</div><div class="text-sm font-bold text-forest">${escapeHtml(val)}</div></div>` : '';
+      document.getElementById('programModalBody').innerHTML = `
+        ${visual}
+        <div class="p-6 space-y-5" dir="${dir}">
+          ${chips}
+          <div>
+            <h3 class="font-calligraphy text-3xl font-bold text-forest">${escapeHtml(gv(p, 'title', L))}</h3>
+            <div class="text-xs font-bold text-gold-dark mt-1" dir="auto">${escapeHtml(L === 'ar' ? (p.titleEn || '') : (p.titleAr || ''))}</div>
+          </div>
+          <p class="text-sm text-charcoal/80 leading-relaxed">${escapeHtml(gv(p, 'desc', L))}</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            ${info(pl('level', L), pl(p.level, L))}${info(pl('age', L), age)}${info(pl('duration', L), dur)}${info('', catName(p.categoryId, L))}
+          </div>
+          ${sec(pl('goals', L), splitLines(gv(p, 'goals', L)), false)}
+          ${sec(pl('topics', L), splitLines(gv(p, 'topics', L)), true)}
+          ${sec(pl('books', L), splitLines(gv(p, 'books', L)), false)}
+          ${sec(pl('skills', L), splitLines(gv(p, 'skills', L)), false)}
+          ${progCourse(p) ? `<div class="text-sm text-charcoal/85"><span class="font-bold text-forest">${L === 'ar' ? 'المسار / الدورة' : 'Track / course'}:</span> ${escapeHtml(courseName(progCourse(p), L === 'ar' ? 'ar' : 'en'))} <button type="button" onclick="closeModal('programModal');filterPricingByCourse('${escapeHtml(progCourse(p).id)}')" class="underline text-gold-dark font-bold">${L === 'ar' ? 'عرض الباقات والأسعار' : 'View packages & prices'}</button></div>` : ''}
+          ${teachers.length ? `<div class="text-sm text-charcoal/85"><span class="font-bold text-forest">${pl('teachers', L)}:</span> ${escapeHtml(teachers.join('، '))}</div>` : ''}
+          <div class="flex flex-wrap gap-2 pt-2">
+            <button type="button" onclick="registerForProgram('${escapeHtml(p.id)}')" class="flex-1 min-w-[140px] py-3 rounded-xl bg-forest hover:bg-forest-light text-white text-sm font-bold">${pl('reg', L)}</button>
+            <a href="https://wa.me/${waNum}?text=${waMsg}" target="_blank" rel="noopener noreferrer" class="flex-1 min-w-[140px] text-center py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold">${pl('contact', L)}</a>
+            <button type="button" onclick="closeModal('programModal')" class="px-4 py-3 rounded-xl bg-cream hover:bg-cream-dark text-forest text-sm font-bold">${pl('close', L)}</button>
+          </div>
+        </div>`;
+    }
+
+    window.registerForProgram = function(id) {
+      const p = state.programs.find(x => x.id === id); if (!p) return;
+      const note = document.getElementById('regNotes');
+      const line = `${pt('note')}: ${gv(p, 'title')}`;
+      if (note && !note.value.includes(line)) note.value = line + (note.value ? '\n' + note.value : '');
+      const c = progCourse(p);
+      const cs = document.getElementById('regCourse');
+      if (c && cs) { cs.value = c.id; window.syncRegistrationPackages(); }
+      const cat = document.getElementById('regCategory');
+      if (cat) cat.value = 'child';
+      const tid = (p.teacherIds || []).find(id => state.teachers.some(t => t.id === id));
+      const ts = document.getElementById('regTeacher');
+      if (tid && ts) ts.value = tid;
+      closeModal('programModal');
+      document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
+      showToast(currentLang === 'ar' ? 'تم اختيار البرنامج — أكمل بياناتك للتسجيل.' : 'Program selected — complete your registration below.', 'info');
+    };
+
+    // ---- admin: categories ----
+    function renderAdminProgCats() {
+      const box = document.getElementById('adminProgCatsList'); if (!box) return;
+      box.innerHTML = sortedCats().map(c => `
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cream border border-gold/30 text-xs font-bold text-forest">
+          ${escapeHtml(c.nameAr)} <span class="text-charcoal/50 font-normal">(${Number(c.order) || 0})</span>
+          <button type="button" onclick="editProgCat('${escapeHtml(c.id)}')" class="text-gold-dark hover:text-forest">تعديل</button>
+          <button type="button" onclick="deleteProgCat('${escapeHtml(c.id)}')" class="text-red-600 hover:text-red-800">حذف</button>
+        </span>`).join('');
+    }
+    window.handleSaveProgCat = async function(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editProgCatId').value;
+      const nameAr = document.getElementById('pcNameAr').value.trim();
+      const maxOrder = Math.max(0, ...state.programCategories.map(c => Number(c.order) || 0));
+      const ord = document.getElementById('pcOrder').value;
+      const data = { id: editId || ('pc_' + Date.now()), nameAr, nameEn: document.getElementById('pcNameEn').value.trim() || nameAr, order: ord === '' ? maxOrder + 10 : Number(ord) };
+      try { await saveItem('programCategories', 'programCategories', data); window.resetProgCatForm(); showToast('تم حفظ التصنيف.'); }
+      catch (err) { console.error(err); showToast('تعذر حفظ التصنيف — تأكد أن قواعد Firestore تسمح بمجموعة programCategories.', 'error'); }
+    };
+    window.editProgCat = function(id) {
+      const c = catOf(id); if (!c) return;
+      document.getElementById('editProgCatId').value = c.id;
+      document.getElementById('pcNameAr').value = c.nameAr || '';
+      document.getElementById('pcNameEn').value = c.nameEn || '';
+      document.getElementById('pcOrder').value = c.order ?? '';
+    };
+    window.resetProgCatForm = function() { document.getElementById('adminProgCatForm').reset(); document.getElementById('editProgCatId').value = ''; };
+    window.deleteProgCat = async function(id) {
+      if (state.programs.some(p => p.categoryId === id)) { showToast('لا يمكن حذف تصنيف يحتوي برامج. انقل برامجه أو احذفها أولًا.', 'error'); return; }
+      if (!confirm('هل أنت متأكد من حذف هذا التصنيف؟')) return;
+      try { await removeItem('programCategories', 'programCategories', id); showToast('تم حذف التصنيف.'); }
+      catch (err) { showToast('تعذر حذف التصنيف.', 'error'); }
+    };
+
+    // ---- admin: programs form (generated, multi-language) ----
+    const PFC = 'w-full px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none';
+    let adminProgLangs = ['ar', 'en'];
+    const adminLangNames = {};
+    const PF_PLACE = { title: 'اسم البرنامج', duration: 'المدة المقترحة (مثال: 6 أشهر)', desc: 'نبذة تعريفية', goals: 'الأهداف التعليمية — كل هدف في سطر', topics: 'الموضوعات — كل موضوع في سطر', books: 'الكتب والمراجع — كل كتاب في سطر', skills: 'المهارات المكتسبة — كل مهارة في سطر' };
+
+    function langBlock(code) {
+      const nm = code === 'ar' ? 'العربية' : code === 'en' ? 'English' : (adminLangNames[code] || code);
+      const dir = RTL_LANGS.includes(code) ? 'rtl' : 'ltr';
+      const field = (f) => f === 'title' || f === 'duration'
+        ? `<input id="pf_${code}_${f}" dir="${dir}" ${code === 'ar' && f === 'title' ? 'required' : ''} placeholder="${PF_PLACE[f]}${code === 'ar' && f === 'title' ? ' *' : ''}" class="${PFC}" />`
+        : `<textarea id="pf_${code}_${f}" rows="3" dir="${dir}" placeholder="${PF_PLACE[f]}" class="${PFC}"></textarea>`;
+      return `<fieldset class="border border-gold/30 rounded-2xl p-3 space-y-3"><legend class="px-2 text-xs font-bold text-forest">${escapeHtml(nm)} (${escapeHtml(code)})</legend>${PF_TEXT.map(field).join('')}</fieldset>`;
+    }
+
+    function buildProgramForm() {
+      const box = document.getElementById('progFormFields'); if (!box) return;
+      box.innerHTML = `
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <select id="pfCat" required class="${PFC}"></select>
+          <select id="pfCourse" class="${PFC}"></select>
+          <select id="pfLevel" class="${PFC}">${PROG_LEVELS.map(l => `<option value="${l}">${PT.ar[l]}</option>`).join('')}</select>
+          <select id="pfAudience" class="${PFC}"><option value="kids">للأطفال</option><option value="adults">للكبار (لا يظهر في هذا القسم)</option></select>
+          <input type="text" id="pfIcon" maxlength="8" placeholder="أيقونة (إيموجي) مثل 📖" class="${PFC}" />
+          <input type="number" id="pfAgeMin" min="0" max="99" placeholder="العمر من" class="${PFC}" />
+          <input type="number" id="pfAgeMax" min="0" max="99" placeholder="العمر إلى" class="${PFC}" />
+          <input type="number" id="pfOrder" min="0" placeholder="الترتيب (الأصغر أولًا)" class="${PFC}" />
+          <label class="flex items-center gap-2 px-3 text-sm font-bold text-forest"><input type="checkbox" id="pfVisible" checked class="w-4 h-4" /> ظاهر للزوار</label>
+          <input type="url" id="pfImage" dir="ltr" placeholder="رابط صورة البرنامج (اختياري) https://..." class="${PFC} col-span-2 lg:col-span-4" />
+        </div>
+        <div id="pfTeachersBox" class="flex flex-wrap gap-3 text-xs"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">${adminProgLangs.map(langBlock).join('')}</div>`;
+      refreshProgFormLists();
+    }
+
+    function refreshProgFormLists() {
+      const sel = document.getElementById('pfCat');
+      if (sel) { const v = sel.value; sel.innerHTML = sortedCats().map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.nameAr)}</option>`).join(''); if (v) sel.value = v; }
+      const cs = document.getElementById('pfCourse');
+      if (cs) { const v = cs.value; cs.innerHTML = '<option value="">المسار/الدورة: حسب التصنيف تلقائيًا</option>' + state.courses.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.titleAr)}</option>`).join(''); cs.value = v; }
+      const tb = document.getElementById('pfTeachersBox');
+      if (tb) {
+        const checked = new Set([...tb.querySelectorAll('.pfTeacher:checked')].map(x => x.value));
+        tb.innerHTML = state.teachers.length ? '<span class="font-bold text-forest">المدرسون:</span>' + state.teachers.map(t => `<label class="inline-flex items-center gap-1.5"><input type="checkbox" class="pfTeacher" value="${escapeHtml(t.id)}" ${checked.has(t.id) ? 'checked' : ''} /> ${escapeHtml(t.nameAr)}</label>`).join('') : '';
+      }
+    }
+
+    const pv = (id) => (document.getElementById(id)?.value || '').trim();
+    function collectProgramForm() {
+      const num = (id) => pv(id) === '' ? null : Number(pv(id));
+      const d = { id: pv('editProgramId'), categoryId: pv('pfCat'), courseId: pv('pfCourse'), level: pv('pfLevel') || 'beginner', audience: pv('pfAudience') || 'kids', icon: pv('pfIcon') || '📘', image: pv('pfImage'),
+        ageMin: num('pfAgeMin'), ageMax: num('pfAgeMax'), order: num('pfOrder'), hidden: !document.getElementById('pfVisible').checked,
+        teacherIds: [...document.querySelectorAll('.pfTeacher:checked')].map(x => x.value), tr: {} };
+      PF_TEXT.forEach(f => { d[f + 'Ar'] = pv(`pf_ar_${f}`); d[f + 'En'] = pv(`pf_en_${f}`); });
+      adminProgLangs.filter(c => c !== 'ar' && c !== 'en').forEach(c => { d.tr[c] = { name: adminLangNames[c] || c }; PF_TEXT.forEach(f => { d.tr[c][f] = pv(`pf_${c}_${f}`); }); });
+      return d;
+    }
+    function fillProgramForm(p) {
+      const set = (id, v) => { const e = document.getElementById(id); if (e) e.value = v ?? ''; };
+      set('editProgramId', p.id || ''); set('pfCat', p.categoryId); set('pfCourse', p.courseId || ''); set('pfLevel', p.level || 'beginner'); set('pfAudience', p.audience || 'kids');
+      set('pfIcon', iconRaw(p)); set('pfImage', p.image || ''); set('pfAgeMin', p.ageMin); set('pfAgeMax', p.ageMax); set('pfOrder', p.order);
+      document.getElementById('pfVisible').checked = !p.hidden;
+      document.querySelectorAll('.pfTeacher').forEach(x => { x.checked = (p.teacherIds || []).includes(x.value); });
+      PF_TEXT.forEach(f => { set(`pf_ar_${f}`, p[f + 'Ar']); set(`pf_en_${f}`, p[f + 'En']); });
+      Object.keys(p.tr || {}).forEach(c => PF_TEXT.forEach(f => set(`pf_${c}_${f}`, p.tr[c][f])));
+    }
+
+    window.addProgramLang = function() {
+      const code = pv('pfNewLangCode').toLowerCase().replace(/[^a-z-]/g, '');
+      if (!code) { showToast('اكتب كود اللغة بحروف إنجليزية (مثل fr أو ur).', 'error'); return; }
+      if (adminProgLangs.includes(code)) { showToast('هذه اللغة مضافة بالفعل.', 'error'); return; }
+      const cur = collectProgramForm();
+      adminLangNames[code] = pv('pfNewLangName') || code;
+      adminProgLangs.push(code);
+      buildProgramForm(); fillProgramForm(cur);
+      document.getElementById('pfNewLangCode').value = ''; document.getElementById('pfNewLangName').value = '';
+    };
+
+    window.resetProgramForm = function() {
+      adminProgLangs = ['ar', 'en'];
+      buildProgramForm();
+      document.getElementById('adminProgramForm').reset();
+      document.getElementById('editProgramId').value = '';
+      document.getElementById('programEditBanner')?.classList.add('hidden');
+      document.getElementById('programSubmitBtn').textContent = 'حفظ البرنامج';
+    };
+
+    window.editProgram = function(id) {
+      const p = state.programs.find(x => x.id === id); if (!p) return;
+      adminProgLangs = ['ar', 'en', ...Object.keys(p.tr || {})];
+      Object.keys(p.tr || {}).forEach(c => { adminLangNames[c] = p.tr[c].name || c; });
+      buildProgramForm(); fillProgramForm(p);
+      const b = document.getElementById('programEditBanner');
+      b.textContent = `✏️ جاري تعديل: ${p.titleAr}`; b.classList.remove('hidden');
+      document.getElementById('programSubmitBtn').textContent = 'حفظ التعديلات';
+      highlightEditCard('programFormCard');
+    };
+
+    window.handleSaveProgram = async function(e) {
+      e.preventDefault();
+      const d = collectProgramForm();
+      if (!d.categoryId) { showToast('أضف تصنيفًا واختره أولًا.', 'error'); return; }
+      if (d.image && !isHttpUrl(d.image)) { showToast('رابط الصورة يجب أن يبدأ بـ https://', 'error'); return; }
+      if (d.ageMin !== null && d.ageMax !== null && d.ageMin > d.ageMax) { showToast('العمر "من" يجب ألا يتجاوز العمر "إلى".', 'error'); return; }
+      const editing = !!d.id;
+      if (!editing) d.id = 'prog_' + Date.now();
+      if (d.order === null) d.order = Math.max(0, ...state.programs.filter(p => p.categoryId === d.categoryId).map(p => Number(p.order) || 0)) + 10;
+      try { await saveItem('programs', 'programs', d); window.resetProgramForm(); showToast(editing ? 'تم حفظ تعديلات البرنامج.' : 'تمت إضافة البرنامج.'); }
+      catch (err) { console.error(err); showToast('تعذر حفظ البرنامج — تأكد أن قواعد Firestore تسمح بمجموعة programs.', 'error'); }
+    };
+
+    window.toggleProgramHidden = async function(id) {
+      const p = state.programs.find(x => x.id === id); if (!p) return;
+      try { await saveItem('programs', 'programs', { ...p, hidden: !p.hidden }); showToast(p.hidden ? 'تم إظهار البرنامج.' : 'تم إخفاء البرنامج.'); }
+      catch (err) { showToast('تعذر تغيير حالة البرنامج.', 'error'); }
+    };
+
+    window.deleteProgram = async function(id) {
+      if (!confirm('هل أنت متأكد من حذف هذا البرنامج نهائيًا؟ (يمكنك إخفاؤه بدل الحذف)')) return;
+      try { await removeItem('programs', 'programs', id); if (pv('editProgramId') === id) window.resetProgramForm(); showToast('تم حذف البرنامج.'); }
+      catch (err) { showToast('تعذر حذف البرنامج.', 'error'); }
+    };
+
+    window.moveProgram = async function(id, dir) {
+      const p = state.programs.find(x => x.id === id); if (!p) return;
+      const list = sortPrograms(state.programs.filter(x => x.categoryId === p.categoryId));
+      const i = list.findIndex(x => x.id === id), j = i + dir;
+      if (j < 0 || j >= list.length) return;
+      [list[i], list[j]] = [list[j], list[i]];
+      try {
+        for (let k = 0; k < list.length; k++) {
+          if ((Number(list[k].order) || 0) !== (k + 1) * 10) await saveItem('programs', 'programs', { ...list[k], order: (k + 1) * 10 });
+        }
+      } catch (err) { showToast('تعذر تغيير الترتيب.', 'error'); }
+    };
+
+    function renderAdminPrograms() {
+      const list = document.getElementById('adminProgramsList'); if (!list) return;
+      if (!document.getElementById('pfCat')) buildProgramForm(); else refreshProgFormLists();
+      renderAdminProgCats();
+      list.innerHTML = sortPrograms(state.programs).map(p => {
+        const id = escapeHtml(p.id);
+        return `
+        <div class="bg-white rounded-2xl p-4 border ${p.hidden ? 'border-amber-300 opacity-75' : 'border-gold/30'} shadow-sm flex flex-col justify-between gap-3">
+          <div>
+            <div class="font-bold text-forest text-sm">${escapeHtml(iconRaw(p))} ${escapeHtml(p.titleAr)} ${p.hidden ? '<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px]">مخفي</span>' : ''}</div>
+            <div class="text-xs text-charcoal/60" dir="ltr">${escapeHtml(p.titleEn || '')}</div>
+            <div class="text-xs text-gold-dark font-bold mt-1">${escapeHtml(catName(p.categoryId, 'ar'))} • ${PT.ar[p.level] || ''}${progCourse(p) ? ' • ' + escapeHtml(courseName(progCourse(p), 'ar')) : ''} • ترتيب ${Number(p.order) || 0}</div>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5 pt-2 border-t border-gold/15">
+            <button type="button" onclick="moveProgram('${id}',-1)" title="أعلى" class="px-2.5 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">↑</button>
+            <button type="button" onclick="moveProgram('${id}',1)" title="أسفل" class="px-2.5 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">↓</button>
+            <button type="button" onclick="editProgram('${id}')" class="flex-1 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">تعديل</button>
+            <button type="button" onclick="toggleProgramHidden('${id}')" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold">${p.hidden ? 'إظهار' : 'إخفاء'}</button>
+            <button type="button" onclick="deleteProgram('${id}')" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
 
     // ---- QR share ----
     function getShareUrl() {
