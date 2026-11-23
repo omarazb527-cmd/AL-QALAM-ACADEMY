@@ -7,6 +7,8 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- QR Code generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <!-- Google Fonts: Amiri (Calligraphic Arabic), Cairo (Modern Arabic UI), Plus Jakarta Sans (English) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -136,8 +138,11 @@
         </a>
 
         <!-- Desktop Navigation Links -->
-        <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-semibold text-charcoal">
+        <nav class="hidden xl:flex items-center gap-5 2xl:gap-7 text-sm font-semibold text-charcoal">
+          <a href="#about" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_about">عن الأكاديمية</a>
           <a href="#courses" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_courses">المسارات والدورات</a>
+          <a href="#curricula" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_curricula">المناهج</a>
+          <a href="#videos" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_videos">فيديوهات شرح</a>
           <a href="#pricing" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_pricing">الباقات والأسعار</a>
           <a href="#teachers" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_teachers">نخبة المعلمين</a>
           <a href="#reviews" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_reviews">آراء الطلاب</a>
@@ -152,15 +157,18 @@
           </button>
 
           <!-- Mobile Hamburger Button -->
-          <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl border border-gold/30 bg-white text-forest hover:bg-forest-50 focus:outline-none" aria-label="Menu">
+          <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="xl:hidden p-2 rounded-xl border border-gold/30 bg-white text-forest hover:bg-forest-50 focus:outline-none" aria-label="Menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
         </div>
       </div>
 
       <!-- Mobile Dropdown Menu -->
-      <div id="mobileMenu" class="hidden md:hidden pb-4 pt-2 border-t border-gold/20 space-y-1">
+      <div id="mobileMenu" class="hidden xl:hidden pb-4 pt-2 border-t border-gold/20 space-y-1">
+        <a href="#about" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_about">عن الأكاديمية</a>
         <a href="#courses" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_courses">المسارات والدورات</a>
+        <a href="#curricula" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_curricula">المناهج</a>
+        <a href="#videos" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_videos">فيديوهات شرح</a>
         <a href="#pricing" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_pricing">الباقات والأسعار</a>
         <a href="#teachers" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_teachers">نخبة المعلمين</a>
         <a href="#reviews" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_reviews">آراء الطلاب</a>
@@ -286,6 +294,40 @@
     </section>
 
     <!-- ===================================================================== -->
+    <!-- SECTION 0: ABOUT THE ACADEMY & WHY "AL QALAM"                         -->
+    <!-- ===================================================================== -->
+    <section id="about" class="py-16 lg:py-24 islamic-pattern border-b border-gold/25">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold tracking-wide mb-3" data-i18n="about_badge">من نحن</span>
+          <h2 class="font-calligraphy text-3xl sm:text-4xl font-bold text-forest mb-3" data-i18n="about_title">نبذة عن أكاديمية القلم</h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <article class="bg-white rounded-3xl p-7 sm:p-9 border border-gold/30 shadow-soft">
+            <div class="w-12 h-12 rounded-2xl bg-forest text-gold-light flex items-center justify-center mb-5 shadow-md">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </div>
+            <h3 class="font-calligraphy text-2xl font-bold text-forest mb-3" data-i18n="about_h_academy">من نحن</h3>
+            <p id="aboutText" class="text-sm sm:text-base text-charcoal/85 leading-loose whitespace-pre-line"></p>
+          </article>
+          <article class="bg-forest text-cream rounded-3xl p-7 sm:p-9 border border-gold/40 shadow-soft relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#C5A059 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+            <div class="relative z-10">
+              <div class="w-12 h-12 rounded-2xl bg-white/10 border border-gold/40 text-gold-light flex items-center justify-center mb-5 font-calligraphy text-3xl leading-none">ن</div>
+              <h3 class="font-calligraphy text-2xl font-bold text-white mb-3" data-i18n="about_h_name">لماذا سُمّيت «القلم»؟</h3>
+              <p id="nameReasonText" class="font-calligraphy text-lg sm:text-xl text-cream/95 leading-loose whitespace-pre-line"></p>
+            </div>
+          </article>
+        </div>
+        <div class="text-center mt-8">
+          <button type="button" onclick="openQrModal()" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white hover:bg-forest hover:text-white text-forest border-2 border-gold/50 font-bold text-sm shadow-sm transition-all">
+            <span>📱</span><span data-i18n="btn_share_site">شارك الموقع برمز QR</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
     <!-- SECTION 1: COURSES & TRACKS                                           -->
     <!-- ===================================================================== -->
     <section id="courses" class="py-16 lg:py-24 bg-white">
@@ -299,6 +341,35 @@
         <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div class="col-span-full text-center py-12 text-charcoal/60" data-i18n="loading_data">جاري تحميل البيانات...</div>
         </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1.5: CURRICULA (FOUNDATION: NOOR AL-BAYAN, AL-AJURRUMIYYAH…)  -->
+    <!-- ===================================================================== -->
+    <section id="curricula" class="py-16 lg:py-24 bg-cream border-y border-gold/25">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold tracking-wide mb-3" data-i18n="curr_badge">المناهج الدراسية</span>
+          <h2 class="font-calligraphy text-3xl sm:text-4xl font-bold text-forest mb-3" data-i18n="curr_title">مناهج الأكاديمية</h2>
+          <p class="text-sm sm:text-base text-charcoal/75" data-i18n="curr_subtitle">مناهج متدرجة تبدأ بمرحلة التأسيس مثل «نور البيان» و«الأجرومية»</p>
+        </div>
+        <div id="curriculaFilters" class="flex flex-wrap items-center justify-center gap-2 mb-10"></div>
+        <div id="curriculaGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1.6: SHORT EXPLAINER VIDEOS                                   -->
+    <!-- ===================================================================== -->
+    <section id="videos" class="py-16 lg:py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-forest-50 text-forest text-xs font-bold tracking-wide mb-3 border border-forest/10" data-i18n="videos_badge">شروحات مختصرة</span>
+          <h2 class="font-calligraphy text-3xl sm:text-4xl font-bold text-forest mb-3" data-i18n="videos_title">فيديوهات تعليمية قصيرة</h2>
+          <p class="text-sm sm:text-base text-charcoal/75" data-i18n="videos_subtitle">مقاطع قصيرة تشرح أهم الأساسيات وتعينك على بدء رحلتك</p>
+        </div>
+        <div id="videosGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </div>
     </section>
 
@@ -445,6 +516,7 @@
             <p class="text-gold-light text-sm font-semibold mt-1">تعلّم • فهم • تطبيق &nbsp;|&nbsp; Learn • Understand • Apply</p>
           </div>
           <div class="flex flex-col sm:flex-row items-center gap-4 text-sm">
+            <button type="button" onclick="openQrModal()" class="px-4 py-1.5 rounded-full bg-gold hover:bg-gold-light text-forest-dark font-bold transition-all flex items-center gap-1.5"><span>📱</span><span data-i18n="qr_btn">رمز QR للمشاركة</span></button>
             <!-- Secret 5-Tap Admin Trigger -->
             <span onclick="handleSecretAdminTap()" class="px-4 py-1.5 rounded-full bg-white/10 border border-gold/30 font-jakarta tracking-wide cursor-default select-none">@alqalam.academy</span>
           </div>
@@ -661,6 +733,8 @@
           <span>آراء العملاء</span>
           <span id="adminReviewsPendingBadge" class="hidden px-2 py-0.5 rounded-full text-[11px] bg-amber-500 text-white font-bold">0</span>
         </button>
+        <button onclick="switchAdminTab('curricula')" id="tabBtn_curricula" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">المناهج</button>
+        <button onclick="switchAdminTab('videos')" id="tabBtn_videos" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الفيديوهات</button>
         <button onclick="switchAdminTab('settings')" id="tabBtn_settings" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">إعدادات الأكاديمية</button>
       </div>
 
@@ -814,6 +888,63 @@
           <div id="adminReviewsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
+        <!-- TAB: CURRICULA MANAGEMENT -->
+        <div id="adminTab_curricula" class="admin-tab-panel hidden space-y-4">
+          <div id="curriculumFormCard" class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-4 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-2">
+              <h4 class="font-bold text-forest text-base">إضافة أو تعديل منهج (مثل: نور البيان، الأجرومية...)</h4>
+              <span id="curriculumEditBanner" class="hidden px-3 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold"></span>
+            </div>
+            <form id="adminCurriculumForm" onsubmit="handleSaveCurriculum(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <input type="hidden" id="editCurriculumId" />
+              <input type="text" id="curTitleAr" required placeholder="اسم المنهج (عربي) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="text" id="curTitleEn" placeholder="Curriculum Name (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <select id="curLevel" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none">
+                <option value="foundation">مرحلة التأسيس</option>
+                <option value="intermediate">المرحلة المتوسطة</option>
+                <option value="advanced">المرحلة المتقدمة</option>
+              </select>
+              <textarea id="curDescAr" rows="3" required placeholder="وصف مختصر للمنهج (عربي) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2 lg:col-span-1"></textarea>
+              <textarea id="curDescEn" rows="3" placeholder="Short description (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2 lg:col-span-1"></textarea>
+              <input type="number" id="curOrder" min="0" placeholder="ترتيب العرض (رقم، الأصغر يظهر أولاً)" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <textarea id="curTopicsAr" rows="5" placeholder="محتويات المنهج (عربي) — اكتب كل درس أو باب في سطر مستقل" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2 lg:col-span-1"></textarea>
+              <textarea id="curTopicsEn" rows="5" placeholder="Contents (English) — one lesson per line" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2 lg:col-span-1"></textarea>
+              <div class="flex flex-col gap-2">
+                <input type="url" id="curLink" dir="ltr" placeholder="رابط الكتاب / ملف PDF (اختياري) https://..." class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+                <div class="flex gap-2">
+                  <button type="submit" id="curriculumSubmitBtn" class="flex-1 py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white font-bold text-sm">حفظ المنهج</button>
+                  <button type="button" onclick="resetCurriculumForm()" class="px-3 py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest font-bold text-xs">إلغاء</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div id="adminCurriculaList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
+        <!-- TAB: VIDEOS MANAGEMENT -->
+        <div id="adminTab_videos" class="admin-tab-panel hidden space-y-4">
+          <div id="videoFormCard" class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-4 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-2">
+              <h4 class="font-bold text-forest text-base">إضافة أو تعديل فيديو شرح قصير</h4>
+              <span id="videoEditBanner" class="hidden px-3 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold"></span>
+            </div>
+            <form id="adminVideoForm" onsubmit="handleSaveVideo(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input type="hidden" id="editVideoId" />
+              <input type="text" id="vidTitleAr" required placeholder="عنوان الفيديو (عربي) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="text" id="vidTitleEn" placeholder="Video Title (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="url" id="vidUrl" required dir="ltr" placeholder="رابط الفيديو (YouTube / Vimeo / ملف mp4) https://... *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2" />
+              <textarea id="vidDescAr" rows="2" placeholder="وصف مختصر (عربي)" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none"></textarea>
+              <textarea id="vidDescEn" rows="2" placeholder="Short description (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none"></textarea>
+              <div class="flex gap-2 sm:col-span-2">
+                <button type="submit" id="videoSubmitBtn" class="flex-1 py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white font-bold text-sm">حفظ الفيديو</button>
+                <button type="button" onclick="resetVideoForm()" class="px-3 py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest font-bold text-xs">إلغاء</button>
+              </div>
+            </form>
+            <p class="text-[11px] text-charcoal/65">ارفع الفيديو على يوتيوب (يفضّل «غير مدرج» Unlisted) أو Vimeo ثم الصق الرابط هنا، أو استخدم رابط ملف mp4 مباشر. سيُشغَّل الفيديو داخل الموقع.</p>
+          </div>
+          <div id="adminVideosList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
         <!-- TAB 4: ACADEMY SETTINGS -->
         <div id="adminTab_settings" class="admin-tab-panel hidden">
           <div class="bg-white rounded-2xl p-6 border border-gold/30 shadow-sm max-w-xl mx-auto space-y-5">
@@ -859,6 +990,18 @@
                 <input type="text" id="setSwift" dir="ltr" placeholder="SWIFT / BIC للتحويل الدولي" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
                 <textarea id="setBankInstructions" rows="2" placeholder="تعليمات التحويل للطالب" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
               </div>
+              <div class="border-t border-gold/20 pt-4 space-y-3">
+                <h5 class="font-bold text-forest">نبذة الأكاديمية (قسم «من نحن» في الموقع)</h5>
+                <textarea id="setAboutAr" rows="4" placeholder="نبذة عن الأكاديمية (عربي)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+                <textarea id="setAboutEn" rows="4" dir="ltr" placeholder="About the academy (English)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+                <textarea id="setNameReasonAr" rows="5" placeholder="لماذا سُمّيت «القلم»؟ (عربي)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+                <textarea id="setNameReasonEn" rows="5" dir="ltr" placeholder="Why “Al Qalam”? (English)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+              </div>
+              <div class="border-t border-gold/20 pt-4 space-y-2">
+                <h5 class="font-bold text-forest">رابط الموقع (يُستخدم في رمز QR)</h5>
+                <input type="url" id="setSiteUrl" dir="ltr" placeholder="https://www.your-academy.com" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" />
+                <p class="text-[11px] text-charcoal/65">اكتب الرابط النهائي للموقع بعد رفعه على الاستضافة. إن تركته فارغاً يُستخدم رابط الصفحة المفتوحة حالياً.</p>
+              </div>
               <div>
                 <label class="block text-xs font-bold text-forest mb-1">الرقم السري للوحة الإدارة (PIN)</label>
                 <input type="text" id="setPin" required minlength="4" placeholder="أدخل رقماً سرياً قوياً" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" />
@@ -869,6 +1012,23 @@
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- QR Share Modal -->
+  <div id="qrModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this)closeModal('qrModal')">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center border border-gold/40 shadow-2xl space-y-4">
+      <h3 class="font-calligraphy text-2xl font-bold text-forest" data-i18n="qr_title">شارك الموقع</h3>
+      <p class="text-xs text-charcoal/70" data-i18n="qr_sub">امسح الرمز بكاميرا الجوال لفتح موقع الأكاديمية</p>
+      <div class="flex justify-center"><div id="qrBox" class="p-3 bg-white rounded-2xl border-2 border-gold/40 min-h-[100px] min-w-[100px]"></div></div>
+      <p id="qrUrlText" dir="ltr" class="text-[11px] break-all text-forest/80 font-jakarta"></p>
+      <p id="qrWarn" class="hidden text-xs font-bold text-amber-700 leading-relaxed" data-i18n="qr_no_url">لا يوجد رابط عام للموقع بعد. أضف رابط الموقع من لوحة الإدارة ← إعدادات الأكاديمية.</p>
+      <div class="grid grid-cols-3 gap-2">
+        <button type="button" onclick="downloadQr()" class="py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white text-xs font-bold" data-i18n="qr_download">تحميل</button>
+        <button type="button" onclick="copySiteLink()" class="py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest text-xs font-bold" data-i18n="qr_copy">نسخ الرابط</button>
+        <button type="button" onclick="shareSite()" class="py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest text-xs font-bold" data-i18n="qr_share">مشاركة</button>
+      </div>
+      <button type="button" onclick="closeModal('qrModal')" class="text-xs font-bold text-charcoal/60 hover:text-forest">✕</button>
     </div>
   </div>
 
@@ -904,6 +1064,7 @@
     let isAdminUnlocked = false;
     let selectedPricingCourseFilter = 'all';
     let selectedTeacherFilter = 'all';
+    let selectedCurriculumLevel = 'all';
     let initialLeadsLoaded = false;
     let previousLeadIds = new Set();
 
@@ -914,6 +1075,8 @@
       packages: [],
       teachers: [],
       reviews: [],
+      curricula: [],
+      videos: [],
       registrations: [],
       settings: {
         whatsapp: '201018301386',
@@ -1058,6 +1221,38 @@
         nav_pricing: 'الباقات والأسعار',
         nav_teachers: 'نخبة المعلمين',
         nav_reviews: 'آراء الطلاب',
+        nav_about: 'عن الأكاديمية',
+        nav_curricula: 'المناهج',
+        nav_videos: 'فيديوهات شرح',
+        about_badge: 'من نحن',
+        about_title: 'نبذة عن أكاديمية القلم',
+        about_h_academy: 'من نحن',
+        about_h_name: 'لماذا سُمّيت «القلم»؟',
+        btn_share_site: 'شارك الموقع برمز QR',
+        curr_badge: 'المناهج الدراسية',
+        curr_title: 'مناهج الأكاديمية',
+        curr_subtitle: 'مناهج متدرجة تبدأ بمرحلة التأسيس مثل «نور البيان» و«الأجرومية»',
+        level_all: 'الكل',
+        level_foundation: 'مرحلة التأسيس',
+        level_intermediate: 'المرحلة المتوسطة',
+        level_advanced: 'المرحلة المتقدمة',
+        curr_contents: 'محتويات المنهج',
+        curr_open: 'فتح الكتاب / الملف',
+        curr_register: 'سجّل في هذا المنهج',
+        curr_empty: 'لا توجد مناهج في هذا القسم حالياً.',
+        videos_badge: 'شروحات مختصرة',
+        videos_title: 'فيديوهات تعليمية قصيرة',
+        videos_subtitle: 'مقاطع قصيرة تشرح أهم الأساسيات وتعينك على بدء رحلتك',
+        videos_empty: 'سيتم إضافة الفيديوهات قريباً إن شاء الله.',
+        video_open: 'مشاهدة الفيديو',
+        qr_btn: 'رمز QR للمشاركة',
+        qr_title: 'شارك الموقع',
+        qr_sub: 'امسح الرمز بكاميرا الجوال لفتح موقع الأكاديمية',
+        qr_download: 'تحميل',
+        qr_copy: 'نسخ الرابط',
+        qr_share: 'مشاركة',
+        qr_no_url: 'لا يوجد رابط عام للموقع بعد. أضف رابط الموقع من لوحة الإدارة ← إعدادات الأكاديمية.',
+        qr_copied: 'تم نسخ الرابط.',
         nav_register: 'التسجيل',
         hero_title: 'رحلتك في التعلم تبدأ من هنا',
         hero_subtitle: 'تعليم هادف لبناء جيل يقرأ، يفهم، ويعمل',
@@ -1158,6 +1353,38 @@
         nav_pricing: 'Packages & Pricing',
         nav_teachers: 'Our Teachers',
         nav_reviews: 'Reviews',
+        nav_about: 'About',
+        nav_curricula: 'Curricula',
+        nav_videos: 'Videos',
+        about_badge: 'Who we are',
+        about_title: 'About Al Qalam Academy',
+        about_h_academy: 'Who we are',
+        about_h_name: 'Why “Al Qalam” (The Pen)?',
+        btn_share_site: 'Share the site via QR code',
+        curr_badge: 'Study Curricula',
+        curr_title: 'Academy Curricula',
+        curr_subtitle: 'Graded curricula starting from the foundation stage, such as “Noor Al-Bayan” and “Al-Ajurrumiyyah”',
+        level_all: 'All',
+        level_foundation: 'Foundation',
+        level_intermediate: 'Intermediate',
+        level_advanced: 'Advanced',
+        curr_contents: 'Curriculum contents',
+        curr_open: 'Open book / file',
+        curr_register: 'Enroll in this curriculum',
+        curr_empty: 'No curricula in this section yet.',
+        videos_badge: 'Quick Explainers',
+        videos_title: 'Short Educational Videos',
+        videos_subtitle: 'Short clips that explain the essentials and help you start your journey',
+        videos_empty: 'Videos will be added soon, God willing.',
+        video_open: 'Watch video',
+        qr_btn: 'Share via QR code',
+        qr_title: 'Share the website',
+        qr_sub: 'Scan the code with your phone camera to open the academy website',
+        qr_download: 'Download',
+        qr_copy: 'Copy link',
+        qr_share: 'Share',
+        qr_no_url: 'No public site link yet. Add it in Admin ← Academy Settings.',
+        qr_copied: 'Link copied.',
         nav_register: 'Register',
         hero_title: 'Your learning journey starts here',
         hero_subtitle: 'Meaningful education to build a generation that reads, understands, and acts',
@@ -1322,6 +1549,7 @@
         await seedIfEmpty('packages', SEED_PACKAGES);
         await seedIfEmpty('teachers', SEED_TEACHERS);
         await seedIfEmpty('reviews', SEED_REVIEWS);
+        try { await seedIfEmpty('curricula', SEED_CURRICULA); } catch (e) { console.warn('curricula seed skipped:', e); }
 
         const settingsRef = doc(db, 'settings', 'academy');
         const settingsSnap = await getDoc(settingsRef);
@@ -1359,6 +1587,16 @@
           state.reviews = list;
           renderAll();
         }, handleFirestoreError);
+
+        onSnapshot(collection(db, 'curricula'), (snap) => {
+          state.curricula = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }, (err) => handleOptionalCollectionError('curricula', err));
+
+        onSnapshot(collection(db, 'videos'), (snap) => {
+          state.videos = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAll();
+        }, (err) => handleOptionalCollectionError('videos', err));
 
         onSnapshot(settingsRef, (snap) => {
           if (snap.exists()) {
@@ -1420,6 +1658,7 @@
       if (!state.packages.length) state.packages = [...SEED_PACKAGES];
       if (!state.teachers.length) state.teachers = [...SEED_TEACHERS];
       if (!state.reviews.length) state.reviews = [...SEED_REVIEWS];
+      if (!state.curricula.length) state.curricula = [...SEED_CURRICULA];
       renderAll();
     }
 
@@ -1773,6 +2012,9 @@
       renderPackages();
       renderTeachers();
       renderReviews();
+      renderAbout();
+      renderCurricula();
+      renderVideos();
       renderRegistrationDropdowns();
       if (isAdminUnlocked) {
         renderAdminSpecialties();
@@ -1780,6 +2022,8 @@
         renderAdminPackages();
         renderAdminTeachers();
         renderAdminReviews();
+        renderAdminCurricula();
+        renderAdminVideos();
         renderAdminSettings();
         renderAdminContacts();
         renderAdminLeads();
@@ -2740,8 +2984,8 @@
       }
       if (cur) cur.value = state.settings.currency || 'EGP';
       if (pin) pin.value = state.settings.pin || '1234';
-      const settingFields = { setPaymentUrl: 'paymentUrl', setPaymentLabel: 'paymentLabel', setBankName: 'bankName', setAccountName: 'accountName', setAccountNumber: 'accountNumber', setIban: 'iban', setSwift: 'swift', setBankInstructions: 'bankInstructions' };
-      Object.entries(settingFields).forEach(([elementId, key]) => { const el = document.getElementById(elementId); if (el) el.value = state.settings[key] || ''; });
+      const settingFields = { setPaymentUrl: 'paymentUrl', setPaymentLabel: 'paymentLabel', setBankName: 'bankName', setAccountName: 'accountName', setAccountNumber: 'accountNumber', setIban: 'iban', setSwift: 'swift', setBankInstructions: 'bankInstructions', setAboutAr: 'aboutAr', setAboutEn: 'aboutEn', setNameReasonAr: 'nameReasonAr', setNameReasonEn: 'nameReasonEn', setSiteUrl: 'siteUrl' };
+      Object.entries(settingFields).forEach(([elementId, key]) => { const el = document.getElementById(elementId); if (el) el.value = state.settings[key] || (DEFAULT_ABOUT[key] || ''); });
     }
 
     window.handleSaveSettings = async function(e) {
@@ -2758,8 +3002,14 @@
         accountNumber: document.getElementById('setAccountNumber').value.trim(),
         iban: document.getElementById('setIban').value.trim(),
         swift: document.getElementById('setSwift').value.trim(),
-        bankInstructions: document.getElementById('setBankInstructions').value.trim()
+        bankInstructions: document.getElementById('setBankInstructions').value.trim(),
+        aboutAr: document.getElementById('setAboutAr').value.trim(),
+        aboutEn: document.getElementById('setAboutEn').value.trim(),
+        nameReasonAr: document.getElementById('setNameReasonAr').value.trim(),
+        nameReasonEn: document.getElementById('setNameReasonEn').value.trim(),
+        siteUrl: document.getElementById('setSiteUrl').value.trim()
       };
+      if (newSettings.siteUrl && !/^https?:\/\//i.test(newSettings.siteUrl)) { showToast('رابط الموقع يجب أن يبدأ بـ https://', 'error'); return; }
       if (newSettings.paymentUrl && !/^https:\/\//i.test(newSettings.paymentUrl)) { showToast('رابط الدفع يجب أن يبدأ بـ https://', 'error'); return; }
       try {
         if (isFirebaseConnected && db) {
@@ -2772,6 +3022,436 @@
         showToast('تم حفظ إعدادات الأكاديمية بنجاح.');
       } catch (err) {
         showToast('تعذر حفظ الإعدادات.', 'error');
+      }
+    };
+
+    // =========================================================================
+    // 9.5 ABOUT, CURRICULA, VIDEOS & QR SHARE
+    // =========================================================================
+    const DEFAULT_ABOUT = {
+      aboutAr: 'أكاديمية القلم أكاديمية متخصصة في تعليم القرآن الكريم والتجويد، واللغة العربية، والعلوم الشرعية، للعرب وغير الناطقين بالعربية، من الأطفال والكبار، على يد معلمين ومعلمات من أصحاب الخبرة والإجازات المتصلة.\nنؤمن بالتأسيس المتين والتدرج في التعلّم، وشعارنا: تعلّم • فهم • تطبيق.',
+      aboutEn: 'Al Qalam Academy teaches the Holy Quran & Tajweed, the Arabic language and Islamic studies to Arabs and non-Arabs, children and adults, with experienced and certified teachers.\nWe believe in a solid foundation and gradual progress. Our motto: Learn • Understand • Apply.',
+      nameReasonAr: 'القلم أولُ ما ارتبط به العلم في الوحي؛ فقد قال الله تعالى:\n﴿اقْرَأْ وَرَبُّكَ الْأَكْرَمُ ۝ الَّذِي عَلَّمَ بِالْقَلَمِ﴾\nوأقسم به سبحانه فقال:\n﴿ن ۚ وَالْقَلَمِ وَمَا يَسْطُرُونَ﴾\nفاخترنا اسم «القلم» تيمّناً بهذه المكانة، وعنواناً لرسالتنا: علمٌ يُبنى على القراءة والكتابة والفهم، ثم العمل.',
+      nameReasonEn: 'The pen is the first tool of knowledge mentioned in revelation. God says:\n﴿اقْرَأْ وَرَبُّكَ الْأَكْرَمُ ۝ الَّذِي عَلَّمَ بِالْقَلَمِ﴾\n“Recite, and your Lord is the Most Generous, who taught by the pen.” (Al-Alaq 96:3-4)\nHe also swore by it: ﴿ن ۚ وَالْقَلَمِ وَمَا يَسْطُرُونَ﴾ (Al-Qalam 68:1).\nWe chose the name “Al Qalam” in honour of this status, and as the banner of our mission: knowledge built on reading, writing and understanding, then action.'
+    };
+
+    const SEED_CURRICULA = [
+      {
+        id: 'cur_noor_albayan', level: 'foundation', order: 1,
+        titleAr: 'نور البيان', titleEn: 'Noor Al-Bayan',
+        descAr: 'منهج تأسيسي لتعليم القراءة الصحيحة للقرآن الكريم للمبتدئين، يبدأ بالحروف ومخارجها ويتدرج حتى القراءة المتصلة.',
+        descEn: 'A foundation programme teaching beginners to read the Quran correctly, from the letters and their articulation up to fluent connected reading.',
+        topicsAr: 'الحروف الهجائية ومخارجها\nالحركات: الفتحة والكسرة والضمة\nالتنوين\nالسكون\nالشدة\nحروف المد واللين\nالتطبيق العملي على القراءة',
+        topicsEn: 'The letters and their points of articulation\nShort vowels: fatha, kasra, damma\nTanween\nSukoon\nShadda\nMadd and leen letters\nPractical reading application',
+        link: ''
+      },
+      {
+        id: 'cur_ajrumiyyah', level: 'foundation', order: 2,
+        titleAr: 'الأجرومية', titleEn: 'Al-Ajurrumiyyah',
+        descAr: 'متن مختصر في النحو لابن آجُرّوم، وهو بوابة التأسيس لفهم قواعد اللغة العربية وإعراب الكلام.',
+        descEn: 'Ibn Ajurrum’s concise primer of Arabic grammar — the foundation gateway to understanding Arabic grammar and parsing.',
+        topicsAr: 'الكلام وأقسامه\nالإعراب والبناء\nعلامات الإعراب\nالمرفوعات\nالمنصوبات\nالمخفوضات\nالتوابع',
+        topicsEn: 'Speech and its parts\nDeclension and indeclinability\nCase markers\nNominative cases\nAccusative cases\nGenitive cases\nFollowers (tawabi‘)',
+        link: ''
+      }
+    ];
+
+    function isHttpUrl(u) { return /^https?:\/\//i.test(String(u || '').trim()); }
+
+    async function saveItem(col, key, data) {
+      if (isFirebaseConnected && db) {
+        await setDoc(doc(db, col, data.id), data);
+      } else {
+        const arr = state[key];
+        const i = arr.findIndex(x => x.id === data.id);
+        if (i >= 0) arr[i] = data; else arr.push(data);
+        saveLocalFallback();
+        renderAll();
+      }
+    }
+
+    async function removeItem(col, key, id) {
+      if (isFirebaseConnected && db) {
+        await deleteDoc(doc(db, col, id));
+      } else {
+        state[key] = state[key].filter(x => x.id !== id);
+        saveLocalFallback();
+        renderAll();
+      }
+    }
+
+    function handleOptionalCollectionError(name, err) {
+      console.warn(`Firestore listener error on "${name}" (check Firestore rules):`, err);
+      if (name === 'curricula' && !state.curricula.length) state.curricula = [...SEED_CURRICULA];
+      renderAll();
+    }
+
+    // ---- About ----
+    function renderAbout() {
+      const ar = currentLang === 'ar';
+      const aKey = ar ? 'aboutAr' : 'aboutEn';
+      const nKey = ar ? 'nameReasonAr' : 'nameReasonEn';
+      const a = document.getElementById('aboutText');
+      const n = document.getElementById('nameReasonText');
+      if (a) a.textContent = state.settings[aKey] || DEFAULT_ABOUT[aKey];
+      if (n) n.textContent = state.settings[nKey] || DEFAULT_ABOUT[nKey];
+    }
+
+    // ---- Curricula (public) ----
+    const LEVEL_ORDER = { foundation: 0, intermediate: 1, advanced: 2 };
+    const LEVEL_BADGE = {
+      foundation: 'bg-gold/25 text-gold-dark border border-gold/40',
+      intermediate: 'bg-forest-50 text-forest border border-forest/15',
+      advanced: 'bg-forest text-white'
+    };
+
+    function sortCurricula(list) {
+      return [...list].sort((a, b) =>
+        ((LEVEL_ORDER[a.level] ?? 9) - (LEVEL_ORDER[b.level] ?? 9)) ||
+        ((Number(a.order) || 0) - (Number(b.order) || 0)));
+    }
+
+    window.setCurriculumLevel = function(level) {
+      selectedCurriculumLevel = level;
+      renderCurricula();
+    };
+
+    function renderCurricula() {
+      const grid = document.getElementById('curriculaGrid');
+      const filters = document.getElementById('curriculaFilters');
+      if (!grid) return;
+      const ar = currentLang === 'ar';
+      const present = ['foundation', 'intermediate', 'advanced'].filter(l => state.curricula.some(c => c.level === l));
+      if (selectedCurriculumLevel !== 'all' && !present.includes(selectedCurriculumLevel)) selectedCurriculumLevel = 'all';
+      if (filters) {
+        const pill = (key, label) => `<button type="button" onclick="setCurriculumLevel('${key}')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${selectedCurriculumLevel === key ? 'bg-forest text-white shadow-sm' : 'bg-white text-forest border border-gold/30 hover:bg-forest-50'}">${label}</button>`;
+        filters.innerHTML = present.length > 1 ? [pill('all', t('level_all')), ...present.map(l => pill(l, t('level_' + l)))].join('') : '';
+      }
+      const list = sortCurricula(state.curricula.filter(c => selectedCurriculumLevel === 'all' || c.level === selectedCurriculumLevel));
+      if (!list.length) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-charcoal/60">${t('curr_empty')}</div>`;
+        return;
+      }
+      grid.innerHTML = list.map(c => {
+        const title = ar ? c.titleAr : (c.titleEn || c.titleAr);
+        const desc = ar ? c.descAr : (c.descEn || c.descAr);
+        const raw = ar ? c.topicsAr : (c.topicsEn || c.topicsAr);
+        const topics = String(raw || '').split('\n').map(s => s.trim()).filter(Boolean);
+        const badge = LEVEL_BADGE[c.level] || LEVEL_BADGE.foundation;
+        const topicsHtml = topics.length ? `
+          <details class="mt-4 group rounded-2xl bg-cream/70 border border-gold/20 px-4 py-3">
+            <summary class="cursor-pointer text-xs sm:text-sm font-bold text-forest select-none">${t('curr_contents')} (${topics.length})</summary>
+            <ol class="mt-3 space-y-1.5 text-xs sm:text-sm text-charcoal/85 list-decimal ps-5">${topics.map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ol>
+          </details>` : '';
+        const linkBtn = isHttpUrl(c.link)
+          ? `<a href="${escapeHtml(c.link)}" target="_blank" rel="noopener noreferrer" class="flex-1 text-center py-2.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold transition-all">${t('curr_open')}</a>` : '';
+        return `
+          <div class="bg-white rounded-3xl p-6 border border-gold/30 shadow-card hover:shadow-soft hover:border-forest/40 transition-all flex flex-col justify-between">
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full text-[11px] font-bold mb-3 ${badge}">${t('level_' + c.level)}</span>
+              <h3 class="font-calligraphy text-2xl font-bold text-forest mb-2">${escapeHtml(title)}</h3>
+              <p class="text-xs sm:text-sm text-charcoal/75 leading-relaxed">${escapeHtml(desc)}</p>
+              ${topicsHtml}
+            </div>
+            <div class="flex items-center gap-2 mt-5">
+              ${linkBtn}
+              <a href="#register" class="flex-1 text-center py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white text-xs font-bold transition-all">${t('curr_register')}</a>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // ---- Curricula (admin) ----
+    function renderAdminCurricula() {
+      const list = document.getElementById('adminCurriculaList');
+      if (!list) return;
+      const lvl = { foundation: 'مرحلة التأسيس', intermediate: 'المرحلة المتوسطة', advanced: 'المرحلة المتقدمة' };
+      list.innerHTML = sortCurricula(state.curricula).map(c => {
+        const n = String(c.topicsAr || '').split('\n').filter(s => s.trim()).length;
+        return `
+        <div class="bg-white rounded-2xl p-4 border border-gold/30 shadow-sm flex flex-col justify-between gap-3">
+          <div>
+            <div class="font-bold text-forest text-sm">${escapeHtml(c.titleAr)}</div>
+            <div class="text-xs text-gold-dark font-bold">${lvl[c.level] || ''} • ترتيب ${Number(c.order) || 0}</div>
+            <div class="text-xs text-charcoal/60">${escapeHtml(c.titleEn || '')}${n ? ` • ${n} دروس` : ''}</div>
+            <p class="text-xs text-charcoal/80 mt-2">${escapeHtml(c.descAr)}</p>
+          </div>
+          <div class="flex items-center gap-2 pt-2 border-t border-gold/15">
+            <button type="button" onclick="editCurriculum('${escapeHtml(c.id)}')" class="flex-1 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">تعديل</button>
+            <button type="button" onclick="deleteCurriculum('${escapeHtml(c.id)}')" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    window.handleSaveCurriculum = async function(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editCurriculumId').value;
+      const link = document.getElementById('curLink').value.trim();
+      if (link && !isHttpUrl(link)) { showToast('رابط الكتاب يجب أن يبدأ بـ https://', 'error'); return; }
+      const titleAr = document.getElementById('curTitleAr').value.trim();
+      const data = {
+        id: editId || ('cur_' + Date.now()),
+        titleAr,
+        titleEn: document.getElementById('curTitleEn').value.trim() || titleAr,
+        level: document.getElementById('curLevel').value,
+        order: Number(document.getElementById('curOrder').value) || 0,
+        descAr: document.getElementById('curDescAr').value.trim(),
+        descEn: document.getElementById('curDescEn').value.trim(),
+        topicsAr: document.getElementById('curTopicsAr').value.trim(),
+        topicsEn: document.getElementById('curTopicsEn').value.trim(),
+        link
+      };
+      try {
+        await saveItem('curricula', 'curricula', data);
+        window.resetCurriculumForm();
+        showToast(editId ? 'تم حفظ تعديلات المنهج بنجاح.' : 'تمت إضافة المنهج بنجاح.');
+      } catch (err) {
+        console.error(err);
+        showToast('تعذر حفظ المنهج — تأكد أن قواعد Firestore تسمح بمجموعة curricula.', 'error');
+      }
+    };
+
+    window.editCurriculum = function(id) {
+      const c = state.curricula.find(x => x.id === id);
+      if (!c) return;
+      document.getElementById('editCurriculumId').value = c.id;
+      document.getElementById('curTitleAr').value = c.titleAr || '';
+      document.getElementById('curTitleEn').value = c.titleEn || '';
+      document.getElementById('curLevel').value = c.level || 'foundation';
+      document.getElementById('curOrder').value = c.order ?? '';
+      document.getElementById('curDescAr').value = c.descAr || '';
+      document.getElementById('curDescEn').value = c.descEn || '';
+      document.getElementById('curTopicsAr').value = c.topicsAr || '';
+      document.getElementById('curTopicsEn').value = c.topicsEn || '';
+      document.getElementById('curLink').value = c.link || '';
+      const banner = document.getElementById('curriculumEditBanner');
+      banner.textContent = `✏️ جاري تعديل: ${c.titleAr}`;
+      banner.classList.remove('hidden');
+      document.getElementById('curriculumSubmitBtn').textContent = 'حفظ التعديلات';
+      highlightEditCard('curriculumFormCard');
+    };
+
+    window.resetCurriculumForm = function() {
+      document.getElementById('adminCurriculumForm').reset();
+      document.getElementById('editCurriculumId').value = '';
+      document.getElementById('curriculumEditBanner')?.classList.add('hidden');
+      const btn = document.getElementById('curriculumSubmitBtn');
+      if (btn) btn.textContent = 'حفظ المنهج';
+    };
+
+    window.deleteCurriculum = async function(id) {
+      if (!confirm('هل أنت متأكد من حذف هذا المنهج؟')) return;
+      try {
+        await removeItem('curricula', 'curricula', id);
+        if (document.getElementById('editCurriculumId').value === id) window.resetCurriculumForm();
+        showToast('تم حذف المنهج.');
+      } catch (err) {
+        showToast('تعذر حذف المنهج.', 'error');
+      }
+    };
+
+    // ---- Videos (public) ----
+    function parseVideo(url) {
+      const u = String(url || '').trim();
+      if (!isHttpUrl(u)) return { type: 'none' };
+      let m = u.match(/(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([\w-]{11})/);
+      if (m) return { type: 'youtube', id: m[1] };
+      m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+      if (m) return { type: 'vimeo', id: m[1] };
+      if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(u)) return { type: 'file', url: u };
+      return { type: 'link', url: u };
+    }
+
+    function renderVideos() {
+      const grid = document.getElementById('videosGrid');
+      if (!grid) return;
+      const ar = currentLang === 'ar';
+      const list = [...state.videos].sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+      if (!list.length) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-charcoal/60">${t('videos_empty')}</div>`;
+        return;
+      }
+      const playIcon = '<span class="w-14 h-14 rounded-full bg-gold/95 text-forest-dark flex items-center justify-center shadow-gold group-hover:scale-110 transition-transform"><svg class="w-6 h-6 ms-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
+      grid.innerHTML = list.map(v => {
+        const title = ar ? v.titleAr : (v.titleEn || v.titleAr);
+        const desc = ar ? v.descAr : (v.descEn || v.descAr);
+        const p = parseVideo(v.url);
+        const id = escapeHtml(v.id);
+        let media;
+        if (p.type === 'link') {
+          media = `<a href="${escapeHtml(p.url)}" target="_blank" rel="noopener noreferrer" class="group absolute inset-0 flex items-center justify-center bg-gradient-to-br from-forest to-forest-dark">${playIcon}</a>`;
+        } else if (p.type === 'none') {
+          media = '<div class="absolute inset-0 bg-forest-dark"></div>';
+        } else {
+          const bg = p.type === 'youtube'
+            ? `<img src="https://img.youtube.com/vi/${p.id}/hqdefault.jpg" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />`
+            : '<div class="absolute inset-0 bg-gradient-to-br from-forest to-forest-dark"></div>';
+          media = `<button type="button" onclick="playVideo('${id}')" aria-label="${t('video_open')}" class="group absolute inset-0 w-full h-full flex items-center justify-center">${bg}<span class="absolute inset-0 bg-black/20"></span><span class="relative">${playIcon}</span></button>`;
+        }
+        return `
+          <div class="bg-cream-light rounded-3xl overflow-hidden border border-gold/30 shadow-card hover:shadow-soft transition-all flex flex-col">
+            <div class="relative aspect-video bg-forest-dark" data-vid-media="${id}">${media}</div>
+            <div class="p-5">
+              <h3 class="font-bold text-forest text-base mb-1">${escapeHtml(title)}</h3>
+              ${desc ? `<p class="text-xs sm:text-sm text-charcoal/75 leading-relaxed">${escapeHtml(desc)}</p>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    window.playVideo = function(id) {
+      const v = state.videos.find(x => x.id === id);
+      if (!v) return;
+      const box = [...document.querySelectorAll('[data-vid-media]')].find(el => el.getAttribute('data-vid-media') === id);
+      if (!box) return;
+      const p = parseVideo(v.url);
+      const allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
+      if (p.type === 'youtube') {
+        box.innerHTML = `<iframe class="absolute inset-0 w-full h-full" src="https://www.youtube-nocookie.com/embed/${p.id}?autoplay=1&rel=0" title="video" allow="${allow}" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+      } else if (p.type === 'vimeo') {
+        box.innerHTML = `<iframe class="absolute inset-0 w-full h-full" src="https://player.vimeo.com/video/${p.id}?autoplay=1" title="video" allow="${allow}" allowfullscreen></iframe>`;
+      } else if (p.type === 'file') {
+        box.innerHTML = `<video class="absolute inset-0 w-full h-full bg-black" src="${escapeHtml(p.url)}" controls autoplay playsinline></video>`;
+      }
+    };
+
+    // ---- Videos (admin) ----
+    function renderAdminVideos() {
+      const list = document.getElementById('adminVideosList');
+      if (!list) return;
+      const kinds = { youtube: 'YouTube', vimeo: 'Vimeo', file: 'ملف مباشر', link: 'رابط خارجي', none: 'رابط غير صالح' };
+      list.innerHTML = [...state.videos].sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0)).map(v => `
+        <div class="bg-white rounded-2xl p-4 border border-gold/30 shadow-sm flex flex-col justify-between gap-3">
+          <div>
+            <div class="font-bold text-forest text-sm">${escapeHtml(v.titleAr)}</div>
+            <div class="text-xs text-gold-dark font-bold">${kinds[parseVideo(v.url).type]}</div>
+            <div class="text-[11px] text-charcoal/60 break-all" dir="ltr">${escapeHtml(v.url)}</div>
+            ${v.descAr ? `<p class="text-xs text-charcoal/80 mt-2">${escapeHtml(v.descAr)}</p>` : ''}
+          </div>
+          <div class="flex items-center gap-2 pt-2 border-t border-gold/15">
+            <button type="button" onclick="editVideo('${escapeHtml(v.id)}')" class="flex-1 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">تعديل</button>
+            <button type="button" onclick="deleteVideo('${escapeHtml(v.id)}')" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
+          </div>
+        </div>`).join('');
+    }
+
+    window.handleSaveVideo = async function(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editVideoId').value;
+      const url = document.getElementById('vidUrl').value.trim();
+      if (!isHttpUrl(url)) { showToast('رابط الفيديو يجب أن يبدأ بـ https://', 'error'); return; }
+      const existing = editId ? state.videos.find(x => x.id === editId) : null;
+      const titleAr = document.getElementById('vidTitleAr').value.trim();
+      const data = {
+        id: editId || ('v_' + Date.now()),
+        titleAr,
+        titleEn: document.getElementById('vidTitleEn').value.trim() || titleAr,
+        url,
+        descAr: document.getElementById('vidDescAr').value.trim(),
+        descEn: document.getElementById('vidDescEn').value.trim(),
+        createdAtMs: existing ? (existing.createdAtMs || Date.now()) : Date.now()
+      };
+      try {
+        await saveItem('videos', 'videos', data);
+        window.resetVideoForm();
+        showToast(editId ? 'تم حفظ تعديلات الفيديو بنجاح.' : 'تمت إضافة الفيديو بنجاح.');
+      } catch (err) {
+        console.error(err);
+        showToast('تعذر حفظ الفيديو — تأكد أن قواعد Firestore تسمح بمجموعة videos.', 'error');
+      }
+    };
+
+    window.editVideo = function(id) {
+      const v = state.videos.find(x => x.id === id);
+      if (!v) return;
+      document.getElementById('editVideoId').value = v.id;
+      document.getElementById('vidTitleAr').value = v.titleAr || '';
+      document.getElementById('vidTitleEn').value = v.titleEn || '';
+      document.getElementById('vidUrl').value = v.url || '';
+      document.getElementById('vidDescAr').value = v.descAr || '';
+      document.getElementById('vidDescEn').value = v.descEn || '';
+      const banner = document.getElementById('videoEditBanner');
+      banner.textContent = `✏️ جاري تعديل: ${v.titleAr}`;
+      banner.classList.remove('hidden');
+      document.getElementById('videoSubmitBtn').textContent = 'حفظ التعديلات';
+      highlightEditCard('videoFormCard');
+    };
+
+    window.resetVideoForm = function() {
+      document.getElementById('adminVideoForm').reset();
+      document.getElementById('editVideoId').value = '';
+      document.getElementById('videoEditBanner')?.classList.add('hidden');
+      const btn = document.getElementById('videoSubmitBtn');
+      if (btn) btn.textContent = 'حفظ الفيديو';
+    };
+
+    window.deleteVideo = async function(id) {
+      if (!confirm('هل أنت متأكد من حذف هذا الفيديو؟')) return;
+      try {
+        await removeItem('videos', 'videos', id);
+        if (document.getElementById('editVideoId').value === id) window.resetVideoForm();
+        showToast('تم حذف الفيديو.');
+      } catch (err) {
+        showToast('تعذر حذف الفيديو.', 'error');
+      }
+    };
+
+    // ---- QR share ----
+    function getShareUrl() {
+      const custom = String(state.settings.siteUrl || '').trim();
+      if (isHttpUrl(custom)) return custom;
+      if (/^https?:$/.test(location.protocol)) return (location.origin + location.pathname).replace(/index\.html$/, '');
+      return '';
+    }
+
+    window.openQrModal = function() {
+      const url = getShareUrl();
+      const box = document.getElementById('qrBox');
+      const warn = document.getElementById('qrWarn');
+      box.innerHTML = '';
+      document.getElementById('qrUrlText').textContent = url;
+      if (url && window.QRCode) {
+        new window.QRCode(box, { text: url, width: 220, height: 220, colorDark: '#143B2B', colorLight: '#ffffff', correctLevel: window.QRCode.CorrectLevel.H });
+        warn.classList.add('hidden');
+      } else {
+        warn.classList.remove('hidden');
+      }
+      document.getElementById('qrModal').classList.remove('hidden');
+    };
+
+    window.downloadQr = function() {
+      const box = document.getElementById('qrBox');
+      const canvas = box.querySelector('canvas');
+      const img = box.querySelector('img');
+      const href = canvas ? canvas.toDataURL('image/png') : (img ? img.src : '');
+      if (!href) { showToast(t('qr_no_url'), 'error'); return; }
+      const a = document.createElement('a');
+      a.href = href;
+      a.download = 'alqalam-academy-qr.png';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    };
+
+    window.copySiteLink = async function() {
+      const url = getShareUrl();
+      if (!url) { showToast(t('qr_no_url'), 'error'); return; }
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast(t('qr_copied'));
+      } catch (e) {
+        window.prompt(url, url);
+      }
+    };
+
+    window.shareSite = async function() {
+      const url = getShareUrl();
+      if (!url) { showToast(t('qr_no_url'), 'error'); return; }
+      if (navigator.share) {
+        try { await navigator.share({ title: 'أكاديمية القلم | AL QALAM ACADEMY', url }); } catch (e) { /* cancelled */ }
+      } else {
+        window.copySiteLink();
       }
     };
 
