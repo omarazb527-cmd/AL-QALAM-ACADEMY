@@ -7,6 +7,8 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- QR Code generator -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <!-- Google Fonts: Amiri (Calligraphic Arabic), Cairo (Modern Arabic UI), Plus Jakarta Sans (English) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -136,8 +138,11 @@
         </a>
 
         <!-- Desktop Navigation Links -->
-        <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-semibold text-charcoal">
+        <nav class="hidden xl:flex items-center gap-5 2xl:gap-7 text-sm font-semibold text-charcoal">
+          <a href="#about" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_about">عن الأكاديمية</a>
           <a href="#courses" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_courses">المسارات والدورات</a>
+          <a href="#curricula" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_curricula">المناهج</a>
+          <a href="#videos" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_videos">فيديوهات شرح</a>
           <a href="#pricing" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_pricing">الباقات والأسعار</a>
           <a href="#teachers" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_teachers">نخبة المعلمين</a>
           <a href="#reviews" class="hover:text-forest transition-colors py-2 border-b-2 border-transparent hover:border-gold" data-i18n="nav_reviews">آراء الطلاب</a>
@@ -152,15 +157,18 @@
           </button>
 
           <!-- Mobile Hamburger Button -->
-          <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl border border-gold/30 bg-white text-forest hover:bg-forest-50 focus:outline-none" aria-label="Menu">
+          <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="xl:hidden p-2 rounded-xl border border-gold/30 bg-white text-forest hover:bg-forest-50 focus:outline-none" aria-label="Menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
         </div>
       </div>
 
       <!-- Mobile Dropdown Menu -->
-      <div id="mobileMenu" class="hidden md:hidden pb-4 pt-2 border-t border-gold/20 space-y-1">
+      <div id="mobileMenu" class="hidden xl:hidden pb-4 pt-2 border-t border-gold/20 space-y-1">
+        <a href="#about" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_about">عن الأكاديمية</a>
         <a href="#courses" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_courses">المسارات والدورات</a>
+        <a href="#curricula" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_curricula">المناهج</a>
+        <a href="#videos" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_videos">فيديوهات شرح</a>
         <a href="#pricing" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_pricing">الباقات والأسعار</a>
         <a href="#teachers" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_teachers">نخبة المعلمين</a>
         <a href="#reviews" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-forest-50 text-forest" data-i18n="nav_reviews">آراء الطلاب</a>
@@ -286,6 +294,40 @@
     </section>
 
     <!-- ===================================================================== -->
+    <!-- SECTION 0: ABOUT THE ACADEMY & WHY "AL QALAM"                         -->
+    <!-- ===================================================================== -->
+    <section id="about" class="py-16 lg:py-24 islamic-pattern border-b border-gold/25">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold tracking-wide mb-3" data-i18n="about_badge">من نحن</span>
+          <h2 class="font-calligraphy text-3xl sm:text-4xl font-bold text-forest mb-3" data-i18n="about_title">نبذة عن أكاديمية القلم</h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <article class="bg-white rounded-3xl p-7 sm:p-9 border border-gold/30 shadow-soft">
+            <div class="w-12 h-12 rounded-2xl bg-forest text-gold-light flex items-center justify-center mb-5 shadow-md">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </div>
+            <h3 class="font-calligraphy text-2xl font-bold text-forest mb-3" data-i18n="about_h_academy">من نحن</h3>
+            <p id="aboutText" class="text-sm sm:text-base text-charcoal/85 leading-loose whitespace-pre-line"></p>
+          </article>
+          <article class="bg-forest text-cream rounded-3xl p-7 sm:p-9 border border-gold/40 shadow-soft relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#C5A059 1.5px, transparent 1.5px); background-size: 20px 20px;"></div>
+            <div class="relative z-10">
+              <div class="w-12 h-12 rounded-2xl bg-white/10 border border-gold/40 text-gold-light flex items-center justify-center mb-5 font-calligraphy text-3xl leading-none">ن</div>
+              <h3 class="font-calligraphy text-2xl font-bold text-white mb-3" data-i18n="about_h_name">لماذا سُمّيت «القلم»؟</h3>
+              <p id="nameReasonText" class="font-calligraphy text-lg sm:text-xl text-cream/95 leading-loose whitespace-pre-line"></p>
+            </div>
+          </article>
+        </div>
+        <div class="text-center mt-8">
+          <button type="button" onclick="openQrModal()" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white hover:bg-forest hover:text-white text-forest border-2 border-gold/50 font-bold text-sm shadow-sm transition-all">
+            <span>📱</span><span data-i18n="btn_share_site">شارك الموقع برمز QR</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
     <!-- SECTION 1: COURSES & TRACKS                                           -->
     <!-- ===================================================================== -->
     <section id="courses" class="py-16 lg:py-24 bg-white">
@@ -299,6 +341,35 @@
         <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div class="col-span-full text-center py-12 text-charcoal/60" data-i18n="loading_data">جاري تحميل البيانات...</div>
         </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1.5: CURRICULA (FOUNDATION: NOOR AL-BAYAN, AL-AJURRUMIYYAH…)  -->
+    <!-- ===================================================================== -->
+    <section id="curricula" class="py-16 lg:py-24 bg-cream border-y border-gold/25">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold tracking-wide mb-3" data-i18n="curr_badge">المناهج الدراسية</span>
+          <h2 class="font-calligraphy text-3xl sm:text-4xl font-bold text-forest mb-3" data-i18n="curr_title">مناهج الأكاديمية</h2>
+          <p class="text-sm sm:text-base text-charcoal/75" data-i18n="curr_subtitle">مناهج متدرجة تبدأ بمرحلة التأسيس مثل «نور البيان» و«الأجرومية»</p>
+        </div>
+        <div id="curriculaFilters" class="flex flex-wrap items-center justify-center gap-2 mb-10"></div>
+        <div id="curriculaGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- SECTION 1.6: SHORT EXPLAINER VIDEOS                                   -->
+    <!-- ===================================================================== -->
+    <section id="videos" class="py-16 lg:py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-forest-50 text-forest text-xs font-bold tracking-wide mb-3 border border-forest/10" data-i18n="videos_badge">شروحات مختصرة</span>
+          <h2 class="font-calligraphy text-3xl sm:text-4xl font-bold text-forest mb-3" data-i18n="videos_title">فيديوهات تعليمية قصيرة</h2>
+          <p class="text-sm sm:text-base text-charcoal/75" data-i18n="videos_subtitle">مقاطع قصيرة تشرح أهم الأساسيات وتعينك على بدء رحلتك</p>
+        </div>
+        <div id="videosGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </div>
     </section>
 
@@ -445,6 +516,7 @@
             <p class="text-gold-light text-sm font-semibold mt-1">تعلّم • فهم • تطبيق &nbsp;|&nbsp; Learn • Understand • Apply</p>
           </div>
           <div class="flex flex-col sm:flex-row items-center gap-4 text-sm">
+            <button type="button" onclick="openQrModal()" class="px-4 py-1.5 rounded-full bg-gold hover:bg-gold-light text-forest-dark font-bold transition-all flex items-center gap-1.5"><span>📱</span><span data-i18n="qr_btn">رمز QR للمشاركة</span></button>
             <!-- Secret 5-Tap Admin Trigger -->
             <span onclick="handleSecretAdminTap()" class="px-4 py-1.5 rounded-full bg-white/10 border border-gold/30 font-jakarta tracking-wide cursor-default select-none">@alqalam.academy</span>
           </div>
@@ -661,6 +733,8 @@
           <span>آراء العملاء</span>
           <span id="adminReviewsPendingBadge" class="hidden px-2 py-0.5 rounded-full text-[11px] bg-amber-500 text-white font-bold">0</span>
         </button>
+        <button onclick="switchAdminTab('curricula')" id="tabBtn_curricula" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">المناهج</button>
+        <button onclick="switchAdminTab('videos')" id="tabBtn_videos" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الفيديوهات</button>
         <button onclick="switchAdminTab('settings')" id="tabBtn_settings" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">إعدادات الأكاديمية</button>
       </div>
 
@@ -814,6 +888,63 @@
           <div id="adminReviewsList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
+        <!-- TAB: CURRICULA MANAGEMENT -->
+        <div id="adminTab_curricula" class="admin-tab-panel hidden space-y-4">
+          <div id="curriculumFormCard" class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-4 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-2">
+              <h4 class="font-bold text-forest text-base">إضافة أو تعديل منهج (مثل: نور البيان، الأجرومية...)</h4>
+              <span id="curriculumEditBanner" class="hidden px-3 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold"></span>
+            </div>
+            <form id="adminCurriculumForm" onsubmit="handleSaveCurriculum(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              <input type="hidden" id="editCurriculumId" />
+              <input type="text" id="curTitleAr" required placeholder="اسم المنهج (عربي) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="text" id="curTitleEn" placeholder="Curriculum Name (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <select id="curLevel" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none">
+                <option value="foundation">مرحلة التأسيس</option>
+                <option value="intermediate">المرحلة المتوسطة</option>
+                <option value="advanced">المرحلة المتقدمة</option>
+              </select>
+              <textarea id="curDescAr" rows="3" required placeholder="وصف مختصر للمنهج (عربي) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2 lg:col-span-1"></textarea>
+              <textarea id="curDescEn" rows="3" placeholder="Short description (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2 lg:col-span-1"></textarea>
+              <input type="number" id="curOrder" min="0" placeholder="ترتيب العرض (رقم، الأصغر يظهر أولاً)" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <textarea id="curTopicsAr" rows="5" placeholder="محتويات المنهج (عربي) — اكتب كل درس أو باب في سطر مستقل" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2 lg:col-span-1"></textarea>
+              <textarea id="curTopicsEn" rows="5" placeholder="Contents (English) — one lesson per line" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2 lg:col-span-1"></textarea>
+              <div class="flex flex-col gap-2">
+                <input type="url" id="curLink" dir="ltr" placeholder="رابط الكتاب / ملف PDF (اختياري) https://..." class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+                <div class="flex gap-2">
+                  <button type="submit" id="curriculumSubmitBtn" class="flex-1 py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white font-bold text-sm">حفظ المنهج</button>
+                  <button type="button" onclick="resetCurriculumForm()" class="px-3 py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest font-bold text-xs">إلغاء</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div id="adminCurriculaList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
+        <!-- TAB: VIDEOS MANAGEMENT -->
+        <div id="adminTab_videos" class="admin-tab-panel hidden space-y-4">
+          <div id="videoFormCard" class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-4 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-2">
+              <h4 class="font-bold text-forest text-base">إضافة أو تعديل فيديو شرح قصير</h4>
+              <span id="videoEditBanner" class="hidden px-3 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold"></span>
+            </div>
+            <form id="adminVideoForm" onsubmit="handleSaveVideo(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input type="hidden" id="editVideoId" />
+              <input type="text" id="vidTitleAr" required placeholder="عنوان الفيديو (عربي) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="text" id="vidTitleEn" placeholder="Video Title (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="url" id="vidUrl" required dir="ltr" placeholder="رابط الفيديو (YouTube / Vimeo / ملف mp4) https://... *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2" />
+              <textarea id="vidDescAr" rows="2" placeholder="وصف مختصر (عربي)" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none"></textarea>
+              <textarea id="vidDescEn" rows="2" placeholder="Short description (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none"></textarea>
+              <div class="flex gap-2 sm:col-span-2">
+                <button type="submit" id="videoSubmitBtn" class="flex-1 py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white font-bold text-sm">حفظ الفيديو</button>
+                <button type="button" onclick="resetVideoForm()" class="px-3 py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest font-bold text-xs">إلغاء</button>
+              </div>
+            </form>
+            <p class="text-[11px] text-charcoal/65">ارفع الفيديو على يوتيوب (يفضّل «غير مدرج» Unlisted) أو Vimeo ثم الصق الرابط هنا، أو استخدم رابط ملف mp4 مباشر. سيُشغَّل الفيديو داخل الموقع.</p>
+          </div>
+          <div id="adminVideosList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
         <!-- TAB 4: ACADEMY SETTINGS -->
         <div id="adminTab_settings" class="admin-tab-panel hidden">
           <div class="bg-white rounded-2xl p-6 border border-gold/30 shadow-sm max-w-xl mx-auto space-y-5">
@@ -859,6 +990,18 @@
                 <input type="text" id="setSwift" dir="ltr" placeholder="SWIFT / BIC للتحويل الدولي" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm" />
                 <textarea id="setBankInstructions" rows="2" placeholder="تعليمات التحويل للطالب" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
               </div>
+              <div class="border-t border-gold/20 pt-4 space-y-3">
+                <h5 class="font-bold text-forest">نبذة الأكاديمية (قسم «من نحن» في الموقع)</h5>
+                <textarea id="setAboutAr" rows="4" placeholder="نبذة عن الأكاديمية (عربي)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+                <textarea id="setAboutEn" rows="4" dir="ltr" placeholder="About the academy (English)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+                <textarea id="setNameReasonAr" rows="5" placeholder="لماذا سُمّيت «القلم»؟ (عربي)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+                <textarea id="setNameReasonEn" rows="5" dir="ltr" placeholder="Why “Al Qalam”? (English)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm"></textarea>
+              </div>
+              <div class="border-t border-gold/20 pt-4 space-y-2">
+                <h5 class="font-bold text-forest">رابط الموقع (يُستخدم في رمز QR)</h5>
+                <input type="url" id="setSiteUrl" dir="ltr" placeholder="https://www.your-academy.com" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" />
+                <p class="text-[11px] text-charcoal/65">اكتب الرابط النهائي للموقع بعد رفعه على الاستضافة. إن تركته فارغاً يُستخدم رابط الصفحة المفتوحة حالياً.</p>
+              </div>
               <div>
                 <label class="block text-xs font-bold text-forest mb-1">الرقم السري للوحة الإدارة (PIN)</label>
                 <input type="text" id="setPin" required minlength="4" placeholder="أدخل رقماً سرياً قوياً" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" />
@@ -869,6 +1012,23 @@
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- QR Share Modal -->
+  <div id="qrModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onclick="if(event.target===this)closeModal('qrModal')">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center border border-gold/40 shadow-2xl space-y-4">
+      <h3 class="font-calligraphy text-2xl font-bold text-forest" data-i18n="qr_title">شارك الموقع</h3>
+      <p class="text-xs text-charcoal/70" data-i18n="qr_sub">امسح الرمز بكاميرا الجوال لفتح موقع الأكاديمية</p>
+      <div class="flex justify-center"><div id="qrBox" class="p-3 bg-white rounded-2xl border-2 border-gold/40 min-h-[100px] min-w-[100px]"></div></div>
+      <p id="qrUrlText" dir="ltr" class="text-[11px] break-all text-forest/80 font-jakarta"></p>
+      <p id="qrWarn" class="hidden text-xs font-bold text-amber-700 leading-relaxed" data-i18n="qr_no_url">لا يوجد رابط عام للموقع بعد. أضف رابط الموقع من لوحة الإدارة ← إعدادات الأكاديمية.</p>
+      <div class="grid grid-cols-3 gap-2">
+        <button type="button" onclick="downloadQr()" class="py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white text-xs font-bold" data-i18n="qr_download">تحميل</button>
+        <button type="button" onclick="copySiteLink()" class="py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest text-xs font-bold" data-i18n="qr_copy">نسخ الرابط</button>
+        <button type="button" onclick="shareSite()" class="py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest text-xs font-bold" data-i18n="qr_share">مشاركة</button>
+      </div>
+      <button type="button" onclick="closeModal('qrModal')" class="text-xs font-bold text-charcoal/60 hover:text-forest">✕</button>
     </div>
   </div>
 
@@ -904,6 +1064,7 @@
     let isAdminUnlocked = false;
     let selectedPricingCourseFilter = 'all';
     let selectedTeacherFilter = 'all';
+    let selectedCurriculumLevel = 'all';
     let initialLeadsLoaded = false;
     let previousLeadIds = new Set();
 
@@ -914,6 +1075,8 @@
       packages: [],
       teachers: [],
       reviews: [],
+      curricula: [],
+      videos: [],
       registrations: [],
       settings: {
         whatsapp: '201018301386',
@@ -1058,6 +1221,38 @@
         nav_pricing: 'الباقات والأسعار',
         nav_teachers: 'نخبة المعلمين',
         nav_reviews: 'آراء الطلاب',
+        nav_about: 'عن الأكاديمية',
+        nav_curricula: 'المناهج',
+        nav_videos: 'فيديوهات شرح',
+        about_badge: 'من نحن',
+        about_title: 'نبذة عن أكاديمية القلم',
+        about_h_academy: 'من نحن',
+        about_h_name: 'لماذا سُمّيت «القلم»؟',
+        btn_share_site: 'شارك الموقع برمز QR',
+        curr_badge: 'المناهج الدراسية',
+        curr_title: 'مناهج الأكاديمية',
+        curr_subtitle: 'مناهج متدرجة تبدأ بمرحلة التأسيس مثل «نور البيان» و«الأجرومية»',
+        level_all: 'الكل',
+        level_foundation: 'مرحلة التأسيس',
+        level_intermediate: 'المرحلة المتوسطة',
+        level_advanced: 'المرحلة المتقدمة',
+        curr_contents: 'محتويات المنهج',
+        curr_open: 'فتح الكتاب / الملف',
+        curr_register: 'سجّل في هذا المنهج',
+        curr_empty: 'لا توجد مناهج في هذا القسم حالياً.',
+        videos_badge: 'شروحات مختصرة',
+        videos_title: 'فيديوهات تعليمية قصيرة',
+        videos_subtitle: 'مقاطع قصيرة تشرح أهم الأساسيات وتعينك على بدء رحلتك',
+        videos_empty: 'سيتم إضافة الفيديوهات قريباً إن شاء الله.',
+        video_open: 'مشاهدة الفيديو',
+        qr_btn: 'رمز QR للمشاركة',
+        qr_title: 'شارك الموقع',
+        qr_sub: 'امسح الرمز بكاميرا الجوال لفتح موقع الأكاديمية',
+        qr_download: 'تحميل',
+        qr_copy: 'نسخ الرابط',
+        qr_share: 'مشاركة',
+        qr_no_url: 'لا يوجد رابط عام للموقع بعد. أضف رابط الموقع من لوحة الإدارة ← إعدادات الأكاديمية.',
+        qr_copied: 'تم نسخ الرابط.',
         nav_register: 'التسجيل',
         hero_title: 'رحلتك في التعلم تبدأ من هنا',
         hero_subtitle: 'تعليم هادف لبناء جيل يقرأ، يفهم، ويعمل',
@@ -1126,1687 +1321,4 @@
         field_course: 'المسار / الدورة المطلوبة *',
         field_package: 'الباقة وعدد الحصص الشهري *',
         field_teacher: 'المعلم المفضل (اختياري)',
-        field_notes: 'الأوقات المفضلة أو ملاحظات إضافية',
-        btn_submit_reg: 'إرسال طلب التسجيل',
-        footer_rights: 'أكاديمية القلم - جميع الحقوق محفوظة.',
-        footer_wa_title: 'للتواصل والاستفسار المباشر عبر واتساب:',
-        wa_fab_label: 'تواصل واتساب',
-        wa_widget_title: 'تواصل معنا عبر واتساب',
-        wa_widget_sub: 'اختر أحد أرقام الأكاديمية للرد السريع',
-        wa_line_1: 'الرقم الأول (خدمة العملاء)',
-        wa_line_2: 'الرقم الثاني (التسجيل والمتابعة)',
-        wa_line_3: 'الرقم الثالث (الاستفسارات)',
-        modal_reg_title: 'تم استلام طلبك بنجاح!',
-        modal_reg_wa: 'تأكيد سريع عبر واتساب',
-        btn_close: 'إغلاق',
-        pin_title: 'دخول لوحة الإدارة',
-        pin_desc: 'أدخل الرقم السري الخاص بإدارة الأكاديمية للمتابعة.',
-        pin_error: 'الرقم السري غير صحيح، حاول مرة أخرى.',
-        btn_login: 'دخول',
-        sessions_label: 'حصص شهرياً',
-        minutes_label: 'دقيقة / حصة',
-        popular_badge: 'الأكثر طلباً',
-        choose_pkg: 'اختر هذه الباقة',
-        exp_years: 'سنوات خبرة',
-        choose_teacher: 'اختر هذا المعلم',
-        any_teacher: 'أي معلم مناسب متاح',
-        explore_prices: 'عرض الأسعار',
-        per_month: '/ شهرياً'
-      },
-      en: {
-        nav_courses: 'Courses',
-        nav_pricing: 'Packages & Pricing',
-        nav_teachers: 'Our Teachers',
-        nav_reviews: 'Reviews',
-        nav_register: 'Register',
-        hero_title: 'Your learning journey starts here',
-        hero_subtitle: 'Meaningful education to build a generation that reads, understands, and acts',
-        hero_desc: 'Al Qalam Academy for teaching the Holy Quran & Tajweed, Arabic Language, and Islamic Studies for Arabs and Non-Arabs (Children & Adults) with certified teachers.',
-        hero_cta_register: 'Register & Book Now',
-        hero_cta_pricing: 'Explore Pricing',
-        pillar_1: 'Learn',
-        pillar_1_sub: 'Structured method',
-        pillar_2: 'Understand',
-        pillar_2_sub: 'Clear & engaging',
-        pillar_3: 'Apply',
-        pillar_3_sub: 'Lasting impact',
-        hero_card_sub: 'Knowledge that enlightens the heart & creates impact',
-        hero_feat_1: '1-on-1 private classes & small groups',
-        hero_feat_2: 'Flexible schedules for all time zones',
-        hero_feat_3: 'Certified male & female bilingual teachers',
-        hero_feat_4: 'Free 30-minute trial session in all educational programs',
-        trial_badge: 'Free 30-minute trial session in all educational programs',
-        reg_trial_note: 'A free 30-minute trial session is available in all educational programs',
-        trial_book_now: 'Book now',
-        trial_modal_title: '🎁 Book Your Free Trial Session',
-        trial_modal_desc: '30 minutes free with no commitment. Share your details and we will contact you to set the time.',
-        trial_field_country: 'Country *',
-        trial_field_program: 'Educational Program of Interest *',
-        trial_field_time: 'Preferred time (optional)',
-        trial_opt_undecided: 'Not decided yet / need advice',
-        trial_submit: 'Book Free Trial Session',
-        trial_success_title: 'Your trial session is booked!',
-        trial_explore_btn: 'Explore Courses & Pricing',
-        courses_badge: 'Academy Programs',
-        courses_title: 'Educational Tracks & Courses',
-        courses_subtitle: 'Carefully crafted curricula for all ages and levels, Arabs and Non-Arabs',
-        loading_data: 'Loading data...',
-        pricing_badge: 'Flexible & Transparent Plans',
-        pricing_title: 'Monthly Session Packages & Pricing',
-        pricing_subtitle: 'Choose your course and monthly sessions (4, 8, 12, or 16 classes) to start right away',
-        teachers_badge: 'Qualified Faculty',
-        teachers_title: 'Al Qalam Elite Teachers',
-        teachers_subtitle: 'Experienced, certified male and female teachers in Quran, Arabic, and Islamic Studies',
-        filter_all: 'All',
-        filter_quran: 'Quran & Tajweed',
-        filter_arabic: 'Arabic Language',
-        filter_islamic: 'Islamic Studies',
-        reviews_badge: 'Student Testimonials',
-        reviews_title: 'What Our Students & Parents Say',
-        reviews_subtitle: 'Real experiences from students worldwide learning with Al Qalam Academy teachers',
-        btn_add_review: 'Share Your Review',
-        rev_modal_title: 'Share Your Experience',
-        rev_field_name: 'Your Name *',
-        rev_field_role: 'Role or Country (Optional)',
-        rev_field_rating: 'Rating *',
-        rev_field_text: 'Your Review *',
-        rev_submit: 'Submit Review',
-        rev_submitted_msg: 'Thank you! Your review has been received and will appear once approved.',
-        reg_title: 'Register & Book Your Class Now',
-        reg_subtitle: 'Fill out the form below and our academy team will contact you shortly',
-        field_name: 'Full Name *',
-        field_phone: 'WhatsApp Number (with country code) *',
-        field_email: 'Email Address (Optional)',
-        field_category: 'Age Group *',
-        opt_child: 'Child (Under 15)',
-        opt_adult: 'Adult (15+)',
-        field_background: 'Student Native Language *',
-        opt_arab: 'Arab (Native Arabic Speaker)',
-        opt_non_arab: 'Non-Arab (Non-Native Speaker)',
-        field_course: 'Desired Course / Track *',
-        field_package: 'Monthly Package & Sessions *',
-        field_teacher: 'Preferred Teacher (Optional)',
-        field_notes: 'Preferred Schedule or Notes',
-        btn_submit_reg: 'Submit Registration',
-        footer_rights: 'Al Qalam Academy - All rights reserved.',
-        footer_wa_title: 'Direct WhatsApp Contact & Support:',
-        wa_fab_label: 'WhatsApp Us',
-        wa_widget_title: 'Chat with Us on WhatsApp',
-        wa_widget_sub: 'Choose an academy number for quick support',
-        wa_line_1: 'Line 1 (Customer Support)',
-        wa_line_2: 'Line 2 (Registration & Follow-up)',
-        wa_line_3: 'Line 3 (General Inquiries)',
-        modal_reg_title: 'Registration Received!',
-        modal_reg_wa: 'Quick Confirm via WhatsApp',
-        btn_close: 'Close',
-        pin_title: 'Admin Dashboard Login',
-        pin_desc: 'Enter the academy administrator PIN to continue.',
-        pin_error: 'Incorrect PIN. Please try again.',
-        btn_login: 'Login',
-        sessions_label: 'Sessions / Month',
-        minutes_label: 'min / session',
-        popular_badge: 'Most Popular',
-        choose_pkg: 'Choose Plan',
-        exp_years: 'Years Exp.',
-        choose_teacher: 'Select Teacher',
-        any_teacher: 'Any available teacher',
-        explore_prices: 'View Prices',
-        per_month: '/ month'
-      }
-    };
-
-    function t(key) {
-      return (I18N[currentLang] && I18N[currentLang][key]) || I18N.ar[key] || key;
-    }
-
-    function getCurrencyLabel() {
-      const map = {
-        EGP: currentLang === 'ar' ? 'ج.م' : 'EGP',
-        USD: '$',
-        SAR: currentLang === 'ar' ? 'ر.س' : 'SAR',
-        EUR: '€'
-      };
-      return map[state.settings.currency] || state.settings.currency || 'EGP';
-    }
-
-    function escapeHtml(str) {
-      return String(str || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    // =========================================================================
-    // 4. TOAST NOTIFICATIONS & UI HELPERS
-    // =========================================================================
-    function showToast(message, type = 'success') {
-      const container = document.getElementById('toastContainer');
-      if (!container) return;
-      const el = document.createElement('div');
-      const bg = type === 'error' ? 'bg-red-600' : type === 'info' ? 'bg-forest' : 'bg-emerald-700';
-      el.className = `pointer-events-auto ${bg} text-white px-4 py-3.5 rounded-2xl shadow-xl text-xs sm:text-sm font-bold flex items-center justify-between gap-3 animate-toast border border-white/20`;
-      el.innerHTML = `<span>${escapeHtml(message)}</span><button onclick="this.parentElement.remove()" class="opacity-80 hover:opacity-100">✕</button>`;
-      container.appendChild(el);
-      setTimeout(() => {
-        if (el.parentElement) el.remove();
-      }, 4500);
-    }
-
-    function updateDbStatusBadge(connected) {
-      const badge = document.getElementById('dbStatusBadge');
-      if (!badge) return;
-      if (connected) {
-        badge.className = 'inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-200 border border-emerald-400/30';
-        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> متصل بقاعدة البيانات Live';
-      } else {
-        badge.className = 'inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-200 border border-amber-400/30';
-        badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400"></span> وضع محلي (Local Mode)';
-      }
-    }
-
-    // =========================================================================
-    // 5. FIREBASE INITIALIZATION & REAL-TIME LISTENERS
-    // =========================================================================
-    async function initFirebaseAndData() {
-      try {
-        const app = initializeApp(firebaseConfig);
-        db = getFirestore(app);
-        isFirebaseConnected = true;
-        updateDbStatusBadge(true);
-
-        // Ensure seed data exists if collections are empty
-        await seedIfEmpty('specialties', SEED_SPECIALTIES);
-        await seedIfEmpty('courses', SEED_COURSES);
-        await seedIfEmpty('packages', SEED_PACKAGES);
-        await seedIfEmpty('teachers', SEED_TEACHERS);
-        await seedIfEmpty('reviews', SEED_REVIEWS);
-
-        const settingsRef = doc(db, 'settings', 'academy');
-        const settingsSnap = await getDoc(settingsRef);
-        if (!settingsSnap.exists()) {
-          await setDoc(settingsRef, state.settings);
-        }
-
-        // Real-time listeners
-        onSnapshot(collection(db, 'specialties'), (snap) => {
-          state.specialties = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          if (state.specialties.length === 0) state.specialties = [...SEED_SPECIALTIES];
-          renderAll();
-        }, handleFirestoreError);
-
-        onSnapshot(collection(db, 'courses'), (snap) => {
-          state.courses = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          if (state.courses.length === 0) state.courses = [...SEED_COURSES];
-          renderAll();
-        }, handleFirestoreError);
-
-        onSnapshot(collection(db, 'packages'), (snap) => {
-          state.packages = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          state.packages.sort((a, b) => Number(a.sessions) - Number(b.sessions));
-          renderAll();
-        }, handleFirestoreError);
-
-        onSnapshot(collection(db, 'teachers'), (snap) => {
-          state.teachers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          renderAll();
-        }, handleFirestoreError);
-
-        onSnapshot(collection(db, 'reviews'), (snap) => {
-          const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          list.sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
-          state.reviews = list;
-          renderAll();
-        }, handleFirestoreError);
-
-        onSnapshot(settingsRef, (snap) => {
-          if (snap.exists()) {
-            state.settings = { ...state.settings, ...snap.data() };
-            renderAll();
-          }
-        }, handleFirestoreError);
-
-        onSnapshot(collection(db, 'registrations'), (snap) => {
-          const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          list.sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
-
-          if (initialLeadsLoaded) {
-            list.forEach(lead => {
-              if (!previousLeadIds.has(lead.id) && isAdminUnlocked) {
-                showToast(`🔔 عميل جديد سجّل الآن: ${lead.name}`, 'info');
-              }
-            });
-          }
-          previousLeadIds = new Set(list.map(l => l.id));
-          initialLeadsLoaded = true;
-          state.registrations = list;
-          renderAdminLeads();
-        }, handleFirestoreError);
-
-      } catch (err) {
-        console.error('Firebase init error:', err);
-        fallbackToLocalData();
-      }
-    }
-
-    function handleFirestoreError(err) {
-      console.warn('Firestore listener error:', err);
-      fallbackToLocalData();
-    }
-
-    async function seedIfEmpty(colName, seedItems) {
-      const snap = await getDocs(collection(db, colName));
-      if (snap.empty) {
-        for (const item of seedItems) {
-          await setDoc(doc(db, colName, item.id), item);
-        }
-      }
-    }
-
-    function fallbackToLocalData() {
-      isFirebaseConnected = false;
-      updateDbStatusBadge(false);
-      try {
-        const saved = localStorage.getItem('al_qalam_local_state');
-        if (saved) {
-          state = { ...state, ...JSON.parse(saved) };
-        }
-      } catch (e) {
-        console.warn('LocalStorage read error:', e);
-      }
-      if (!state.specialties.length) state.specialties = [...SEED_SPECIALTIES];
-      if (!state.courses.length) state.courses = [...SEED_COURSES];
-      if (!state.packages.length) state.packages = [...SEED_PACKAGES];
-      if (!state.teachers.length) state.teachers = [...SEED_TEACHERS];
-      if (!state.reviews.length) state.reviews = [...SEED_REVIEWS];
-      renderAll();
-    }
-
-    function saveLocalFallback() {
-      try {
-        localStorage.setItem('al_qalam_local_state', JSON.stringify(state));
-      } catch (e) { /* ignore */ }
-    }
-
-    // =========================================================================
-    // 6. PUBLIC RENDERING FUNCTIONS
-    // =========================================================================
-    function getCourseIconSVG(iconKey) {
-      const icons = {
-        quran: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>',
-        arabic: '<span class="font-calligraphy text-3xl font-bold leading-none">ع</span>',
-        islamic: '<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c-.5 1.5-2 2.5-3.5 3.5C6.5 6.8 5 8.5 5 11v9h14v-9c0-2.5-1.5-4.2-3.5-5.5C14 4.5 12.5 3.5 12 2zM3 10v10h1v-8.5c0-.8-.5-1.5-1-1.5zm18 0c-.5 0-1 .7-1 1.5V20h1V10z"/></svg>',
-        global: '<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
-      };
-      return icons[iconKey] || icons.quran;
-    }
-
-    function renderCourses() {
-      const grid = document.getElementById('coursesGrid');
-      if (!grid) return;
-      grid.innerHTML = state.courses.map(c => {
-        const title = currentLang === 'ar' ? c.titleAr : c.titleEn;
-        const desc = currentLang === 'ar' ? c.descAr : c.descEn;
-        return `
-          <div class="group bg-cream-light hover:bg-white rounded-3xl p-6 border border-gold/30 hover:border-forest/40 shadow-card hover:shadow-soft transition-all flex flex-col justify-between">
-            <div>
-              <div class="w-14 h-14 rounded-2xl bg-forest text-gold-light flex items-center justify-center mb-5 shadow-md group-hover:scale-105 transition-transform">
-                ${getCourseIconSVG(c.icon)}
-              </div>
-              <h3 class="font-bold text-lg text-forest mb-2">${escapeHtml(title)}</h3>
-              <p class="text-xs sm:text-sm text-charcoal/75 leading-relaxed">${escapeHtml(desc)}</p>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function renderPricingFilters() {
-      const container = document.getElementById('pricingCourseFilters');
-      if (!container) return;
-      const pills = [
-        `<button onclick="setPricingCourseFilter('all')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${selectedPricingCourseFilter === 'all' ? 'bg-forest text-white shadow-sm' : 'bg-white text-forest border border-gold/30 hover:bg-forest-50'}">${t('filter_all')}</button>`
-      ];
-      state.courses.forEach(c => {
-        const label = currentLang === 'ar' ? c.titleAr : c.titleEn;
-        const active = selectedPricingCourseFilter === c.id;
-        pills.push(
-          `<button onclick="setPricingCourseFilter('${c.id}')" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${active ? 'bg-forest text-white shadow-sm' : 'bg-white text-forest border border-gold/30 hover:bg-forest-50'}">${escapeHtml(label)}</button>`
-        );
-      });
-      container.innerHTML = pills.join('');
-    }
-
-    function renderPackages() {
-      const grid = document.getElementById('packagesGrid');
-      if (!grid) return;
-      const curr = getCurrencyLabel();
-      const filtered = selectedPricingCourseFilter === 'all'
-        ? state.packages
-        : state.packages.filter(p => p.courseId === selectedPricingCourseFilter);
-
-      if (!filtered.length) {
-        grid.innerHTML = `<div class="col-span-full text-center py-10 text-charcoal/60 text-sm">${currentLang === 'ar' ? 'لا توجد باقات مضافة لهذه الدورة حالياً.' : 'No packages available for this course yet.'}</div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(p => {
-        const course = state.courses.find(c => c.id === p.courseId);
-        const courseName = course ? (currentLang === 'ar' ? course.titleAr : course.titleEn) : '';
-        return `
-          <div class="relative bg-white rounded-3xl p-6 border-2 ${p.popular ? 'border-gold shadow-gold' : 'border-gold/25 shadow-card'} flex flex-col justify-between transition-transform hover:-translate-y-1">
-            ${p.popular ? `<span class="absolute -top-3 inset-x-0 mx-auto w-max px-3.5 py-1 rounded-full bg-gold text-forest-dark text-[11px] font-extrabold shadow-sm">${t('popular_badge')}</span>` : ''}
-            <div>
-              <div class="text-xs font-bold text-gold-dark mb-1">${escapeHtml(courseName)}</div>
-              <div class="flex items-baseline gap-1.5 mb-1">
-                <span class="text-3xl sm:text-4xl font-extrabold text-forest font-jakarta">${p.sessions}</span>
-                <span class="text-sm font-bold text-forest-light">${sessionsLabel(p.sessions)}</span>
-              </div>
-              <div class="text-xs text-charcoal/65 mb-5">${p.duration || 45} ${t('minutes_label')}</div>
-
-              <div class="${p.hidePrice ? 'my-4 border-t' : 'py-4 my-4 border-y'} border-gold/20">
-                ${p.hidePrice ? '' : `<div class="flex items-baseline gap-1"><span class="text-3xl font-extrabold text-forest font-jakarta">${p.price}</span><span class="text-sm font-bold text-gold-dark">${curr}</span><span class="text-xs text-charcoal/60">${t('per_month')}</span></div>`}
-              </div>
-            </div>
-
-            <button onclick="selectPackageForRegistration('${p.courseId}', '${p.id}')" class="w-full py-3 rounded-2xl font-bold text-sm transition-all ${p.popular ? 'bg-forest hover:bg-forest-light text-white shadow-md' : 'bg-cream hover:bg-forest hover:text-white text-forest border border-gold/40'}">
-              ${t('choose_pkg')}
-            </button>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function sessionsLabel(n) {
-      n = Number(n);
-      if (currentLang === 'ar') return n >= 11 ? 'حصة شهرياً' : 'حصص شهرياً';
-      return t('sessions_label');
-    }
-    function sessionsWord(n) { return Number(n) >= 11 ? 'حصة' : 'حصص'; }
-
-
-    // --- CONTACT NUMBERS (footer + floating WhatsApp widget) ---
-    function normalizeWaNumber(raw) {
-      let d = String(raw || '').replace(/\D/g, '');
-      if (d.startsWith('00')) d = d.slice(2);
-      if (d.startsWith('0') && d.length === 11) d = '20' + d.slice(1);
-      return d;
-    }
-    function displayWaNumber(wa) {
-      return (wa.startsWith('20') && wa.length === 12) ? '0' + wa.slice(2) : wa;
-    }
-    function getContacts() {
-      return (Array.isArray(state.settings.contacts) ? state.settings.contacts : [])
-        .map(c => { const wa = normalizeWaNumber(c.number); return { id: c.id, label: escapeHtml(c.label || ''), wa, display: escapeHtml(displayWaNumber(wa)) }; })
-        .filter(c => c.wa.length >= 10);
-    }
-    function renderContacts() {
-      const list = getContacts();
-      const footer = document.getElementById('waFooterList');
-      const widget = document.getElementById('waWidgetList');
-      if (footer) footer.innerHTML = list.map(c => `<a href="https://wa.me/${c.wa}?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AF%D9%88%D8%B1%D8%A7%D8%AA%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A7%D9%84%D9%82%D9%84%D9%85" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold transition-all shadow-sm border border-emerald-400/30">
-              <svg class="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-              <span dir="ltr" class="font-jakarta">${c.display}</span>
-            </a>`).join('');
-      if (widget) widget.innerHTML = list.map(c => `<a href="https://wa.me/${c.wa}?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%AF%D9%88%D8%B1%D8%A7%D8%AA%20%D8%A3%D9%83%D8%A7%D8%AF%D9%8A%D9%85%D9%8A%D8%A9%20%D8%A7%D9%84%D9%82%D9%84%D9%85" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3 rounded-2xl bg-white hover:bg-emerald-50 border border-gold/25 hover:border-emerald-400 transition-all group shadow-sm">
-          <div class="flex items-center gap-3">
-            <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center shrink-0 transition-colors">
-              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-            </span>
-            <div>
-              <div class="text-xs font-bold text-forest">${c.label}</div>
-              <div dir="ltr" class="text-xs font-bold text-emerald-700 font-jakarta text-start">${c.display}</div>
-            </div>
-          </div>
-          <span class="text-xs font-bold text-emerald-600 group-hover:translate-x-0.5 transition-transform">↗</span>
-        </a>`).join('');
-      document.getElementById('waFooterBlock')?.classList.toggle('hidden', !list.length);
-      document.getElementById('waWidgetContainer')?.classList.toggle('hidden', !list.length);
-    }
-    function renderAdminContacts() {
-      const el = document.getElementById('adminContactsList');
-      if (!el) return;
-      const contacts = Array.isArray(state.settings.contacts) ? state.settings.contacts : [];
-      if (!contacts.length) { el.innerHTML = '<div class="text-xs text-charcoal/60 bg-cream-light rounded-xl p-3">لا توجد أرقام — أيقونة واتساب مخفية من الموقع.</div>'; return; }
-      el.innerHTML = contacts.map(c => `
-        <div class="flex items-center justify-between gap-2 p-3 rounded-xl bg-cream-light border border-gold/25">
-          <div><div class="text-xs font-bold text-forest">${escapeHtml(c.label || '')}</div><div dir="ltr" class="text-xs font-jakarta text-charcoal/70 text-start">${escapeHtml(c.number)}</div></div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button type="button" onclick="editContact('${c.id}')" class="px-2.5 py-1.5 rounded-lg bg-white border border-gold/40 text-xs font-bold text-forest hover:bg-forest hover:text-white">تعديل</button>
-            <button type="button" onclick="deleteContact('${c.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-50 text-xs font-bold text-red-700 hover:bg-red-100">حذف</button>
-          </div>
-        </div>`).join('');
-    }
-    async function persistContacts(contacts, okMsg) {
-      try {
-        if (isFirebaseConnected && db) {
-          await updateDoc(doc(db, 'settings', 'academy'), { contacts });
-        } else {
-          state.settings.contacts = contacts;
-          saveLocalFallback();
-          renderAll();
-        }
-        resetContactForm();
-        showToast(okMsg);
-      } catch (err) {
-        console.error('Contacts save error:', err);
-        showToast('تعذر حفظ أرقام التواصل.', 'error');
-      }
-    }
-    window.resetContactForm = function() {
-      ['contactEditId', 'contactLabel', 'contactNumber'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
-      const b = document.getElementById('contactSubmitBtn'); if (b) b.textContent = 'إضافة';
-    };
-    window.saveContact = async function() {
-      const editId = document.getElementById('contactEditId').value;
-      const label = document.getElementById('contactLabel').value.trim();
-      const number = normalizeWaNumber(document.getElementById('contactNumber').value);
-      if (number.length < 10) { showToast('اكتب رقماً صحيحاً (مثال: 01XXXXXXXXX).', 'error'); return; }
-      const current = Array.isArray(state.settings.contacts) ? [...state.settings.contacts] : [];
-      if (editId) {
-        const i = current.findIndex(c => c.id === editId);
-        if (i >= 0) current[i] = { id: editId, label, number };
-      } else {
-        current.push({ id: 'c_' + Date.now(), label, number });
-      }
-      await persistContacts(current, editId ? 'تم تعديل الرقم.' : 'تمت إضافة الرقم.');
-    };
-    window.editContact = function(id) {
-      const c = (state.settings.contacts || []).find(x => x.id === id);
-      if (!c) return;
-      document.getElementById('contactEditId').value = c.id;
-      document.getElementById('contactLabel').value = c.label || '';
-      document.getElementById('contactNumber').value = c.number || '';
-      document.getElementById('contactSubmitBtn').textContent = 'حفظ التعديل';
-    };
-    window.deleteContact = async function(id) {
-      const current = (state.settings.contacts || []).filter(c => c.id !== id);
-      await persistContacts(current, 'تم حذف الرقم.');
-    };
-
-    function renderTeachers() {
-      // Dynamic specialty filter buttons on public page
-      const filtersEl = document.getElementById('teacherFilters');
-      if (filtersEl) {
-        const btns = [
-          `<button onclick="setTeacherFilter('all')" data-filter="all" class="teacher-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${selectedTeacherFilter === 'all' ? 'bg-forest text-white' : 'bg-cream text-forest hover:bg-forest-50'}">${t('filter_all')}</button>`
-        ];
-        state.specialties.forEach(sp => {
-          const label = currentLang === 'ar' ? sp.nameAr : sp.nameEn;
-          const active = selectedTeacherFilter === sp.id;
-          btns.push(
-            `<button onclick="setTeacherFilter('${sp.id}')" data-filter="${sp.id}" class="teacher-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all ${active ? 'bg-forest text-white' : 'bg-cream text-forest hover:bg-forest-50'}">${escapeHtml(label)}</button>`
-          );
-        });
-        filtersEl.innerHTML = btns.join('');
-      }
-
-      const grid = document.getElementById('teachersGrid');
-      if (!grid) return;
-      const getSpecLabel = (specId) => {
-        const sp = state.specialties.find(s => s.id === specId);
-        if (sp) return currentLang === 'ar' ? sp.nameAr : sp.nameEn;
-        return specId || '';
-      };
-
-      const filtered = selectedTeacherFilter === 'all'
-        ? state.teachers
-        : state.teachers.filter(tc => tc.spec === selectedTeacherFilter);
-
-      if (!filtered.length) {
-        grid.innerHTML = `<div class="col-span-full text-center py-10 text-charcoal/60 text-sm">${currentLang === 'ar' ? 'لا يوجد معلمون في هذا التخصص حالياً.' : 'No teachers found in this category.'}</div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(tc => {
-        const name = currentLang === 'ar' ? tc.nameAr : tc.nameEn;
-        const bio = currentLang === 'ar' ? tc.bioAr : tc.bioEn;
-        const initials = (name || 'م').trim().charAt(0);
-        return `
-          <div class="bg-cream-light rounded-3xl p-6 border border-gold/30 shadow-card hover:shadow-soft transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-center gap-4 mb-4">
-                <div class="w-14 h-14 rounded-2xl bg-forest text-gold-light font-calligraphy text-2xl font-bold flex items-center justify-center shrink-0 shadow-sm">
-                  ${escapeHtml(initials)}
-                </div>
-                <div>
-                  <h3 class="font-bold text-base sm:text-lg text-forest">${escapeHtml(name)}</h3>
-                  <span class="inline-block px-2.5 py-0.5 rounded-full bg-gold/20 text-forest text-[11px] font-bold mt-0.5">${escapeHtml(getSpecLabel(tc.spec))}</span>
-                </div>
-              </div>
-              <p class="text-xs sm:text-sm text-charcoal/80 leading-relaxed mb-4">${escapeHtml(bio)}</p>
-              <div class="flex flex-wrap gap-2 text-[11px] font-bold text-forest/80">
-                <span class="px-2.5 py-1 rounded-lg bg-white border border-gold/25">★ ${tc.exp} ${t('exp_years')}</span>
-                <span class="px-2.5 py-1 rounded-lg bg-white border border-gold/25">🌐 ${escapeHtml(tc.langs)}</span>
-              </div>
-            </div>
-            <button onclick="selectTeacherForRegistration('${tc.id}')" class="mt-5 w-full py-2.5 rounded-xl bg-white hover:bg-forest hover:text-white text-forest border border-gold/40 font-bold text-xs sm:text-sm transition-all">
-              ${t('choose_teacher')}
-            </button>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function renderReviews() {
-      const grid = document.getElementById('reviewsGrid');
-      if (!grid) return;
-      const approved = state.reviews.filter(r => r.status === 'approved');
-      if (!approved.length) {
-        grid.innerHTML = `<div class="col-span-full text-center py-10 text-charcoal/60 text-sm">${currentLang === 'ar' ? 'كن أول من يشاركنا رأيه في أكاديمية القلم!' : 'Be the first to share your review!'}</div>`;
-        return;
-      }
-
-      grid.innerHTML = approved.map(r => {
-        const stars = '★'.repeat(Math.max(1, Math.min(5, Number(r.rating) || 5))) + '☆'.repeat(5 - Math.max(1, Math.min(5, Number(r.rating) || 5)));
-        const text = (currentLang === 'en' && r.textEn) ? r.textEn : r.textAr;
-        return `
-          <div class="bg-white rounded-3xl p-6 border border-gold/30 shadow-card flex flex-col justify-between gap-4">
-            <div>
-              <div class="text-gold text-base tracking-widest mb-3">${stars}</div>
-              <p class="text-xs sm:text-sm text-charcoal/85 leading-relaxed">“${escapeHtml(text)}”</p>
-            </div>
-            <div class="pt-4 border-t border-gold/20 flex items-center gap-3">
-              <div class="w-10 h-10 rounded-full bg-forest-50 text-forest font-bold flex items-center justify-center shrink-0 border border-gold/30">
-                ${escapeHtml((r.name || 'ط').charAt(0))}
-              </div>
-              <div>
-                <div class="font-bold text-sm text-forest">${escapeHtml(r.name)}</div>
-                ${r.role ? `<div class="text-[11px] text-charcoal/60">${escapeHtml(r.role)}</div>` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function renderRegistrationDropdowns() {
-      const courseSelect = document.getElementById('regCourse');
-      const teacherSelect = document.getElementById('regTeacher');
-      if (!courseSelect || !teacherSelect) return;
-
-      const prevCourse = courseSelect.value;
-      courseSelect.innerHTML = state.courses.map(c =>
-        `<option value="${c.id}">${escapeHtml(currentLang === 'ar' ? c.titleAr : c.titleEn)}</option>`
-      ).join('');
-      if (prevCourse && state.courses.some(c => c.id === prevCourse)) {
-        courseSelect.value = prevCourse;
-      }
-
-      const trialSelect = document.getElementById('trialCourse');
-      if (trialSelect) {
-        const prevTrial = trialSelect.value;
-        trialSelect.innerHTML = state.courses.map(c =>
-          `<option value="${c.id}">${escapeHtml(currentLang === 'ar' ? c.titleAr : c.titleEn)}</option>`
-        ).join('') + `<option value="undecided">${t('trial_opt_undecided')}</option>`;
-        if (prevTrial) trialSelect.value = prevTrial;
-      }
-
-      const prevTeacher = teacherSelect.value;
-      teacherSelect.innerHTML = `<option value="">${t('any_teacher')}</option>` + state.teachers.map(tc =>
-        `<option value="${tc.id}">${escapeHtml(currentLang === 'ar' ? tc.nameAr : tc.nameEn)}</option>`
-      ).join('');
-      if (prevTeacher) teacherSelect.value = prevTeacher;
-
-      window.syncRegistrationPackages();
-    }
-
-    window.syncRegistrationPackages = function() {
-      const courseId = document.getElementById('regCourse')?.value;
-      const pkgSelect = document.getElementById('regPackage');
-      if (!pkgSelect) return;
-
-      const curr = getCurrencyLabel();
-      let matching = state.packages.filter(p => p.courseId === courseId);
-      if (!matching.length) matching = state.packages;
-
-      pkgSelect.innerHTML = matching.map(p =>
-        `<option value="${p.id}">${p.sessions} ${sessionsLabel(p.sessions)} (${p.duration || 45} ${t('minutes_label')})${p.hidePrice ? '' : ` — ${p.price} ${curr}`}</option>`
-      ).join('');
-    };
-
-    function renderAll() {
-      renderContacts();
-      renderCourses();
-      renderPricingFilters();
-      renderPackages();
-      renderTeachers();
-      renderReviews();
-      renderRegistrationDropdowns();
-      if (isAdminUnlocked) {
-        renderAdminSpecialties();
-        renderAdminCourses();
-        renderAdminPackages();
-        renderAdminTeachers();
-        renderAdminReviews();
-        renderAdminSettings();
-        renderAdminContacts();
-        renderAdminLeads();
-      }
-    }
-
-    // =========================================================================
-    // 7. USER INTERACTIONS (LANGUAGE, FILTERS, REGISTRATION)
-    // =========================================================================
-    window.toggleLanguage = function() {
-      currentLang = currentLang === 'ar' ? 'en' : 'ar';
-      const html = document.documentElement;
-      html.lang = currentLang;
-      html.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-      document.getElementById('langToggleLabel').textContent = currentLang === 'ar' ? 'EN' : 'عربي';
-
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (I18N[currentLang][key]) {
-          el.textContent = I18N[currentLang][key];
-        }
-      });
-      renderAll();
-    };
-
-    window.setPricingCourseFilter = function(courseId) {
-      selectedPricingCourseFilter = courseId;
-      renderPricingFilters();
-      renderPackages();
-    };
-
-    window.filterPricingByCourse = function(courseId) {
-      selectedPricingCourseFilter = courseId;
-      renderPricingFilters();
-      renderPackages();
-      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    window.setTeacherFilter = function(spec) {
-      selectedTeacherFilter = spec;
-      renderTeachers();
-    };
-
-    window.selectPackageForRegistration = function(courseId, pkgId) {
-      const courseSelect = document.getElementById('regCourse');
-      if (courseSelect) {
-        courseSelect.value = courseId;
-        window.syncRegistrationPackages();
-      }
-      const pkgSelect = document.getElementById('regPackage');
-      if (pkgSelect) pkgSelect.value = pkgId;
-      document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
-      showToast(currentLang === 'ar' ? 'تم اختيار الباقة — أكمل بياناتك للتسجيل.' : 'Package selected — complete your registration below.', 'info');
-    };
-
-    window.selectTeacherForRegistration = function(teacherId) {
-      const teacherSelect = document.getElementById('regTeacher');
-      if (teacherSelect) teacherSelect.value = teacherId;
-      document.getElementById('register')?.scrollIntoView({ behavior: 'smooth' });
-      showToast(currentLang === 'ar' ? 'تم اختيار المعلم في نموذج التسجيل.' : 'Teacher selected in the registration form.', 'info');
-    };
-
-    window.handleRegistrationSubmit = async function(e) {
-      e.preventDefault();
-      const submitBtn = document.getElementById('regSubmitBtn');
-      if (submitBtn) submitBtn.disabled = true;
-
-      const courseId = document.getElementById('regCourse').value;
-      const pkgId = document.getElementById('regPackage').value;
-      const teacherId = document.getElementById('regTeacher').value;
-
-      const courseObj = state.courses.find(c => c.id === courseId);
-      const pkgObj = state.packages.find(p => p.id === pkgId);
-      const teacherObj = state.teachers.find(tc => tc.id === teacherId);
-      const curr = getCurrencyLabel();
-
-      const leadData = {
-        name: document.getElementById('regName').value.trim(),
-        phone: document.getElementById('regPhone').value.trim(),
-        email: document.getElementById('regEmail').value.trim(),
-        category: document.getElementById('regCategory').value,
-        background: document.getElementById('regBackground').value,
-        courseId,
-        courseName: courseObj ? courseObj.titleAr : courseId,
-        packageId: pkgId,
-        packageLabel: pkgObj ? `${pkgObj.sessions} ${sessionsWord(pkgObj.sessions)}${pkgObj.hidePrice ? '' : ` (${pkgObj.price} ${curr})`}` : pkgId,
-        teacherId: teacherId || '',
-        teacherName: teacherObj ? teacherObj.nameAr : 'أي معلم متاح',
-        notes: document.getElementById('regNotes').value.trim(),
-        status: 'new',
-        createdAtMs: Date.now()
-      };
-
-      try {
-        if (isFirebaseConnected && db) {
-          await addDoc(collection(db, 'registrations'), {
-            ...leadData,
-            createdAt: serverTimestamp()
-          });
-        } else {
-          throw new Error('Database offline');
-        }
-
-        const summaryEl = document.getElementById('regSuccessSummary');
-        if (summaryEl) {
-          summaryEl.textContent = currentLang === 'ar'
-            ? `أهلاً بك يا ${leadData.name}! تم تسجيل طلبك في دورة "${leadData.courseName}" (${leadData.packageLabel}) بنجاح، وسيتواصل معك فريق الأكاديمية قريباً.`
-            : `Welcome ${leadData.name}! Your registration for "${courseObj ? courseObj.titleEn : leadData.courseName}" has been received. Our team will contact you shortly.`;
-        }
-
-        const waNum = (state.settings.whatsapp && state.settings.whatsapp !== '201000000000')
-          ? state.settings.whatsapp.replace(/\D/g, '')
-          : '201018301386';
-        const waMsg = encodeURIComponent(
-          `السلام عليكم، قمت بالتسجيل في أكاديمية القلم:\nالاسم: ${leadData.name}\nالدورة: ${leadData.courseName}\nالباقة: ${leadData.packageLabel}\nالمعلم المفضل: ${leadData.teacherName}`
-        );
-        const waBtn = document.getElementById('regWhatsappConfirmBtn');
-        if (waBtn) waBtn.href = `https://wa.me/${waNum}?text=${waMsg}`;
-
-        document.getElementById('registrationForm').reset();
-        window.syncRegistrationPackages();
-        const paymentOptions = document.getElementById('regPaymentOptions');
-        const paymentLink = document.getElementById('regPaymentLink');
-        const bankDetails = document.getElementById('regBankDetails');
-        const paymentUrl = String(state.settings.paymentUrl || '').trim();
-        const safePaymentUrl = /^https:\/\//i.test(paymentUrl) ? paymentUrl : '';
-        if (safePaymentUrl) {
-          paymentLink.href = safePaymentUrl;
-          paymentLink.textContent = state.settings.paymentLabel || (currentLang === 'ar' ? 'ادفع الآن' : 'Pay online');
-          paymentLink.classList.remove('hidden');
-        } else { paymentLink.classList.add('hidden'); paymentLink.removeAttribute('href'); }
-        const bankLines = [
-          state.settings.bankName ? `البنك: ${state.settings.bankName}` : '',
-          state.settings.accountName ? `اسم صاحب الحساب: ${state.settings.accountName}` : '',
-          state.settings.accountNumber ? `رقم الحساب: ${state.settings.accountNumber}` : '',
-          state.settings.iban ? `IBAN: ${state.settings.iban}` : '',
-          state.settings.swift ? `SWIFT / BIC: ${state.settings.swift}` : '',
-          state.settings.bankInstructions ? `تعليمات التحويل: ${state.settings.bankInstructions}` : ''
-        ].filter(Boolean);
-        if (bankLines.length) { bankDetails.textContent = bankLines.join('\n'); bankDetails.classList.remove('hidden'); }
-        else bankDetails.classList.add('hidden');
-        paymentOptions.classList.toggle('hidden', !safePaymentUrl && !bankLines.length);
-        document.getElementById('regSuccessModal').classList.remove('hidden');
-      } catch (err) {
-        console.error('Registration error:', err);
-        showToast(currentLang === 'ar' ? 'حدث خطأ أثناء إرسال الطلب، حاول مرة أخرى.' : 'Error submitting registration. Please try again.', 'error');
-      } finally {
-        if (submitBtn) submitBtn.disabled = false;
-      }
-    };
-
-    window.openTrialModal = function() {
-      document.getElementById('trialModal').classList.remove('hidden');
-      setTimeout(() => document.getElementById('trialName')?.focus(), 100);
-    };
-
-    window.handleTrialSubmit = async function(e) {
-      e.preventDefault();
-      const btn = document.getElementById('trialSubmitBtn');
-      if (btn) btn.disabled = true;
-
-      const courseId = document.getElementById('trialCourse').value;
-      const courseObj = state.courses.find(c => c.id === courseId);
-      const preferredTime = document.getElementById('trialTime').value.trim();
-
-      const leadData = {
-        type: 'trial',
-        name: document.getElementById('trialName').value.trim(),
-        phone: document.getElementById('trialPhone').value.trim(),
-        email: '',
-        country: document.getElementById('trialCountry').value.trim(),
-        category: document.getElementById('trialCategory').value,
-        background: '',
-        courseId,
-        courseName: courseObj ? courseObj.titleAr : 'لم يحدد بعد / يحتاج استشارة',
-        packageId: 'trial',
-        packageLabel: 'حصة تجريبية مجانية (30 دقيقة)',
-        teacherId: '',
-        teacherName: 'أي معلم متاح',
-        notes: preferredTime ? `الوقت المناسب: ${preferredTime}` : '',
-        status: 'new',
-        createdAtMs: Date.now()
-      };
-
-      try {
-        if (isFirebaseConnected && db) {
-          await addDoc(collection(db, 'registrations'), { ...leadData, createdAt: serverTimestamp() });
-        } else {
-          throw new Error('Database offline');
-        }
-
-        document.getElementById('trialSuccessSummary').textContent = currentLang === 'ar'
-          ? `أهلاً بك يا ${leadData.name}! تم استلام طلب حصتك التجريبية المجانية، وسيتواصل معك فريق الأكاديمية عبر واتساب لتحديد الموعد. وبعد التجربة يمكنك اختيار الدورة المناسبة والتسجيل فيها.`
-          : `Welcome ${leadData.name}! Your free trial session request has been received. Our team will contact you on WhatsApp to set the time. After the trial you can pick the course that suits you and register.`;
-
-        const waNum = (state.settings.whatsapp && state.settings.whatsapp !== '201000000000')
-          ? state.settings.whatsapp.replace(/\D/g, '')
-          : '201018301386';
-        const waMsg = encodeURIComponent(
-          `السلام عليكم، حجزت حصة تجريبية مجانية في أكاديمية القلم:\nالاسم: ${leadData.name}\nالدولة: ${leadData.country}\nالبرنامج: ${leadData.courseName}` + (preferredTime ? `\nالوقت المناسب: ${preferredTime}` : '')
-        );
-        document.getElementById('trialWhatsappBtn').href = `https://wa.me/${waNum}?text=${waMsg}`;
-
-        document.getElementById('trialForm').reset();
-        closeModal('trialModal');
-        document.getElementById('trialSuccessModal').classList.remove('hidden');
-      } catch (err) {
-        console.error('Trial registration error:', err);
-        showToast(currentLang === 'ar' ? 'حدث خطأ أثناء إرسال الطلب، حاول مرة أخرى.' : 'Error submitting request. Please try again.', 'error');
-      } finally {
-        if (btn) btn.disabled = false;
-      }
-    };
-
-    window.openPublicReviewModal = function() {
-      document.getElementById('publicReviewForm').reset();
-      document.getElementById('publicReviewModal').classList.remove('hidden');
-    };
-
-    window.handlePublicReviewSubmit = async function(e) {
-      e.preventDefault();
-      const id = 'rev_' + Date.now();
-      const text = document.getElementById('pubRevText').value.trim();
-      const data = {
-        id,
-        name: document.getElementById('pubRevName').value.trim(),
-        role: document.getElementById('pubRevRole').value.trim(),
-        rating: Number(document.getElementById('pubRevRating').value) || 5,
-        textAr: text,
-        textEn: currentLang === 'en' ? text : '',
-        status: 'pending',
-        createdAtMs: Date.now()
-      };
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'reviews', id), data);
-        } else {
-          throw new Error('Database offline');
-        }
-        closeModal('publicReviewModal');
-        showToast(t('rev_submitted_msg'));
-      } catch (err) {
-        showToast('تعذر إرسال التقييم، حاول مرة أخرى.', 'error');
-      }
-    };
-
-    // =========================================================================
-    // 8. SECRET ADMIN ENTRY & AUTHENTICATION
-    // =========================================================================
-    let secretTapCount = 0;
-    let secretTapTimer = null;
-
-    window.handleSecretAdminTap = function() {
-      secretTapCount++;
-      clearTimeout(secretTapTimer);
-      secretTapTimer = setTimeout(() => { secretTapCount = 0; }, 1600);
-      if (secretTapCount >= 5) {
-        secretTapCount = 0;
-        openAdminGate();
-      }
-    };
-
-    function openAdminGate() {
-      if (isAdminUnlocked) {
-        openAdminDashboard();
-      } else {
-        document.getElementById('adminPinError').classList.add('hidden');
-        document.getElementById('adminPinInput').value = '';
-        document.getElementById('adminPinModal').classList.remove('hidden');
-        setTimeout(() => document.getElementById('adminPinInput').focus(), 100);
-      }
-    }
-
-    // Keyboard Shortcut: Ctrl + Shift + A
-    document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a' || e.code === 'KeyA')) {
-        e.preventDefault();
-        openAdminGate();
-      }
-    });
-
-    window.handleAdminPinSubmit = function(e) {
-      e.preventDefault();
-      const entered = document.getElementById('adminPinInput').value.trim();
-      const correctPin = String(state.settings.pin || '1234').trim();
-      if (entered === correctPin) {
-        isAdminUnlocked = true;
-        closeModal('adminPinModal');
-        openAdminDashboard();
-      } else {
-        document.getElementById('adminPinError').classList.remove('hidden');
-      }
-    };
-
-    function openAdminDashboard() {
-      document.getElementById('adminDashboardModal').classList.remove('hidden');
-      renderAdminLeads();
-      renderAdminSpecialties();
-      renderAdminCourses();
-      renderAdminPackages();
-      renderAdminTeachers();
-      renderAdminReviews();
-      renderAdminSettings();
-      renderAdminContacts();
-    }
-
-    window.closeAdminDashboard = function() {
-      document.getElementById('adminDashboardModal').classList.add('hidden');
-    };
-
-    window.switchAdminTab = function(tabName) {
-      document.querySelectorAll('.admin-tab-panel').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
-        btn.classList.remove('border-forest', 'text-forest');
-        btn.classList.add('border-transparent', 'text-charcoal/60');
-      });
-      const panel = document.getElementById(`adminTab_${tabName}`);
-      const activeBtn = document.getElementById(`tabBtn_${tabName}`);
-      if (panel) panel.classList.remove('hidden');
-      if (activeBtn) {
-        activeBtn.classList.add('border-forest', 'text-forest');
-        activeBtn.classList.remove('border-transparent', 'text-charcoal/60');
-      }
-    };
-
-    function highlightEditCard(cardId) {
-      const card = document.getElementById(cardId);
-      if (!card) return;
-      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      card.classList.add('ring-2', 'ring-gold', 'bg-cream-light');
-      setTimeout(() => card.classList.remove('ring-2', 'ring-gold', 'bg-cream-light'), 2200);
-    }
-
-    // --- LEADS ADMIN ---
-    function renderAdminLeads() {
-      const list = document.getElementById('adminLeadsList');
-      const badge = document.getElementById('adminLeadsCountBadge');
-      const newCount = state.registrations.filter(l => l.status === 'new').length;
-      if (badge) {
-        badge.textContent = newCount;
-        badge.classList.toggle('hidden', newCount === 0);
-      }
-      if (!list) return;
-
-      if (!state.registrations.length) {
-        list.innerHTML = '<div class="bg-white rounded-2xl p-8 text-center text-sm text-charcoal/60 border border-gold/25">لا توجد طلبات تسجيل حتى الآن.</div>';
-        return;
-      }
-
-      const statusLabels = {
-        new: { text: 'جديد', cls: 'bg-red-100 text-red-700' },
-        contacted: { text: 'تم التواصل', cls: 'bg-amber-100 text-amber-800' },
-        enrolled: { text: 'مشترك فعلياً', cls: 'bg-emerald-100 text-emerald-800' }
-      };
-
-      list.innerHTML = state.registrations.map(lead => {
-        const st = statusLabels[lead.status] || statusLabels.new;
-        const dateStr = lead.createdAtMs ? new Date(lead.createdAtMs).toLocaleString('ar-EG') : '';
-        const cleanPhone = String(lead.phone || '').replace(/[^\d]/g, '');
-        return `
-          <div class="bg-white rounded-2xl p-4 sm:p-5 border ${lead.status === 'new' ? 'border-gold shadow-md' : 'border-gold/25'} flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div class="space-y-1.5">
-              <div class="flex flex-wrap items-center gap-2">
-                <span class="font-bold text-forest text-base">${escapeHtml(lead.name)}</span>
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${st.cls}">${st.text}</span>
-                ${lead.type === 'trial' ? '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-gold text-forest-dark">🎁 حصة تجريبية</span>' : ''}
-                <span class="text-[11px] text-charcoal/50">${escapeHtml(dateStr)}</span>
-              </div>
-              <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-charcoal/80">
-                <span dir="ltr" class="font-jakarta font-bold text-forest">📱 ${escapeHtml(lead.phone)}</span>
-                ${lead.email ? `<span dir="ltr" class="font-jakarta">✉️ ${escapeHtml(lead.email)}</span>` : ''}
-                <span>📚 ${escapeHtml(lead.courseName)}</span>
-                ${lead.country ? `<span>🌍 ${escapeHtml(lead.country)}</span>` : ''}
-                ${lead.type === 'trial' ? '' : `<span>💳 ${escapeHtml(lead.packageLabel)}</span>
-                <span>👨‍🏫 ${escapeHtml(lead.teacherName || 'أي معلم')}</span>`}
-              </div>
-              ${lead.notes ? `<p class="text-xs text-charcoal/70 bg-cream-light px-3 py-1.5 rounded-lg border border-gold/20">📝 ${escapeHtml(lead.notes)}</p>` : ''}
-            </div>
-            <div class="flex flex-wrap items-center gap-2 shrink-0">
-              <a href="https://wa.me/${cleanPhone}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold">واتساب</a>
-              <select onchange="updateLeadStatus('${lead.id}', this.value)" class="px-2.5 py-2 rounded-xl border border-gold/40 bg-cream-light text-xs font-bold text-forest">
-                <option value="new" ${lead.status === 'new' ? 'selected' : ''}>جديد</option>
-                <option value="contacted" ${lead.status === 'contacted' ? 'selected' : ''}>تم التواصل</option>
-                <option value="enrolled" ${lead.status === 'enrolled' ? 'selected' : ''}>مشترك فعلياً</option>
-              </select>
-              <button type="button" onclick="deleteLead('${lead.id}')" class="px-3 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    window.updateLeadStatus = async function(id, status) {
-      try {
-        if (isFirebaseConnected && db) {
-          await updateDoc(doc(db, 'registrations', id), { status });
-        } else {
-          const item = state.registrations.find(l => l.id === id);
-          if (item) item.status = status;
-          saveLocalFallback();
-          renderAdminLeads();
-        }
-        showToast('تم تحديث حالة العميل.');
-      } catch (err) {
-        showToast('تعذر تحديث حالة العميل.', 'error');
-      }
-    };
-
-    window.deleteLead = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'registrations', id));
-        } else {
-          state.registrations = state.registrations.filter(l => l.id !== id);
-          saveLocalFallback();
-          renderAdminLeads();
-        }
-        showToast('تم حذف الطلب.');
-      } catch (err) {
-        showToast('تعذر حذف الطلب.', 'error');
-      }
-    };
-
-    window.exportLeadsCSV = function() {
-      if (!state.registrations.length) {
-        showToast('لا توجد بيانات لتصديرها.', 'info');
-        return;
-      }
-      const headers = ['النوع', 'الدولة', 'الاسم', 'الواتساب', 'البريد', 'الفئة', 'اللغة', 'الدورة', 'الباقة', 'المعلم', 'الحالة', 'ملاحظات', 'التاريخ'];
-      const rows = state.registrations.map(l => [
-        l.type === 'trial' ? 'حصة تجريبية' : 'تسجيل دورة', l.country, l.name, l.phone, l.email, l.category, l.background, l.courseName, l.packageLabel, l.teacherName, l.status, l.notes,
-        l.createdAtMs ? new Date(l.createdAtMs).toLocaleString('ar-EG') : ''
-      ].map(v => `"${String(v || '').replace(/"/g, '""')}"`).join(','));
-      const csv = '\uFEFF' + [headers.join(','), ...rows].join('\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `al_qalam_leads_${new Date().toISOString().slice(0, 10)}.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
-    };
-
-    // --- SPECIALTIES ADMIN ---
-    function renderAdminSpecialties() {
-      const list = document.getElementById('adminSpecialtiesList');
-      const teacherSpecSelect = document.getElementById('teacherSpec');
-      if (teacherSpecSelect) {
-        const currentVal = teacherSpecSelect.value;
-        teacherSpecSelect.innerHTML = state.specialties.map(sp =>
-          `<option value="${sp.id}">${escapeHtml(sp.nameAr)} (${escapeHtml(sp.nameEn)})</option>`
-        ).join('');
-        if (currentVal && state.specialties.some(sp => sp.id === currentVal)) {
-          teacherSpecSelect.value = currentVal;
-        }
-      }
-      if (!list) return;
-      list.innerHTML = state.specialties.map(sp => `
-        <div class="flex items-center justify-between gap-2 p-3.5 rounded-xl bg-white border border-gold/30 shadow-sm">
-          <div>
-            <div class="font-bold text-sm text-forest">${escapeHtml(sp.nameAr)}</div>
-            <div class="text-xs text-charcoal/60">${escapeHtml(sp.nameEn)}</div>
-          </div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button type="button" onclick="editSpecialty('${sp.id}')" class="px-2.5 py-1.5 rounded-lg bg-cream border border-gold/40 text-xs font-bold text-forest hover:bg-forest hover:text-white">تعديل</button>
-            <button type="button" onclick="deleteSpecialty('${sp.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-50 text-xs font-bold text-red-700 hover:bg-red-100">حذف</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.handleSaveSpecialty = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editSpecialtyId').value;
-      const id = editId || ('spec_' + Date.now());
-      const data = {
-        id,
-        nameAr: document.getElementById('specNameAr').value.trim(),
-        nameEn: document.getElementById('specNameEn').value.trim()
-      };
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'specialties', id), data);
-        } else {
-          const idx = state.specialties.findIndex(s => s.id === id);
-          if (idx >= 0) state.specialties[idx] = data; else state.specialties.push(data);
-          saveLocalFallback();
-          renderAll();
-        }
-        window.resetSpecialtyForm();
-        showToast(editId ? 'تم تعديل التخصص بنجاح.' : 'تمت إضافة التخصص بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ التخصص.', 'error');
-      }
-    };
-
-    window.editSpecialty = function(id) {
-      const sp = state.specialties.find(x => x.id === id);
-      if (!sp) return;
-      document.getElementById('editSpecialtyId').value = sp.id;
-      document.getElementById('specNameAr').value = sp.nameAr;
-      document.getElementById('specNameEn').value = sp.nameEn;
-      const banner = document.getElementById('specialtyEditBanner');
-      banner.textContent = `✏️ جاري تعديل: ${sp.nameAr}`;
-      banner.classList.remove('hidden');
-      document.getElementById('specialtySubmitBtn').textContent = 'حفظ التعديلات';
-      highlightEditCard('specialtyFormCard');
-      showToast('تم تحميل التخصص في النموذج — عدّله ثم اضغط "حفظ التعديلات".', 'info');
-    };
-
-    window.resetSpecialtyForm = function() {
-      document.getElementById('adminSpecialtyForm').reset();
-      document.getElementById('editSpecialtyId').value = '';
-      document.getElementById('specialtyEditBanner')?.classList.add('hidden');
-      const btn = document.getElementById('specialtySubmitBtn');
-      if (btn) btn.textContent = 'إضافة التخصص';
-    };
-
-    window.deleteSpecialty = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'specialties', id));
-        } else {
-          state.specialties = state.specialties.filter(s => s.id !== id);
-          saveLocalFallback();
-          renderAll();
-        }
-        if (document.getElementById('editSpecialtyId').value === id) window.resetSpecialtyForm();
-        showToast('تم حذف التخصص.');
-      } catch (err) {
-        showToast('تعذر حذف التخصص.', 'error');
-      }
-    };
-
-    // --- COURSES ADMIN ---
-    function renderAdminCourses() {
-      const list = document.getElementById('adminCoursesList');
-      const pkgCourseSelect = document.getElementById('pkgCourseId');
-      if (pkgCourseSelect) {
-        const currentVal = pkgCourseSelect.value;
-        pkgCourseSelect.innerHTML = state.courses.map(c => `<option value="${c.id}">${escapeHtml(c.titleAr)}</option>`).join('');
-        if (currentVal && state.courses.some(c => c.id === currentVal)) {
-          pkgCourseSelect.value = currentVal;
-        }
-      }
-      if (!list) return;
-      list.innerHTML = state.courses.map(c => `
-        <div class="flex items-center justify-between gap-3 p-3.5 rounded-xl bg-cream-light border border-gold/25">
-          <div>
-            <div class="font-bold text-sm text-forest">${escapeHtml(c.titleAr)}</div>
-            <div class="text-xs text-charcoal/60">${escapeHtml(c.titleEn)}</div>
-          </div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button type="button" onclick="editCourse('${c.id}')" class="px-2.5 py-1.5 rounded-lg bg-white border border-gold/40 text-xs font-bold text-forest hover:bg-forest hover:text-white">تعديل</button>
-            <button type="button" onclick="deleteCourse('${c.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-50 text-xs font-bold text-red-700 hover:bg-red-100">حذف</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.handleSaveCourse = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editCourseId').value;
-      const id = editId || ('course_' + Date.now());
-      const data = {
-        id,
-        titleAr: document.getElementById('courseTitleAr').value.trim(),
-        titleEn: document.getElementById('courseTitleEn').value.trim(),
-        icon: document.getElementById('courseIcon').value,
-        descAr: document.getElementById('courseDescAr').value.trim(),
-        descEn: document.getElementById('courseDescEn').value.trim()
-      };
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'courses', id), data);
-        } else {
-          const idx = state.courses.findIndex(c => c.id === id);
-          if (idx >= 0) state.courses[idx] = data; else state.courses.push(data);
-          saveLocalFallback();
-          renderAll();
-        }
-        window.resetCourseForm();
-        showToast(editId ? 'تم حفظ تعديلات الدورة بنجاح.' : 'تمت إضافة الدورة بنجاح.');
-      } catch (err) {
-        showToast('حدث خطأ أثناء حفظ الدورة.', 'error');
-      }
-    };
-
-    window.editCourse = function(id) {
-      const c = state.courses.find(x => x.id === id);
-      if (!c) return;
-      document.getElementById('editCourseId').value = c.id;
-      document.getElementById('courseTitleAr').value = c.titleAr;
-      document.getElementById('courseTitleEn').value = c.titleEn;
-      document.getElementById('courseIcon').value = c.icon || 'quran';
-      document.getElementById('courseDescAr').value = c.descAr;
-      document.getElementById('courseDescEn').value = c.descEn;
-      const banner = document.getElementById('courseEditBanner');
-      banner.textContent = `✏️ جاري تعديل: ${c.titleAr}`;
-      banner.classList.remove('hidden');
-      document.getElementById('courseSubmitBtn').textContent = 'حفظ التعديلات';
-      highlightEditCard('courseFormCard');
-      showToast('تم تحميل الدورة في النموذج — عدّل البيانات ثم اضغط "حفظ التعديلات".', 'info');
-    };
-
-    window.resetCourseForm = function() {
-      document.getElementById('adminCourseForm').reset();
-      document.getElementById('editCourseId').value = '';
-      document.getElementById('courseEditBanner')?.classList.add('hidden');
-      const btn = document.getElementById('courseSubmitBtn');
-      if (btn) btn.textContent = 'حفظ الدورة';
-    };
-
-    window.deleteCourse = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'courses', id));
-        } else {
-          state.courses = state.courses.filter(c => c.id !== id);
-          saveLocalFallback();
-          renderAll();
-        }
-        if (document.getElementById('editCourseId').value === id) window.resetCourseForm();
-        showToast('تم حذف الدورة.');
-      } catch (err) {
-        showToast('تعذر حذف الدورة.', 'error');
-      }
-    };
-
-    // --- PACKAGES ADMIN ---
-    function renderAdminPackages() {
-      const list = document.getElementById('adminPackagesList');
-      if (!list) return;
-      const curr = getCurrencyLabel();
-      list.innerHTML = state.packages.map(p => {
-        const course = state.courses.find(c => c.id === p.courseId);
-        return `
-          <div class="flex items-center justify-between gap-2 p-3.5 rounded-xl bg-cream-light border border-gold/25">
-            <div>
-              <div class="text-[11px] font-bold text-gold-dark">${escapeHtml(course ? course.titleAr : '')}</div>
-              <div class="font-bold text-sm text-forest">${p.sessions} ${sessionsWord(p.sessions)} — ${p.hidePrice ? '🙈 السعر مخفي' : `${p.price} ${curr}`}</div>
-              <div class="text-[11px] text-charcoal/60">${p.duration || 45} دقيقة ${p.popular ? '• ⭐ الأكثر طلباً' : ''}</div>
-            </div>
-            <div class="flex items-center gap-1.5 shrink-0">
-              <button type="button" onclick="editPackage('${p.id}')" class="px-2.5 py-1.5 rounded-lg bg-white border border-gold/40 text-xs font-bold text-forest hover:bg-forest hover:text-white">تعديل</button>
-              <button type="button" onclick="deletePackage('${p.id}')" class="px-2.5 py-1.5 rounded-lg bg-red-50 text-xs font-bold text-red-700 hover:bg-red-100">حذف</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    window.handleSavePackage = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editPackageId').value;
-      const id = editId || ('pkg_' + Date.now());
-      const data = {
-        id,
-        courseId: document.getElementById('pkgCourseId').value,
-        sessions: Number(document.getElementById('pkgSessions').value),
-        duration: Number(document.getElementById('pkgDuration').value),
-        price: Number(document.getElementById('pkgPrice').value) || 0,
-        hidePrice: document.getElementById('pkgHidePrice').checked,
-        popular: document.getElementById('pkgPopular').checked
-      };
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'packages', id), data);
-        } else {
-          const idx = state.packages.findIndex(p => p.id === id);
-          if (idx >= 0) state.packages[idx] = data; else state.packages.push(data);
-          saveLocalFallback();
-          renderAll();
-        }
-        window.resetPackageForm();
-        showToast(editId ? 'تم تحديث سعر وعدد حصص الباقة بنجاح.' : 'تمت إضافة الباقة بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ الباقة.', 'error');
-      }
-    };
-
-    window.editPackage = function(id) {
-      const p = state.packages.find(x => x.id === id);
-      if (!p) return;
-      document.getElementById('editPackageId').value = p.id;
-      document.getElementById('pkgCourseId').value = p.courseId;
-      document.getElementById('pkgSessions').value = p.sessions;
-      document.getElementById('pkgDuration').value = p.duration || 45;
-      document.getElementById('pkgPrice').value = p.price || '';
-      document.getElementById('pkgHidePrice').checked = !!p.hidePrice;
-      document.getElementById('pkgPopular').checked = !!p.popular;
-      const banner = document.getElementById('packageEditBanner');
-      banner.textContent = `✏️ جاري تعديل باقة: ${p.sessions} ${sessionsWord(p.sessions)} (${p.hidePrice ? 'السعر مخفي' : p.price})`;
-      banner.classList.remove('hidden');
-      document.getElementById('packageSubmitBtn').textContent = 'حفظ التعديلات';
-      highlightEditCard('packageFormCard');
-      showToast('تم تحميل الباقة في النموذج — عدّل السعر أو الحصص ثم اضغط "حفظ التعديلات".', 'info');
-    };
-
-    window.resetPackageForm = function() {
-      document.getElementById('adminPackageForm').reset();
-      document.getElementById('editPackageId').value = '';
-      document.getElementById('packageEditBanner')?.classList.add('hidden');
-      const btn = document.getElementById('packageSubmitBtn');
-      if (btn) btn.textContent = 'حفظ الباقة';
-    };
-
-    window.deletePackage = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'packages', id));
-        } else {
-          state.packages = state.packages.filter(p => p.id !== id);
-          saveLocalFallback();
-          renderAll();
-        }
-        if (document.getElementById('editPackageId').value === id) window.resetPackageForm();
-        showToast('تم حذف الباقة.');
-      } catch (err) {
-        showToast('تعذر حذف الباقة.', 'error');
-      }
-    };
-
-    // --- TEACHERS ADMIN ---
-    function renderAdminTeachers() {
-      const list = document.getElementById('adminTeachersList');
-      if (!list) return;
-      const getSpecName = (id) => {
-        const sp = state.specialties.find(s => s.id === id);
-        return sp ? sp.nameAr : id;
-      };
-      list.innerHTML = state.teachers.map(tc => `
-        <div class="bg-white rounded-2xl p-4 border border-gold/30 shadow-sm flex flex-col justify-between gap-3">
-          <div>
-            <div class="font-bold text-forest text-sm">${escapeHtml(tc.nameAr)}</div>
-            <div class="text-xs text-gold-dark font-bold">${escapeHtml(getSpecName(tc.spec))}</div>
-            <div class="text-xs text-charcoal/60">${escapeHtml(tc.nameEn)} • ${tc.exp} سنوات خبرة</div>
-            <p class="text-xs text-charcoal/80 mt-2">${escapeHtml(tc.bioAr)}</p>
-          </div>
-          <div class="flex items-center gap-2 pt-2 border-t border-gold/15">
-            <button type="button" onclick="editTeacher('${tc.id}')" class="flex-1 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">تعديل</button>
-            <button type="button" onclick="deleteTeacher('${tc.id}')" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    window.handleSaveTeacher = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editTeacherId').value;
-      const id = editId || ('t_' + Date.now());
-      const data = {
-        id,
-        nameAr: document.getElementById('teacherNameAr').value.trim(),
-        nameEn: document.getElementById('teacherNameEn').value.trim(),
-        spec: document.getElementById('teacherSpec').value,
-        exp: Number(document.getElementById('teacherExp').value),
-        langs: document.getElementById('teacherLangs').value.trim(),
-        bioAr: document.getElementById('teacherBioAr').value.trim(),
-        bioEn: document.getElementById('teacherBioEn').value.trim()
-      };
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'teachers', id), data);
-        } else {
-          const idx = state.teachers.findIndex(x => x.id === id);
-          if (idx >= 0) state.teachers[idx] = data; else state.teachers.push(data);
-          saveLocalFallback();
-          renderAll();
-        }
-        window.resetTeacherForm();
-        showToast(editId ? 'تم حفظ تعديلات المعلم بنجاح.' : 'تمت إضافة المعلم بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ المعلم.', 'error');
-      }
-    };
-
-    window.editTeacher = function(id) {
-      const tc = state.teachers.find(x => x.id === id);
-      if (!tc) return;
-      document.getElementById('editTeacherId').value = tc.id;
-      document.getElementById('teacherNameAr').value = tc.nameAr;
-      document.getElementById('teacherNameEn').value = tc.nameEn;
-      document.getElementById('teacherSpec').value = tc.spec;
-      document.getElementById('teacherExp').value = tc.exp;
-      document.getElementById('teacherLangs').value = tc.langs;
-      document.getElementById('teacherBioAr').value = tc.bioAr;
-      document.getElementById('teacherBioEn').value = tc.bioEn;
-      const banner = document.getElementById('teacherEditBanner');
-      banner.textContent = `✏️ جاري تعديل: ${tc.nameAr}`;
-      banner.classList.remove('hidden');
-      document.getElementById('teacherSubmitBtn').textContent = 'حفظ التعديلات';
-      highlightEditCard('teacherFormCard');
-      showToast('تم تحميل بيانات المعلم في النموذج — عدّلها ثم اضغط "حفظ التعديلات".', 'info');
-    };
-
-    window.resetTeacherForm = function() {
-      document.getElementById('adminTeacherForm').reset();
-      document.getElementById('editTeacherId').value = '';
-      document.getElementById('teacherEditBanner')?.classList.add('hidden');
-      const btn = document.getElementById('teacherSubmitBtn');
-      if (btn) btn.textContent = 'حفظ المعلم';
-    };
-
-    window.deleteTeacher = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'teachers', id));
-        } else {
-          state.teachers = state.teachers.filter(x => x.id !== id);
-          saveLocalFallback();
-          renderAll();
-        }
-        if (document.getElementById('editTeacherId').value === id) window.resetTeacherForm();
-        showToast('تم حذف المعلم.');
-      } catch (err) {
-        showToast('تعذر حذف المعلم.', 'error');
-      }
-    };
-
-    // --- REVIEWS ADMIN ---
-    function renderAdminReviews() {
-      const list = document.getElementById('adminReviewsList');
-      const pendingBadge = document.getElementById('adminReviewsPendingBadge');
-      const pendingCount = state.reviews.filter(r => r.status === 'pending').length;
-      if (pendingBadge) {
-        pendingBadge.textContent = pendingCount;
-        pendingBadge.classList.toggle('hidden', pendingCount === 0);
-      }
-      if (!list) return;
-
-      if (!state.reviews.length) {
-        list.innerHTML = '<div class="col-span-full bg-white rounded-2xl p-8 text-center text-sm text-charcoal/60 border border-gold/25">لا توجد آراء مسجلة حتى الآن.</div>';
-        return;
-      }
-
-      list.innerHTML = state.reviews.map(r => {
-        const isApproved = r.status === 'approved';
-        const stars = '★'.repeat(Math.max(1, Math.min(5, Number(r.rating) || 5)));
-        return `
-          <div class="bg-white rounded-2xl p-4 border ${isApproved ? 'border-gold/30' : 'border-amber-400 bg-amber-50/40'} shadow-sm flex flex-col justify-between gap-3">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-1">
-                <span class="font-bold text-forest text-sm">${escapeHtml(r.name)}</span>
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${isApproved ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-200 text-amber-900'}">${isApproved ? 'منشور' : 'بانتظار الموافقة'}</span>
-              </div>
-              <div class="text-xs text-charcoal/60 mb-1">${escapeHtml(r.role || '')} • <span class="text-gold">${stars}</span></div>
-              <p class="text-xs text-charcoal/85 leading-relaxed">${escapeHtml(r.textAr)}</p>
-            </div>
-            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-gold/15">
-              ${!isApproved ? `<button type="button" onclick="approveReview('${r.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold">اعتماد ونشر</button>` : ''}
-              <button type="button" onclick="editReview('${r.id}')" class="flex-1 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">تعديل</button>
-              <button type="button" onclick="deleteReview('${r.id}')" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    window.handleSaveReview = async function(e) {
-      e.preventDefault();
-      const editId = document.getElementById('editReviewId').value;
-      const id = editId || ('rev_' + Date.now());
-      const existing = state.reviews.find(r => r.id === id);
-      const data = {
-        id,
-        name: document.getElementById('revName').value.trim(),
-        role: document.getElementById('revRole').value.trim(),
-        rating: Number(document.getElementById('revRating').value) || 5,
-        status: document.getElementById('revStatus').value,
-        textAr: document.getElementById('revTextAr').value.trim(),
-        textEn: document.getElementById('revTextEn').value.trim(),
-        createdAtMs: existing ? existing.createdAtMs : Date.now()
-      };
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'reviews', id), data);
-        } else {
-          const idx = state.reviews.findIndex(r => r.id === id);
-          if (idx >= 0) state.reviews[idx] = data; else state.reviews.unshift(data);
-          saveLocalFallback();
-          renderAll();
-        }
-        window.resetReviewForm();
-        showToast(editId ? 'تم حفظ تعديلات الرأي بنجاح.' : 'تمت إضافة الرأي بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ الرأي.', 'error');
-      }
-    };
-
-    window.approveReview = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await updateDoc(doc(db, 'reviews', id), { status: 'approved' });
-        } else {
-          const item = state.reviews.find(r => r.id === id);
-          if (item) item.status = 'approved';
-          saveLocalFallback();
-          renderAll();
-        }
-        showToast('تم اعتماد الرأي ونشره في الموقع.');
-      } catch (err) {
-        showToast('تعذر اعتماد الرأي.', 'error');
-      }
-    };
-
-    window.editReview = function(id) {
-      const r = state.reviews.find(x => x.id === id);
-      if (!r) return;
-      document.getElementById('editReviewId').value = r.id;
-      document.getElementById('revName').value = r.name || '';
-      document.getElementById('revRole').value = r.role || '';
-      document.getElementById('revRating').value = r.rating || 5;
-      document.getElementById('revStatus').value = r.status || 'approved';
-      document.getElementById('revTextAr').value = r.textAr || '';
-      document.getElementById('revTextEn').value = r.textEn || '';
-      const banner = document.getElementById('reviewEditBanner');
-      banner.textContent = `✏️ جاري تعديل رأي: ${r.name}`;
-      banner.classList.remove('hidden');
-      document.getElementById('reviewSubmitBtn').textContent = 'حفظ التعديلات';
-      highlightEditCard('reviewFormCard');
-      showToast('تم تحميل الرأي في النموذج — عدّله ثم اضغط "حفظ التعديلات".', 'info');
-    };
-
-    window.resetReviewForm = function() {
-      document.getElementById('adminReviewForm').reset();
-      document.getElementById('editReviewId').value = '';
-      document.getElementById('reviewEditBanner')?.classList.add('hidden');
-      const btn = document.getElementById('reviewSubmitBtn');
-      if (btn) btn.textContent = 'حفظ الرأي';
-    };
-
-    window.deleteReview = async function(id) {
-      try {
-        if (isFirebaseConnected && db) {
-          await deleteDoc(doc(db, 'reviews', id));
-        } else {
-          state.reviews = state.reviews.filter(x => x.id !== id);
-          saveLocalFallback();
-          renderAll();
-        }
-        if (document.getElementById('editReviewId').value === id) window.resetReviewForm();
-        showToast('تم حذف الرأي.');
-      } catch (err) {
-        showToast('تعذر حذف الرأي.', 'error');
-      }
-    };
-
-    // --- SETTINGS ADMIN ---
-    function renderAdminSettings() {
-      const wa = document.getElementById('setWhatsapp');
-      const cur = document.getElementById('setCurrency');
-      const pin = document.getElementById('setPin');
-      if (wa) {
-        wa.value = (state.settings.whatsapp && state.settings.whatsapp !== '201000000000')
-          ? state.settings.whatsapp
-          : '201018301386';
-      }
-      if (cur) cur.value = state.settings.currency || 'EGP';
-      if (pin) pin.value = state.settings.pin || '1234';
-      const settingFields = { setPaymentUrl: 'paymentUrl', setPaymentLabel: 'paymentLabel', setBankName: 'bankName', setAccountName: 'accountName', setAccountNumber: 'accountNumber', setIban: 'iban', setSwift: 'swift', setBankInstructions: 'bankInstructions' };
-      Object.entries(settingFields).forEach(([elementId, key]) => { const el = document.getElementById(elementId); if (el) el.value = state.settings[key] || ''; });
-    }
-
-    window.handleSaveSettings = async function(e) {
-      e.preventDefault();
-      const newSettings = {
-        whatsapp: document.getElementById('setWhatsapp').value.trim(),
-        currency: document.getElementById('setCurrency').value,
-        pin: document.getElementById('setPin').value.trim(),
-        contacts: Array.isArray(state.settings.contacts) ? state.settings.contacts : [],
-        paymentUrl: document.getElementById('setPaymentUrl').value.trim(),
-        paymentLabel: document.getElementById('setPaymentLabel').value.trim() || 'ادفع الآن',
-        bankName: document.getElementById('setBankName').value.trim(),
-        accountName: document.getElementById('setAccountName').value.trim(),
-        accountNumber: document.getElementById('setAccountNumber').value.trim(),
-        iban: document.getElementById('setIban').value.trim(),
-        swift: document.getElementById('setSwift').value.trim(),
-        bankInstructions: document.getElementById('setBankInstructions').value.trim()
-      };
-      if (newSettings.paymentUrl && !/^https:\/\//i.test(newSettings.paymentUrl)) { showToast('رابط الدفع يجب أن يبدأ بـ https://', 'error'); return; }
-      try {
-        if (isFirebaseConnected && db) {
-          await setDoc(doc(db, 'settings', 'academy'), newSettings);
-        } else {
-          state.settings = newSettings;
-          saveLocalFallback();
-          renderAll();
-        }
-        showToast('تم حفظ إعدادات الأكاديمية بنجاح.');
-      } catch (err) {
-        showToast('تعذر حفظ الإعدادات.', 'error');
-      }
-    };
-
-    // =========================================================================
-    // 10. MENUS, WIDGETS & STARTUP
-    // =========================================================================
-    window.toggleMobileMenu = function() {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    };
-
-    window.toggleWhatsAppWidget = function() {
-      document.getElementById('waWidgetPopup').classList.toggle('hidden');
-    };
-
-    document.addEventListener('click', (e) => {
-      const container = document.getElementById('waWidgetContainer');
-      const popup = document.getElementById('waWidgetPopup');
-      if (container && popup && !popup.classList.contains('hidden') && !container.contains(e.target)) {
-        popup.classList.add('hidden');
-      }
-    });
-
-    window.closeModal = function(id) {
-      document.getElementById(id).classList.add('hidden');
-    };
-
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-    // Support direct secret URL entry (?admin or #admin)
-    if (window.location.search.includes('admin') || window.location.hash === '#admin') {
-      setTimeout(() => openAdminGate(), 600);
-    }
-
-    // Boot application
-    initFirebaseAndData();
-  </script>
-</body>
-</html>
+        field_notes: 'الأوق
