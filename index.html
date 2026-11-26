@@ -2,6 +2,8 @@
 <html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'self'; form-action 'self'" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AL QALAM ACADEMY | Online Quran, Arabic Language &amp; Islamic Studies Academy</title>
   <meta name="description" content="AL QALAM ACADEMY offers online Quran learning, Tajweed, Arabic language and Islamic studies courses for children and adults, native Arabic speakers and non-Arabic speakers." />
@@ -155,6 +157,50 @@
     .animate-toast {
       animation: slideUpFade 0.3s ease-out forwards;
     }
+
+    /* ===== Motion: one idea — the pen (القلم) draws, the page answers the reader ===== */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+    .reveal.in { opacity: 1; transform: none; }
+    section h2.pen { position: relative; padding-bottom: .6rem; }
+    section h2.pen::after {
+      content: ""; position: absolute; bottom: 0; inset-inline: 50% auto; width: 72px; height: 3px;
+      margin-inline-start: -36px; border-radius: 9999px; background: linear-gradient(90deg, #C5A059, #E7D3A0);
+      transform: scaleX(0); transform-origin: right center; transition: transform .7s cubic-bezier(.2,.7,.2,1) .25s;
+    }
+    html[dir="ltr"] section h2.pen::after { transform-origin: left center; }
+    .reveal.in h2.pen::after, h2.pen.in::after { transform: scaleX(1); }
+    header nav a.nav-active { color: #143B2B; border-bottom-color: #C5A059; }
+    /* modals answer the tap that opened them */
+    @keyframes modalIn { from { opacity: 0; transform: translateY(14px) scale(.97); } to { opacity: 1; transform: none; } }
+    div[id$="Modal"]:not(.hidden) > div { animation: modalIn .28s cubic-bezier(.2,.7,.2,1); }
+
+    /* ===== Interactive animated images ===== */
+    .anim-slot { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.25rem; margin-top: 2rem; }
+    .anim-slot:empty { display: none; }
+    .anim-item { border: 0; background: transparent; padding: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; position: relative; }
+    .anim-item img { display: block; height: auto; max-width: 100%; user-select: none; -webkit-user-drag: none; }
+    .anim-item:focus-visible { outline: 3px solid #C5A059; outline-offset: 4px; border-radius: 1rem; }
+    .anim-sm img { width: 96px; } .anim-md img { width: 160px; } .anim-lg img { width: 240px; }
+    @keyframes aFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes aBounce { 0%,100% { transform: translateY(0); } 40% { transform: translateY(-16px); } 60% { transform: translateY(-6px); } }
+    @keyframes aWiggle { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+    @keyframes aPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+    @keyframes aSpin { to { transform: rotate(360deg); } }
+    .fx-float { animation: aFloat 4.5s ease-in-out infinite; }
+    .fx-bounce { animation: aBounce 2.2s ease-in-out infinite; }
+    .fx-wiggle { animation: aWiggle 2.6s ease-in-out infinite; }
+    .fx-pulse { animation: aPulse 3s ease-in-out infinite; }
+    .fx-spin { animation: aSpin 14s linear infinite; }
+    @keyframes aTap { 0% { transform: scale(1); } 35% { transform: scale(1.18) rotate(-5deg); } 70% { transform: scale(.94) rotate(3deg); } 100% { transform: scale(1); } }
+    .anim-item.tapped img { animation: aTap .55s ease; }
+    .anim-star { position: fixed; z-index: 60; pointer-events: none; font-size: 18px; line-height: 1; transition: transform .8s cubic-bezier(.1,.7,.3,1), opacity .8s ease; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      section h2.pen::after { transform: scaleX(1); transition: none; }
+      div[id$="Modal"]:not(.hidden) > div { animation: none; }
+      .fx-float, .fx-bounce, .fx-wiggle, .fx-pulse, .fx-spin, .anim-item.tapped img { animation: none; }
+    }
+
   </style>
 </head>
 <body class="bg-cream text-charcoal antialiased selection:bg-gold/30 selection:text-forest">
@@ -166,8 +212,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
 
-        <!-- Brand Logo (Custom SVG Emblem + Secret 5-Tap Admin Trigger) -->
-        <a href="#hero" onclick="handleSecretAdminTap()" class="flex items-center gap-3 group focus:outline-none select-none">
+        <!-- Brand Logo (Custom SVG Emblem) -->
+        <a href="#hero" class="flex items-center gap-3 group focus:outline-none select-none">
           <div class="w-12 h-12 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
             <!-- Al Qalam Academy Quill + Open Book + Ink Stroke SVG -->
             <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
@@ -341,6 +387,7 @@
           </div>
 
         </div>
+        <div class="anim-slot" data-anim-slot="hero"></div>
       </div>
     </section>
 
@@ -375,6 +422,7 @@
             <span>📱</span><span data-i18n="btn_share_site">شارك الموقع برمز QR</span>
           </button>
         </div>
+        <div class="anim-slot" data-anim-slot="about"></div>
       </div>
     </section>
 
@@ -392,6 +440,7 @@
         <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div class="col-span-full text-center py-12 text-charcoal/60" data-i18n="loading_data">جاري تحميل البيانات...</div>
         </div>
+        <div class="anim-slot" data-anim-slot="courses"></div>
       </div>
     </section>
 
@@ -428,6 +477,7 @@
           <select id="progAge" onchange="renderProgramGrid()" class="px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest outline-none text-sm"></select>
         </div>
         <div id="programsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <div class="anim-slot" data-anim-slot="programs"></div>
       </div>
     </section>
 
@@ -589,8 +639,8 @@
           </div>
           <div class="flex flex-col sm:flex-row items-center gap-4 text-sm">
             <button type="button" onclick="openQrModal()" class="px-4 py-1.5 rounded-full bg-gold hover:bg-gold-light text-forest-dark font-bold transition-all flex items-center gap-1.5"><span>📱</span><span data-i18n="qr_btn">رمز QR للمشاركة</span></button>
-            <!-- Secret 5-Tap Admin Trigger -->
-            <span onclick="handleSecretAdminTap()" class="px-4 py-1.5 rounded-full bg-white/10 border border-gold/30 font-jakarta tracking-wide cursor-default select-none">@alqalam.academy</span>
+            <!-- Academy handle -->
+            <span class="px-4 py-1.5 rounded-full bg-white/10 border border-gold/30 font-jakarta tracking-wide cursor-default select-none">@alqalam.academy</span>
           </div>
         </div>
 
@@ -722,19 +772,35 @@
     </div>
   </div>
 
-  <!-- 2. Secret Admin PIN Login Modal (No Default PIN Hint Shown) -->
-  <div id="adminPinModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl border border-gold/40 animate-toast">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="font-calligraphy text-2xl font-bold text-forest" data-i18n="pin_title">دخول لوحة الإدارة</h3>
-        <button onclick="closeModal('adminPinModal')" class="p-1.5 rounded-xl hover:bg-cream text-charcoal/60">✕</button>
+  <!-- 2. Admin Login (Firebase Authentication) -->
+  <div id="adminLoginModal" class="hidden fixed inset-0 z-50 bg-cream flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl border border-gold/40">
+      <div class="text-center mb-5">
+        <div class="mx-auto w-14 h-14 rounded-2xl bg-forest text-gold-light flex items-center justify-center text-2xl mb-3">🔐</div>
+        <h3 class="font-calligraphy text-2xl font-bold text-forest">دخول لوحة الإدارة</h3>
+        <p class="text-xs text-charcoal/70 mt-1">سجّل الدخول بحساب المدير للمتابعة.</p>
       </div>
-      <p class="text-xs text-charcoal/70 mb-5" data-i18n="pin_desc">أدخل الرقم السري الخاص بإدارة الأكاديمية للمتابعة.</p>
-      <form onsubmit="handleAdminPinSubmit(event)" class="space-y-4">
-        <input type="password" id="adminPinInput" inputmode="numeric" required placeholder="••••" class="w-full px-4 py-3.5 text-center text-xl tracking-[0.5em] font-bold rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest outline-none" />
-        <p id="adminPinError" class="hidden text-xs font-bold text-red-600 text-center" data-i18n="pin_error">الرقم السري غير صحيح، حاول مرة أخرى.</p>
-        <button type="submit" class="w-full py-3.5 rounded-2xl bg-forest hover:bg-forest-light text-white font-bold text-sm shadow-md transition-all" data-i18n="btn_login">دخول</button>
+      <div id="adminAuthLoading" class="py-8 text-center text-sm text-charcoal/70">جارٍ التحقق من الجلسة…</div>
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" class="hidden space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-forest mb-1" for="adminEmail">البريد الإلكتروني</label>
+          <input type="email" id="adminEmail" required autocomplete="username" dir="ltr" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta focus:bg-white focus:border-forest outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-forest mb-1" for="adminPassword">كلمة المرور</label>
+          <div class="relative">
+            <input type="password" id="adminPassword" required autocomplete="current-password" dir="ltr" class="w-full pl-16 pr-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta focus:bg-white focus:border-forest outline-none" />
+            <button type="button" id="adminPwToggle" onclick="toggleAdminPassword()" class="absolute left-2 top-1/2 -translate-y-1/2 px-2 py-1 text-[11px] font-bold text-forest hover:bg-cream rounded-lg">إظهار</button>
+          </div>
+        </div>
+        <p id="adminLoginError" class="hidden text-xs font-bold text-red-600 text-center"></p>
+        <p id="adminLoginInfo" class="hidden text-xs font-bold text-emerald-700 text-center"></p>
+        <button type="submit" id="adminLoginBtn" class="w-full py-3.5 rounded-2xl bg-forest hover:bg-forest-light text-white font-bold text-sm shadow-md transition-all disabled:opacity-60">تسجيل الدخول</button>
+        <div class="flex items-center gap-2 text-[11px] text-charcoal/50"><span class="flex-1 h-px bg-gold/30"></span>أو<span class="flex-1 h-px bg-gold/30"></span></div>
+        <button type="button" id="adminGoogleBtn" onclick="handleAdminGoogle()" class="w-full py-3 rounded-2xl border border-forest/30 bg-white hover:bg-cream text-forest font-bold text-sm transition-colors">الدخول بحساب Google</button>
+        <button type="button" onclick="handleAdminReset()" class="w-full text-xs font-bold text-forest hover:underline">نسيت كلمة المرور؟</button>
       </form>
+      <button type="button" onclick="leaveAdminRoute()" class="mt-4 w-full text-xs text-charcoal/60 hover:text-forest">← العودة إلى الموقع</button>
     </div>
   </div>
 
@@ -796,7 +862,10 @@
             </div>
           </div>
         </div>
-        <button onclick="closeAdminDashboard()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold transition-all">إغلاق اللوحة ✕</button>
+        <div class="flex items-center gap-2">
+          <button onclick="adminLogout()" class="px-4 py-2 rounded-xl bg-red-500/80 hover:bg-red-500 text-white text-xs sm:text-sm font-bold transition-all">تسجيل الخروج</button>
+          <button onclick="closeAdminDashboard()" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs sm:text-sm font-bold transition-all">إغلاق اللوحة ✕</button>
+        </div>
       </div>
 
       <!-- Admin Navigation Tabs -->
@@ -815,6 +884,7 @@
         <button onclick="switchAdminTab('curricula')" id="tabBtn_curricula" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">المناهج</button>
         <button onclick="switchAdminTab('programs')" id="tabBtn_programs" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">برامج الأطفال</button>
         <button onclick="switchAdminTab('videos')" id="tabBtn_videos" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الفيديوهات</button>
+        <button onclick="switchAdminTab('animations')" id="tabBtn_animations" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الصور المتحركة</button>
         <button onclick="switchAdminTab('settings')" id="tabBtn_settings" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">إعدادات الأكاديمية</button>
       </div>
 
@@ -1066,6 +1136,52 @@
         </div>
 
         <!-- TAB 4: ACADEMY SETTINGS -->
+        <div id="adminTab_animations" class="admin-tab-panel hidden space-y-4">
+          <div id="animFormCard" class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-4 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-2">
+              <h4 class="font-bold text-forest text-base">إضافة صورة متحركة تفاعلية</h4>
+              <span id="animEditBanner" class="hidden px-3 py-1 rounded-full bg-gold/20 text-forest text-xs font-bold"></span>
+            </div>
+            <form id="adminAnimForm" onsubmit="handleSaveAnimation(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <input type="hidden" id="editAnimId" />
+              <input type="text" id="animTitleAr" required maxlength="80" placeholder="الاسم (عربي) *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="text" id="animTitleEn" maxlength="80" placeholder="Name (English)" dir="ltr" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none" />
+              <input type="url" id="animUrl" required dir="ltr" placeholder="رابط الصورة (GIF / WebP / PNG / SVG) https://... *" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none sm:col-span-2" />
+              <select id="animAudience" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none">
+                <option value="kids">للأطفال (حركة مرحة ونجوم عند اللمس)</option>
+                <option value="adults">للكبار (حركة هادئة)</option>
+                <option value="all">للجميع</option>
+              </select>
+              <select id="animPlacement" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none">
+                <option value="hero">أعلى الصفحة (الرئيسية)</option>
+                <option value="about">قسم عن الأكاديمية</option>
+                <option value="courses">قسم الدورات</option>
+                <option value="programs">قسم البرامج</option>
+              </select>
+              <select id="animEffect" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none">
+                <option value="float">طفو هادئ</option>
+                <option value="bounce">قفز</option>
+                <option value="wiggle">اهتزاز خفيف</option>
+                <option value="pulse">نبض</option>
+                <option value="spin">دوران بطيء</option>
+                <option value="none">بدون حركة دائمة</option>
+              </select>
+              <select id="animSize" class="px-3.5 py-2.5 rounded-xl border border-gold/40 text-sm bg-cream-light focus:bg-white focus:border-forest outline-none">
+                <option value="sm">صغير</option>
+                <option value="md" selected>متوسط</option>
+                <option value="lg">كبير</option>
+              </select>
+              <label class="flex items-center gap-2 text-sm text-forest font-bold sm:col-span-2"><input type="checkbox" id="animActive" checked class="w-4 h-4 accent-emerald-700" /> ظاهرة في الموقع</label>
+              <div class="flex gap-2 sm:col-span-2">
+                <button type="submit" id="animSubmitBtn" class="flex-1 py-2.5 rounded-xl bg-forest hover:bg-forest-light text-white font-bold text-sm">حفظ الصورة</button>
+                <button type="button" onclick="resetAnimForm()" class="px-3 py-2.5 rounded-xl bg-cream hover:bg-cream-dark text-forest font-bold text-xs">جديد</button>
+              </div>
+            </form>
+            <p class="text-[11px] text-charcoal/65">ارفع الملف داخل مجلد في مستودع GitHub (مثلًا media/) والصق رابطه هنا، أو استخدم أي رابط https مباشر لصورة. الصور تتحرك عند اللمس أو الضغط، وتتوقف تلقائيًا لمن فعّل "تقليل الحركة" في جهازه.</p>
+          </div>
+          <div id="adminAnimList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
         <div id="adminTab_settings" class="admin-tab-panel hidden">
           <div class="bg-white rounded-2xl p-6 border border-gold/30 shadow-sm max-w-xl mx-auto space-y-5">
             <h4 class="font-bold text-forest text-lg border-b border-gold/20 pb-2">إعدادات الأكاديمية والأمان</h4>
@@ -1122,10 +1238,6 @@
                 <input type="url" id="setSiteUrl" dir="ltr" placeholder="https://www.your-academy.com" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" />
                 <p class="text-[11px] text-charcoal/65">اكتب الرابط النهائي للموقع بعد رفعه على الاستضافة. إن تركته فارغاً يُستخدم رابط الصفحة المفتوحة حالياً.</p>
               </div>
-              <div>
-                <label class="block text-xs font-bold text-forest mb-1">الرقم السري للوحة الإدارة (PIN)</label>
-                <input type="text" id="setPin" required minlength="4" placeholder="أدخل رقماً سرياً قوياً" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light text-sm font-jakarta" />
-              </div>
               <button type="submit" class="w-full py-3.5 rounded-2xl bg-forest hover:bg-forest-light text-white font-bold text-sm shadow-md transition-all">حفظ الإعدادات</button>
             </form>
           </div>
@@ -1162,8 +1274,12 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc,
-      getDocs, getDoc, onSnapshot, serverTimestamp
+      getDocs, getDoc, onSnapshot, serverTimestamp, query, where, deleteField
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    // Firebase Auth is loaded separately (see initAuthSafely) so a failure there can never block the public site.
+    let getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
+        sendPasswordResetEmail, setPersistence, browserLocalPersistence,
+        GoogleAuthProvider, signInWithPopup;
 
     // =========================================================================
     // 1. REAL FIREBASE CONFIGURATION
@@ -1177,7 +1293,15 @@
       appId: "1:162094756531:web:608315e804d291b43ff6c6"
     };
 
+    // Paste the reCAPTCHA v3 site key here after registering the site in Firebase > App Check.
+    // Leave empty to keep App Check off.
+    const APP_CHECK_SITE_KEY = '';
+
     let db = null;
+    let auth = null;
+    let unsubReviews = null;
+    let unsubLeads = null;
+    let adminRoute = window.location.hash === '#admin';
     let isFirebaseConnected = false;
 
     let currentLang = 'ar';
@@ -1197,6 +1321,7 @@
       reviews: [],
       curricula: [],
       videos: [],
+      animations: [],
       programs: [],
       programCategories: [],
       registrations: [],
@@ -1207,7 +1332,6 @@
           { id: 'c_2', label: 'الاستفسارات', number: '201557773783' }
         ],
         currency: 'EGP',
-        pin: '1234',
         paymentUrl: '', paymentLabel: 'ادفع الآن', bankName: '', accountName: '', accountNumber: '', iban: '', swift: '', bankInstructions: ''
       }
     };
@@ -1663,24 +1787,18 @@
     async function initFirebaseAndData() {
       try {
         const app = initializeApp(firebaseConfig);
+        if (APP_CHECK_SITE_KEY) {
+          try {
+            const ac = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-check.js");
+            ac.initializeAppCheck(app, { provider: new ac.ReCaptchaV3Provider(APP_CHECK_SITE_KEY), isTokenAutoRefreshEnabled: true });
+          } catch (e) { console.warn('App Check init failed:', e); }
+        }
         db = getFirestore(app);
         isFirebaseConnected = true;
         updateDbStatusBadge(true);
 
-        // Ensure seed data exists if collections are empty
-        await seedIfEmpty('specialties', SEED_SPECIALTIES);
-        await seedIfEmpty('courses', SEED_COURSES);
-        await seedIfEmpty('packages', SEED_PACKAGES);
-        await seedIfEmpty('teachers', SEED_TEACHERS);
-        await seedIfEmpty('reviews', SEED_REVIEWS);
-        try { await seedIfEmpty('curricula', SEED_CURRICULA); } catch (e) { console.warn('curricula seed skipped:', e); }
-        try { await seedIfEmpty('programCategories', SEED_PROG_CATS); await seedIfEmpty('programs', SEED_PROGRAMS); } catch (e) { console.warn('programs seed skipped:', e); }
-
+        initAuthSafely(app);
         const settingsRef = doc(db, 'settings', 'academy');
-        const settingsSnap = await getDoc(settingsRef);
-        if (!settingsSnap.exists()) {
-          await setDoc(settingsRef, state.settings);
-        }
 
         // Real-time listeners
         onSnapshot(collection(db, 'specialties'), (snap) => {
@@ -1698,23 +1816,21 @@
         onSnapshot(collection(db, 'packages'), (snap) => {
           state.packages = snap.docs.map(d => ({ id: d.id, ...d.data() }));
           state.packages.sort((a, b) => Number(a.sessions) - Number(b.sessions));
+          if (!state.packages.length) state.packages = [...SEED_PACKAGES];
           renderAll();
         }, handleFirestoreError);
 
         onSnapshot(collection(db, 'teachers'), (snap) => {
           state.teachers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          if (!state.teachers.length) state.teachers = [...SEED_TEACHERS];
           renderAll();
         }, handleFirestoreError);
 
-        onSnapshot(collection(db, 'reviews'), (snap) => {
-          const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          list.sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
-          state.reviews = list;
-          renderAll();
-        }, handleFirestoreError);
+        subscribeReviews(false);
 
         onSnapshot(collection(db, 'curricula'), (snap) => {
           state.curricula = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          if (!state.curricula.length) state.curricula = [...SEED_CURRICULA];
           renderAll();
         }, (err) => handleOptionalCollectionError('curricula', err));
 
@@ -1723,13 +1839,21 @@
           renderAll();
         }, (err) => handleOptionalCollectionError('videos', err));
 
+        onSnapshot(collection(db, 'animations'), (snap) => {
+          state.animations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          renderAnimations();
+          if (isAdminUnlocked) renderAdminAnimations();
+        }, (err) => { console.warn('animations listener:', err); });
+
         onSnapshot(collection(db, 'programCategories'), (snap) => {
           state.programCategories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          if (!state.programCategories.length) state.programCategories = [...SEED_PROG_CATS];
           renderAll();
         }, (err) => handleProgramsError('programCategories', err));
 
         onSnapshot(collection(db, 'programs'), (snap) => {
           state.programs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          if (!state.programs.length) state.programs = [...SEED_PROGRAMS];
           renderAll();
         }, (err) => handleProgramsError('programs', err));
 
@@ -1740,28 +1864,40 @@
           }
         }, handleFirestoreError);
 
-        onSnapshot(collection(db, 'registrations'), (snap) => {
-          const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-          list.sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
-
-          if (initialLeadsLoaded) {
-            list.forEach(lead => {
-              if (!previousLeadIds.has(lead.id) && isAdminUnlocked) {
-                showToast(`🔔 عميل جديد سجّل الآن: ${lead.name}`, 'info');
-              }
-            });
-          }
-          previousLeadIds = new Set(list.map(l => l.id));
-          initialLeadsLoaded = true;
-          state.registrations = list;
-          renderAdminLeads();
-        }, handleFirestoreError);
 
       } catch (err) {
         console.error('Firebase init error:', err);
         fallbackToLocalData();
+        if (adminRoute) setAdminState(false);
       }
     }
+
+    async function initAuthSafely(app) {
+      try {
+        const m = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+        ({ getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
+           sendPasswordResetEmail, setPersistence, browserLocalPersistence,
+           GoogleAuthProvider, signInWithPopup } = m);
+        auth = getAuth(app);
+        setupAuthWatcher();
+      } catch (e) {
+        console.warn('Auth module unavailable:', e);
+        if (adminRoute) {
+          setAdminState(false);
+          showAdminLoginMsg('err', 'تعذر تحميل خدمة تسجيل الدخول. تأكد من الاتصال بالإنترنت وأعد تحميل الصفحة.');
+        }
+      }
+    }
+
+    // Display-only safety net: if no data arrives within 8s, show the built-in content instead of "loading".
+    // It does not touch the database connection, and real data replaces it as soon as it arrives.
+    setTimeout(() => {
+      let changed = false;
+      if (!state.courses.length) { state.courses = [...SEED_COURSES]; changed = true; }
+      if (!state.specialties.length) { state.specialties = [...SEED_SPECIALTIES]; changed = true; }
+      if (!state.teachers.length) { state.teachers = [...SEED_TEACHERS]; changed = true; }
+      if (changed) renderAll();
+    }, 8000);
 
     function handleFirestoreError(err) {
       console.warn('Firestore listener error:', err);
@@ -2153,6 +2289,7 @@
       renderCurricula();
       renderPrograms();
       renderVideos();
+      renderAnimations();
       renderRegistrationDropdowns();
       if (isAdminUnlocked) {
         renderAdminSpecialties();
@@ -2412,52 +2549,200 @@
     // =========================================================================
     // 8. SECRET ADMIN ENTRY & AUTHENTICATION
     // =========================================================================
-    let secretTapCount = 0;
-    let secretTapTimer = null;
+    function _ae(id) { return document.getElementById(id); }
 
-    window.handleSecretAdminTap = function() {
-      secretTapCount++;
-      clearTimeout(secretTapTimer);
-      secretTapTimer = setTimeout(() => { secretTapCount = 0; }, 1600);
-      if (secretTapCount >= 5) {
-        secretTapCount = 0;
-        openAdminGate();
+    function authErrorMessage(err) {
+      const c = (err && err.code) || '';
+      if (['auth/invalid-credential', 'auth/wrong-password', 'auth/user-not-found', 'auth/invalid-login-credentials'].includes(c)) return 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+      if (c === 'auth/invalid-email') return 'صيغة البريد الإلكتروني غير صحيحة.';
+      if (c === 'auth/too-many-requests') return 'محاولات كثيرة. انتظر قليلاً ثم حاول مرة أخرى أو استعد كلمة المرور.';
+      if (c === 'auth/network-request-failed') return 'تعذر الاتصال بالإنترنت. تحقق من الشبكة وحاول مجدداً.';
+      if (c === 'auth/user-disabled') return 'هذا الحساب معطّل.';
+      return 'تعذر تسجيل الدخول. حاول مرة أخرى.';
+    }
+
+    function showAdminLoginMsg(kind, msg) {
+      const err = _ae('adminLoginError'), ok = _ae('adminLoginInfo');
+      if (!err || !ok) return;
+      err.classList.add('hidden'); ok.classList.add('hidden');
+      if (!msg) return;
+      const el = kind === 'ok' ? ok : err;
+      el.textContent = msg; el.classList.remove('hidden');
+    }
+
+    function showAdminLoginShell() {
+      _ae('adminLoginModal').classList.remove('hidden');
+      _ae('adminAuthLoading').classList.remove('hidden');
+      _ae('adminLoginForm').classList.add('hidden');
+    }
+
+    // Reviews: visitors read only approved reviews; the admin reads all (matches Firestore rules).
+    function subscribeReviews(asAdmin) {
+      if (!db) return;
+      if (unsubReviews) { unsubReviews(); unsubReviews = null; }
+      const src = asAdmin
+        ? collection(db, 'reviews')
+        : query(collection(db, 'reviews'), where('status', '==', 'approved'));
+      unsubReviews = onSnapshot(src, (snap) => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        list.sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+        state.reviews = list;
+        renderAll();
+      }, handleFirestoreError);
+    }
+
+    // Registrations (student data): only subscribed after the admin claim is verified.
+    function subscribeLeads(on) {
+      if (unsubLeads) { unsubLeads(); unsubLeads = null; }
+      initialLeadsLoaded = false;
+      previousLeadIds = new Set();
+      if (!on || !db) { state.registrations = []; renderAdminLeads(); return; }
+      unsubLeads = onSnapshot(collection(db, 'registrations'), (snap) => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        list.sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+        if (initialLeadsLoaded) {
+          list.forEach(lead => {
+            if (!previousLeadIds.has(lead.id) && isAdminUnlocked) {
+              showToast(`🔔 عميل جديد سجّل الآن: ${lead.name}`, 'info');
+            }
+          });
+        }
+        previousLeadIds = new Set(list.map(l => l.id));
+        initialLeadsLoaded = true;
+        state.registrations = list;
+        renderAdminLeads();
+      }, (err) => console.warn('Registrations listener error:', err));
+    }
+
+    // Runs once per admin session (needs admin rights): seeds empty collections as before
+    // and removes the old public PIN field from settings.
+    async function adminHousekeeping() {
+      try {
+        await seedIfEmpty('specialties', SEED_SPECIALTIES);
+        await seedIfEmpty('courses', SEED_COURSES);
+        await seedIfEmpty('packages', SEED_PACKAGES);
+        await seedIfEmpty('teachers', SEED_TEACHERS);
+        await seedIfEmpty('reviews', SEED_REVIEWS);
+        try { await seedIfEmpty('curricula', SEED_CURRICULA); } catch (e) { console.warn('curricula seed skipped:', e); }
+        try { await seedIfEmpty('programCategories', SEED_PROG_CATS); await seedIfEmpty('programs', SEED_PROGRAMS); } catch (e) { console.warn('programs seed skipped:', e); }
+        const ref = doc(db, 'settings', 'academy');
+        const snap = await getDoc(ref);
+        if (!snap.exists()) await setDoc(ref, state.settings);
+        else if ('pin' in snap.data()) await updateDoc(ref, { pin: deleteField() });
+      } catch (e) { console.warn('Admin housekeeping skipped:', e); }
+    }
+
+    function setupAuthWatcher() {
+      setPersistence(auth, browserLocalPersistence).catch(() => {});
+      onAuthStateChanged(auth, async (user) => {
+        let ok = false;
+        if (user) {
+          try {
+            let r = await user.getIdTokenResult();
+            if (r.claims.admin !== true) r = await user.getIdTokenResult(true);
+            ok = r.claims.admin === true;
+          } catch (e) { console.warn('Token check failed:', e); }
+          if (!ok) {
+            await signOut(auth).catch(() => {});
+            if (adminRoute) showAdminLoginMsg('err', 'هذا الحساب غير مصرّح له بدخول لوحة الإدارة.');
+          }
+        }
+        setAdminState(ok);
+      });
+    }
+
+    function setAdminState(ok) {
+      const was = isAdminUnlocked;
+      isAdminUnlocked = ok;
+      armIdleLogout();
+      if (ok && !was) {
+        subscribeReviews(true);
+        subscribeLeads(true);
+        adminHousekeeping();
+      } else if (!ok && was) {
+        subscribeLeads(false);
+        subscribeReviews(false);
       }
-    };
-
-    function openAdminGate() {
-      if (isAdminUnlocked) {
+      if (!adminRoute) return;
+      _ae('adminAuthLoading').classList.add('hidden');
+      if (ok) {
+        closeModal('adminLoginModal');
         openAdminDashboard();
       } else {
-        document.getElementById('adminPinError').classList.add('hidden');
-        document.getElementById('adminPinInput').value = '';
-        document.getElementById('adminPinModal').classList.remove('hidden');
-        setTimeout(() => document.getElementById('adminPinInput').focus(), 100);
+        _ae('adminDashboardModal').classList.add('hidden');
+        _ae('adminLoginForm').classList.remove('hidden');
+        _ae('adminLoginModal').classList.remove('hidden');
       }
     }
 
-    // Keyboard Shortcut: Ctrl + Shift + A
-    document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a' || e.code === 'KeyA')) {
-        e.preventDefault();
-        openAdminGate();
-      }
-    });
-
-    window.handleAdminPinSubmit = function(e) {
+    window.handleAdminLogin = async function(e) {
       e.preventDefault();
-      const entered = document.getElementById('adminPinInput').value.trim();
-      const correctPin = String(state.settings.pin || '1234').trim();
-      if (entered === correctPin) {
-        isAdminUnlocked = true;
-        closeModal('adminPinModal');
-        openAdminDashboard();
-      } else {
-        document.getElementById('adminPinError').classList.remove('hidden');
+      if (!auth) { showAdminLoginMsg('err', 'الخدمة غير متاحة حالياً، أعد تحميل الصفحة.'); return; }
+      const btn = _ae('adminLoginBtn');
+      showAdminLoginMsg('', '');
+      btn.disabled = true; btn.textContent = 'جارٍ الدخول…';
+      try {
+        await signInWithEmailAndPassword(auth, _ae('adminEmail').value.trim(), _ae('adminPassword').value);
+        _ae('adminPassword').value = '';
+      } catch (err) {
+        showAdminLoginMsg('err', authErrorMessage(err));
+      } finally {
+        btn.disabled = false; btn.textContent = 'تسجيل الدخول';
       }
     };
 
+    window.handleAdminGoogle = async function() {
+      if (!auth || !signInWithPopup) { showAdminLoginMsg('err', 'خدمة تسجيل الدخول لم تُحمَّل بعد. أعد تحميل الصفحة.'); return; }
+      showAdminLoginMsg('', '');
+      try {
+        await signInWithPopup(auth, new GoogleAuthProvider());
+      } catch (err) {
+        if (err && (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request')) return;
+        showAdminLoginMsg('err', err && err.code === 'auth/popup-blocked' ? 'المتصفح منع النافذة. اسمح بالنوافذ المنبثقة ثم أعد المحاولة.' : authErrorMessage(err));
+      }
+    };
+
+    // Auto sign-out of the admin session after 20 idle minutes
+    let idleTimer = null;
+    const IDLE_MS = 20 * 60 * 1000;
+    function armIdleLogout() {
+      clearTimeout(idleTimer);
+      if (!isAdminUnlocked) return;
+      idleTimer = setTimeout(() => { if (signOut && auth) signOut(auth).catch(() => {}); }, IDLE_MS);
+    }
+    ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(ev => window.addEventListener(ev, armIdleLogout, { passive: true }));
+
+    window.handleAdminReset = async function() {
+      const email = _ae('adminEmail').value.trim();
+      if (!email) { showAdminLoginMsg('err', 'اكتب بريدك الإلكتروني أولاً ثم اضغط «نسيت كلمة المرور».'); return; }
+      if (!auth) return;
+      try {
+        await sendPasswordResetEmail(auth, email);
+      } catch (err) {
+        if (err && (err.code === 'auth/invalid-email' || err.code === 'auth/network-request-failed')) {
+          showAdminLoginMsg('err', authErrorMessage(err)); return;
+        }
+      }
+      showAdminLoginMsg('ok', 'إن كان البريد مسجلاً لدينا فستصلك رسالة لإعادة تعيين كلمة المرور. راجع الوارد والرسائل غير المرغوبة.');
+    };
+
+    window.toggleAdminPassword = function() {
+      const i = _ae('adminPassword');
+      const show = i.type === 'password';
+      i.type = show ? 'text' : 'password';
+      _ae('adminPwToggle').textContent = show ? 'إخفاء' : 'إظهار';
+    };
+
+    window.adminLogout = async function() {
+      try { await signOut(auth); } catch (e) { console.warn(e); }
+    };
+
+    window.leaveAdminRoute = function() {
+      window.location.href = window.location.pathname + window.location.search;
+    };
+
     function openAdminDashboard() {
+      if (!isAdminUnlocked) return;
       document.getElementById('adminDashboardModal').classList.remove('hidden');
       renderAdminLeads();
       renderAdminSpecialties();
@@ -2469,6 +2754,7 @@
       renderAdminContacts();
       renderAdminCurricula();
       renderAdminVideos();
+      renderAdminAnimations();
       renderAdminPrograms();
     }
 
@@ -3118,14 +3404,12 @@
     function renderAdminSettings() {
       const wa = document.getElementById('setWhatsapp');
       const cur = document.getElementById('setCurrency');
-      const pin = document.getElementById('setPin');
       if (wa) {
         wa.value = (state.settings.whatsapp && state.settings.whatsapp !== '201000000000')
           ? state.settings.whatsapp
           : '201018301386';
       }
       if (cur) cur.value = state.settings.currency || 'EGP';
-      if (pin) pin.value = state.settings.pin || '1234';
       const settingFields = { setPaymentUrl: 'paymentUrl', setPaymentLabel: 'paymentLabel', setBankName: 'bankName', setAccountName: 'accountName', setAccountNumber: 'accountNumber', setIban: 'iban', setSwift: 'swift', setBankInstructions: 'bankInstructions', setAboutAr: 'aboutAr', setAboutEn: 'aboutEn', setNameReasonAr: 'nameReasonAr', setNameReasonEn: 'nameReasonEn', setSiteUrl: 'siteUrl' };
       Object.entries(settingFields).forEach(([elementId, key]) => { const el = document.getElementById(elementId); if (el) el.value = state.settings[key] || (DEFAULT_ABOUT[key] || ''); });
     }
@@ -3135,7 +3419,6 @@
       const newSettings = {
         whatsapp: document.getElementById('setWhatsapp').value.trim(),
         currency: document.getElementById('setCurrency').value,
-        pin: document.getElementById('setPin').value.trim(),
         contacts: Array.isArray(state.settings.contacts) ? state.settings.contacts : [],
         paymentUrl: document.getElementById('setPaymentUrl').value.trim(),
         paymentLabel: document.getElementById('setPaymentLabel').value.trim() || 'ادفع الآن',
@@ -4047,6 +4330,178 @@
       document.getElementById('waWidgetPopup').classList.toggle('hidden');
     };
 
+
+    // =========================================================================
+    // INTERACTIVE ANIMATED IMAGES (Firestore: animations)
+    // =========================================================================
+    const ANIM_EFFECTS = ['float', 'bounce', 'wiggle', 'pulse', 'spin', 'none'];
+    const ANIM_SIZES = ['sm', 'md', 'lg'];
+    const ANIM_PLACES = ['hero', 'about', 'courses', 'programs'];
+    const REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function renderAnimations() {
+      document.querySelectorAll('[data-anim-slot]').forEach(slot => {
+        const place = slot.getAttribute('data-anim-slot');
+        const items = (state.animations || [])
+          .filter(a => a.active !== false && a.placement === place && isHttpUrl(a.url))
+          .sort((a, b) => (a.createdAtMs || 0) - (b.createdAtMs || 0));
+        slot.innerHTML = items.map(a => {
+          const eff = ANIM_EFFECTS.includes(a.effect) ? a.effect : 'float';
+          const size = ANIM_SIZES.includes(a.size) ? a.size : 'md';
+          const aud = ['kids', 'adults', 'all'].includes(a.audience) ? a.audience : 'all';
+          const title = currentLang === 'ar' ? a.titleAr : (a.titleEn || a.titleAr);
+          return `<button type="button" class="anim-item anim-${size} ${eff === 'none' ? '' : 'fx-' + eff}" data-aud="${aud}" aria-label="${escapeHtml(title)}">
+            <img src="${escapeHtml(a.url)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.anim-item').style.display='none'" />
+          </button>`;
+        }).join('');
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest && e.target.closest('.anim-item');
+      if (!btn || REDUCED_MOTION) return;
+      btn.classList.remove('tapped'); void btn.offsetWidth; btn.classList.add('tapped');
+      setTimeout(() => btn.classList.remove('tapped'), 600);
+      if (btn.dataset.aud === 'adults') return;
+      const r = btn.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const glyphs = ['★', '✦', '✧', '●'];
+      for (let i = 0; i < 9; i++) {
+        const st = document.createElement('span');
+        st.className = 'anim-star';
+        st.textContent = glyphs[i % glyphs.length];
+        st.style.left = cx + 'px'; st.style.top = cy + 'px';
+        st.style.color = i % 2 ? '#C5A059' : '#143B2B';
+        document.body.appendChild(st);
+        const ang = (Math.PI * 2 * i) / 9, dist = 50 + Math.random() * 50;
+        requestAnimationFrame(() => {
+          st.style.transform = `translate(${Math.cos(ang) * dist}px, ${Math.sin(ang) * dist}px) scale(.4)`;
+          st.style.opacity = '0';
+        });
+        setTimeout(() => st.remove(), 900);
+      }
+    });
+
+    function renderAdminAnimations() {
+      const list = document.getElementById('adminAnimList');
+      if (!list) return;
+      const aud = { kids: 'أطفال', adults: 'كبار', all: 'الجميع' };
+      const pl = { hero: 'الرئيسية', about: 'عن الأكاديمية', courses: 'الدورات', programs: 'البرامج' };
+      list.innerHTML = [...(state.animations || [])].sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0)).map(a => `
+        <div class="bg-white rounded-2xl p-4 border border-gold/30 shadow-sm flex flex-col gap-3 ${a.active === false ? 'opacity-60' : ''}">
+          <div class="flex items-center gap-3">
+            <img src="${escapeHtml(isHttpUrl(a.url) ? a.url : '')}" alt="" class="w-16 h-16 object-contain rounded-xl bg-cream" referrerpolicy="no-referrer" onerror="this.style.visibility='hidden'" />
+            <div class="min-w-0">
+              <div class="font-bold text-forest text-sm truncate">${escapeHtml(a.titleAr)}</div>
+              <div class="text-xs text-gold-dark font-bold">${aud[a.audience] || ''} · ${pl[a.placement] || ''}${a.active === false ? ' · مخفية' : ''}</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 pt-2 border-t border-gold/15">
+            <button type="button" onclick="editAnimation('${escapeHtml(a.id)}')" class="flex-1 py-1.5 rounded-xl bg-cream hover:bg-forest hover:text-white text-forest text-xs font-bold">تعديل</button>
+            <button type="button" onclick="toggleAnimation('${escapeHtml(a.id)}')" class="px-3 py-1.5 rounded-xl bg-cream hover:bg-gold/30 text-forest text-xs font-bold">${a.active === false ? 'إظهار' : 'إخفاء'}</button>
+            <button type="button" onclick="deleteAnimation('${escapeHtml(a.id)}')" class="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold">حذف</button>
+          </div>
+        </div>`).join('') || '<p class="text-sm text-charcoal/60 col-span-full">لا توجد صور متحركة بعد. أضف أول صورة من النموذج أعلاه.</p>';
+    }
+
+    window.handleSaveAnimation = async function(e) {
+      e.preventDefault();
+      const editId = document.getElementById('editAnimId').value;
+      const url = document.getElementById('animUrl').value.trim();
+      if (!/^https:\/\//i.test(url)) { showToast('رابط الصورة لازم يبدأ بـ https://', 'error'); return; }
+      const existing = editId ? (state.animations || []).find(x => x.id === editId) : null;
+      const pick = (id, allowed, dflt) => { const v = document.getElementById(id).value; return allowed.includes(v) ? v : dflt; };
+      const titleAr = document.getElementById('animTitleAr').value.trim();
+      const data = {
+        id: editId || ('an_' + Date.now()),
+        titleAr,
+        titleEn: document.getElementById('animTitleEn').value.trim() || titleAr,
+        url,
+        audience: pick('animAudience', ['kids', 'adults', 'all'], 'all'),
+        placement: pick('animPlacement', ANIM_PLACES, 'hero'),
+        effect: pick('animEffect', ANIM_EFFECTS, 'float'),
+        size: pick('animSize', ANIM_SIZES, 'md'),
+        active: document.getElementById('animActive').checked,
+        createdAtMs: existing ? (existing.createdAtMs || Date.now()) : Date.now()
+      };
+      try {
+        await saveItem('animations', 'animations', data);
+        window.resetAnimForm();
+        showToast(editId ? 'تم حفظ التعديلات.' : 'تمت إضافة الصورة.');
+      } catch (err) {
+        console.error(err);
+        showToast('تعذر الحفظ. تأكد من تسجيل الدخول ومن قواعد Firestore لمجموعة animations.', 'error');
+      }
+    };
+
+    window.editAnimation = function(id) {
+      const a = (state.animations || []).find(x => x.id === id);
+      if (!a) return;
+      document.getElementById('editAnimId').value = a.id;
+      document.getElementById('animTitleAr').value = a.titleAr || '';
+      document.getElementById('animTitleEn').value = a.titleEn || '';
+      document.getElementById('animUrl').value = a.url || '';
+      document.getElementById('animAudience').value = a.audience || 'all';
+      document.getElementById('animPlacement').value = a.placement || 'hero';
+      document.getElementById('animEffect').value = a.effect || 'float';
+      document.getElementById('animSize').value = a.size || 'md';
+      document.getElementById('animActive').checked = a.active !== false;
+      const banner = document.getElementById('animEditBanner');
+      banner.textContent = `أنت تعدّل: ${a.titleAr}`;
+      banner.classList.remove('hidden');
+      document.getElementById('animSubmitBtn').textContent = 'حفظ التعديلات';
+      highlightEditCard('animFormCard');
+    };
+
+    window.resetAnimForm = function() {
+      document.getElementById('adminAnimForm').reset();
+      document.getElementById('editAnimId').value = '';
+      document.getElementById('animEditBanner')?.classList.add('hidden');
+      const btn = document.getElementById('animSubmitBtn');
+      if (btn) btn.textContent = 'حفظ الصورة';
+    };
+
+    window.toggleAnimation = async function(id) {
+      const a = (state.animations || []).find(x => x.id === id);
+      if (!a) return;
+      try { await saveItem('animations', 'animations', { ...a, active: a.active === false }); }
+      catch (err) { showToast('تعذر التحديث.', 'error'); }
+    };
+
+    window.deleteAnimation = async function(id) {
+      if (!confirm('هل تريد حذف هذه الصورة نهائيًا؟')) return;
+      try {
+        await removeItem('animations', 'animations', id);
+        if (document.getElementById('editAnimId').value === id) window.resetAnimForm();
+        showToast('تم الحذف.');
+      } catch (err) { showToast('تعذر الحذف.', 'error'); }
+    };
+
+    // =========================================================================
+    // SECTION MOTION: reveal on scroll, pen underline, active nav link
+    // =========================================================================
+    (function initSectionMotion() {
+      if (REDUCED_MOTION || !('IntersectionObserver' in window)) return;
+      const sections = document.querySelectorAll('#publicSite > section');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+      }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+      sections.forEach((sec, idx) => {
+        sec.querySelectorAll('h2').forEach(h => h.classList.add('pen'));
+        if (idx === 0) return; // hero stays still; it is the first thing seen
+        const box = sec.firstElementChild;
+        if (box) { box.classList.add('reveal'); io.observe(box); }
+      });
+      const links = [...document.querySelectorAll('header nav a[href^="#"]')];
+      const spy = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          if (!en.isIntersecting) return;
+          links.forEach(a => a.classList.toggle('nav-active', a.getAttribute('href') === '#' + en.target.id));
+        });
+      }, { rootMargin: '-40% 0px -55% 0px' });
+      sections.forEach(sec => spy.observe(sec));
+    })();
+
     document.addEventListener('click', (e) => {
       const container = document.getElementById('waWidgetContainer');
       const popup = document.getElementById('waWidgetPopup');
@@ -4059,12 +4514,13 @@
       document.getElementById(id).classList.add('hidden');
     };
 
+    [['regName',120],['regPhone',30],['regEmail',160],['regNotes',1000],['trialName',120],['trialPhone',30],['trialCountry',80],['trialTime',200],['pubRevName',80],['pubRevRole',80],['pubRevText',1200]]
+      .forEach(([id, n]) => { const el = document.getElementById(id); if (el) el.maxLength = n; });
+
     document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-    // Support direct secret URL entry (?admin or #admin)
-    if (window.location.search.includes('admin') || window.location.hash === '#admin') {
-      setTimeout(() => openAdminGate(), 600);
-    }
+    // Direct admin entry: /admin/ redirects to /#admin. Real protection = Firebase Auth + Firestore rules.
+    if (adminRoute) showAdminLoginShell();
 
     // Boot application
     initFirebaseAndData();
