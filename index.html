@@ -247,7 +247,7 @@
 
         <!-- Action Controls (Language Toggle & Mobile Menu) -->
         <div class="flex items-center gap-2 sm:gap-3">
-          <button type="button" onclick="openStudentPortal()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-forest hover:bg-forest-light text-white text-xs sm:text-sm font-bold transition-all"><span>🎓</span><span id="studentPortalBtnLabel">بوابة الطالب</span></button>
+          <button type="button" onclick="openStudentPortal()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-forest hover:bg-forest-light text-white text-xs sm:text-sm font-bold transition-all"><span>🎓</span><span id="studentPortalBtnLabel">بوابة الطلاب والمعلمين</span></button>
           <button id="langToggleBtn" onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gold/40 bg-white hover:bg-forest hover:text-white text-forest text-xs sm:text-sm font-bold transition-all shadow-sm" title="Switch Language">
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
             <span id="langToggleLabel">EN</span>
@@ -629,7 +629,7 @@
             <div class="rounded-2xl border border-gold/40 bg-cream-light p-4">
               <label class="block text-xs sm:text-sm font-bold text-forest mb-1.5">🎓 أنشئ حسابك للحصول على لوحة خاصة بك (اختياري)</label>
               <input type="password" id="regPassword" minlength="6" maxlength="100" autocomplete="new-password" dir="ltr" placeholder="كلمة مرور (٦ أحرف على الأقل)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest focus:ring-2 focus:ring-forest/15 outline-none transition-all text-sm">
-              <p class="text-[11px] text-charcoal/60 mt-1.5">يلزم كتابة بريدك الإلكتروني أعلاه. تدخل لاحقاً من زر «بوابة الطالب» أعلى الموقع.</p>
+              <p class="text-[11px] text-charcoal/60 mt-1.5">يلزم كتابة بريدك الإلكتروني أعلاه. تدخل لاحقاً من زر «بوابة الطلاب والمعلمين» أعلى الموقع.</p>
             </div>
 
             <div>
@@ -792,15 +792,15 @@
   </div>
 
   <!-- 2. Admin Login (Firebase Authentication) -->
-  <!-- Student portal: login + personal dashboard -->
+  <!-- Students & Teachers portal: login + personal dashboard -->
   <div id="studentPortalModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start sm:items-center justify-center p-3 overflow-y-auto">
-    <div class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-2xl border border-gold/40 relative my-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl border border-gold/40 relative my-4">
       <button type="button" onclick="closeModal('studentPortalModal')" class="absolute top-3 end-3 w-9 h-9 rounded-full bg-cream hover:bg-gold/30 text-forest font-bold" aria-label="Close">✕</button>
 
       <div id="spLoginView">
         <div class="text-center mb-5">
           <div class="mx-auto w-14 h-14 rounded-2xl bg-forest text-gold-light flex items-center justify-center text-2xl mb-3">🎓</div>
-          <h3 class="font-calligraphy text-2xl font-bold text-forest">بوابة الطالب</h3>
+          <h3 class="font-calligraphy text-2xl font-bold text-forest">بوابة الطلاب والمعلمين</h3>
           <p class="text-xs text-charcoal/70 mt-1">سجّل الدخول لمتابعة حصصك وحضورك.</p>
         </div>
         <form onsubmit="handleStudentLogin(event)" class="space-y-4 max-w-sm mx-auto">
@@ -820,6 +820,13 @@
             <button type="button" onclick="closeModal('studentPortalModal'); document.getElementById('register')?.scrollIntoView({behavior:'smooth'});" class="text-gold-dark font-bold hover:underline">ليس لديك حساب؟ سجّل الآن</button>
           </div>
         </form>
+      </div>
+
+      <div id="spTeacherView" class="hidden">
+        <div id="spTeacherBody"></div>
+        <div class="mt-6 text-center">
+          <button type="button" onclick="studentLogout()" class="px-5 py-2 rounded-xl border border-forest/30 text-forest text-xs font-bold hover:bg-cream">تسجيل الخروج</button>
+        </div>
       </div>
 
       <div id="spDashView" class="hidden">
@@ -928,6 +935,7 @@
 
       <!-- Admin Navigation Tabs -->
       <div class="bg-white border-b border-gold/25 px-4 sm:px-6 flex items-center gap-2 overflow-x-auto">
+        <button onclick="switchAdminTab('overview')" id="tabBtn_overview" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">نظرة عامة</button>
         <button onclick="switchAdminTab('leads')" id="tabBtn_leads" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-forest text-forest whitespace-nowrap flex items-center gap-2">
           <span>العملاء المسجلون</span>
           <span id="adminLeadsCountBadge" class="px-2 py-0.5 rounded-full text-[11px] bg-red-600 text-white font-bold">0</span>
@@ -943,6 +951,7 @@
         <button onclick="switchAdminTab('programs')" id="tabBtn_programs" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">برامج الأطفال</button>
         <button onclick="switchAdminTab('videos')" id="tabBtn_videos" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الفيديوهات</button>
         <button onclick="switchAdminTab('animations')" id="tabBtn_animations" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الصور المتحركة</button>
+        <button onclick="switchAdminTab('teacherAcc')" id="tabBtn_teacherAcc" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">حسابات المعلمين</button>
         <button onclick="switchAdminTab('students')" id="tabBtn_students" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap flex items-center gap-2"><span>الطلاب (الحسابات)</span><span id="adminStudentsCountBadge" class="hidden px-2 py-0.5 rounded-full text-[11px] bg-red-600 text-white font-bold">0</span></button>
         <button onclick="switchAdminTab('settings')" id="tabBtn_settings" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">إعدادات الأكاديمية</button>
       </div>
@@ -1195,6 +1204,26 @@
         </div>
 
         <!-- TAB 4: ACADEMY SETTINGS -->
+        <div id="adminTab_overview" class="admin-tab-panel hidden space-y-4">
+          <div id="adminOverview"></div>
+          <form onsubmit="adminSaveTargets(event)" class="rounded-2xl border border-gold/30 p-4 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+            <div><label class="block text-xs font-bold text-forest mb-1">تارجت طلبات التسجيل (هذا الشهر)</label><input type="number" min="0" id="tgStudents" class="w-full px-3 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm focus:bg-white focus:border-forest outline-none"></div>
+            <div><label class="block text-xs font-bold text-forest mb-1">تارجت الحصص المنفذة (هذا الشهر)</label><input type="number" min="0" id="tgSessions" class="w-full px-3 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm focus:bg-white focus:border-forest outline-none"></div>
+            <button type="submit" class="py-2.5 rounded-xl bg-forest text-white text-sm font-bold hover:bg-forest-light">حفظ التارجت</button>
+          </form>
+        </div>
+
+        <div id="adminTab_teacherAcc" class="admin-tab-panel hidden space-y-4">
+          <p class="text-xs text-charcoal/70">أنشئ حساب دخول لكل معلم (مربوط بملفه في تبويب المعلمين). يدخل المعلم من زر «بوابة الطلاب والمعلمين» بالبريد وكلمة المرور.</p>
+          <form id="atForm" onsubmit="adminCreateTeacherAccount(event)" class="rounded-2xl border border-gold/30 p-4 grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+            <div><label class="block text-xs font-bold text-forest mb-1">المعلم</label><select id="atTeacher" class="w-full px-3 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm focus:bg-white focus:border-forest outline-none"></select></div>
+            <div><label class="block text-xs font-bold text-forest mb-1">البريد الإلكتروني</label><input type="email" id="atEmail" required dir="ltr" class="w-full px-3 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm focus:bg-white focus:border-forest outline-none"></div>
+            <div><label class="block text-xs font-bold text-forest mb-1">كلمة مرور مؤقتة (8+)</label><input type="text" id="atPassword" required minlength="8" dir="ltr" autocomplete="off" class="w-full px-3 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm focus:bg-white focus:border-forest outline-none"></div>
+            <button type="submit" id="atBtn" class="py-2.5 rounded-xl bg-forest text-white text-sm font-bold hover:bg-forest-light disabled:opacity-60">إنشاء الحساب</button>
+          </form>
+          <div id="adminTeacherAccList" class="space-y-2"></div>
+        </div>
+
         <div id="adminTab_students" class="admin-tab-panel hidden space-y-4">
           <p class="text-xs text-charcoal/70">طلاب أنشأوا حسابات. فعّل الاشتراك وحدّد المعلم ليظهر في لوحة الطالب.</p>
           <div id="adminStudentsList" class="space-y-3"></div>
@@ -1335,7 +1364,7 @@
   <!-- APPLICATION LOGIC & FIREBASE REAL-TIME PERSISTENCE                    -->
   <!-- ===================================================================== -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { initializeApp, deleteApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc,
       getDocs, getDoc, onSnapshot, serverTimestamp, query, where, deleteField
@@ -2344,7 +2373,7 @@
 
     function renderAll() {
       const spb = document.getElementById('studentPortalBtnLabel');
-      if (spb) spb.textContent = currentLang === 'ar' ? 'بوابة الطالب' : 'Student portal';
+      if (spb) spb.textContent = currentLang === 'ar' ? 'بوابة الطلاب والمعلمين' : 'Students & Teachers portal';
       renderContacts();
       renderCourses();
       renderPricingFilters();
@@ -2492,6 +2521,7 @@
             return;
           }
           signupInFlight = false;
+          portalRole = 'student';
         }
 
         await addDoc(collection(db, 'registrations'), {
@@ -2507,7 +2537,7 @@
             : `Welcome ${leadData.name}! Your registration for "${courseObj ? courseObj.titleEn : leadData.courseName}" has been received. Our team will contact you shortly.`;
         }
 
-        if (accountUid && summaryEl) summaryEl.textContent += sx(' تم إنشاء حسابك، ادخل لوحتك من زر «بوابة الطالب».', ' Your account is ready — open your dashboard from the "Student portal" button.');
+        if (accountUid && summaryEl) summaryEl.textContent += sx(' تم إنشاء حسابك، ادخل لوحتك من زر «بوابة الطلاب والمعلمين».', ' Your account is ready — open your dashboard from the "Students & Teachers portal" button.');
         const waNum = (state.settings.whatsapp && state.settings.whatsapp !== '201000000000')
           ? state.settings.whatsapp.replace(/\D/g, '')
           : '201018301386';
@@ -2779,7 +2809,7 @@
     }
     function signupErrorMessage(err) {
       const c = (err && err.code) || '';
-      if (c === 'auth/email-already-in-use') return sx('هذا البريد مسجّل من قبل. ادخل من «بوابة الطالب».', 'This email is already registered. Sign in from the Student portal.');
+      if (c === 'auth/email-already-in-use') return sx('هذا البريد مسجّل من قبل. ادخل من «بوابة الطلاب والمعلمين».', 'This email is already registered. Sign in from the Students & Teachers portal.');
       if (c === 'auth/weak-password') return sx('كلمة المرور ضعيفة (٦ أحرف على الأقل).', 'Password is too weak (at least 6 characters).');
       if (c === 'auth/invalid-email') return sx('صيغة البريد الإلكتروني غير صحيحة.', 'Invalid email address.');
       if (c === 'auth/network-request-failed') return sx('تعذر الاتصال بالإنترنت.', 'Network error.');
@@ -2795,19 +2825,34 @@
       el.textContent = msg; el.classList.remove('hidden');
     }
     function showSpView(which) {
-      document.getElementById('spLoginView').classList.toggle('hidden', which !== 'login');
-      document.getElementById('spDashView').classList.toggle('hidden', which !== 'dash');
+      ['login', 'dash', 'teacher'].forEach(v => {
+        const el = document.getElementById({ login: 'spLoginView', dash: 'spDashView', teacher: 'spTeacherView' }[v]);
+        if (el) el.classList.toggle('hidden', which !== v);
+      });
     }
 
-    function onStudentAuthChange(user) {
+    async function onStudentAuthChange(user) {
       studentUser = user || null;
       if (signupInFlight) return;
-      if (!user) { spData = null; clearInterval(spTimer); }
+      portalRole = null; portalUser = null;
+      if (!user) { spData = null; tdata = null; clearInterval(spTimer); }
+      else if (db) {
+        try {
+          const u = await getDoc(doc(db, 'users', user.uid));
+          if (u.exists()) { portalUser = u.data(); portalRole = portalUser.role || null; }
+        } catch (e) { console.warn('role lookup:', e); }
+      }
       const m = document.getElementById('studentPortalModal');
       if (m && !m.classList.contains('hidden')) refreshStudentView();
     }
     function refreshStudentView() {
       if (!studentUser) { showSpView('login'); return; }
+      if (portalRole === 'teacher_suspended') {
+        spMsg('err', 'هذا الحساب موقوف. تواصل مع الإدارة.');
+        try { signOut(auth); } catch (e) {}
+        showSpView('login'); return;
+      }
+      if (portalRole === 'teacher') { showSpView('teacher'); loadTeacherDashboard(); return; }
       showSpView('dash');
       loadStudentDashboard();
     }
@@ -3008,6 +3053,432 @@
     };
 
 
+    // =========================================================================
+    // PHASES 2-4: teacher accounts + dashboard, sessions with Google Meet links, owner overview
+    // =========================================================================
+    const ACADEMY_TZ = 'Africa/Cairo';          // month boundaries for reports/targets
+    let portalRole = null;
+    let portalUser = null;
+    let tdata = null;                            // teacher dashboard data
+    let tdMonth = null;                          // 'YYYY-MM' being viewed
+    let tdAttOpen = null;                        // session id whose attendance panel is open
+    let unsubTeacherAcc = null, unsubOvSessions = null, unsubOvAtt = null, unsubOvTarget = null;
+    let ov = { sessions: [], att: [], target: null };
+    let teacherAccounts = [];
+
+    function monthKeyOf(ms) {
+      const p = new Intl.DateTimeFormat('en-US', { timeZone: ACADEMY_TZ, year: 'numeric', month: '2-digit' })
+        .formatToParts(ms).reduce((a, x) => (a[x.type] = x.value, a), {});
+      return `${p.year}-${p.month}`;
+    }
+    function shiftMonth(key, delta) {
+      const [y, m] = key.split('-').map(Number);
+      const d = new Date(Date.UTC(y, m - 1 + delta, 1));
+      return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+    }
+    function tzOffsetMs(ms, tz) {
+      const p = new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        .formatToParts(ms).reduce((a, x) => (a[x.type] = x.value, a), {});
+      return Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour % 24, +p.minute, +p.second) - ms;
+    }
+    // Wall-clock time in a given IANA time zone -> UTC milliseconds
+    function zonedToUtc(y, mo, d, h, mi, tz) {
+      const guess = Date.UTC(y, mo - 1, d, h, mi);
+      let t = guess - tzOffsetMs(guess, tz);
+      t = guess - tzOffsetMs(t, tz);
+      return t;
+    }
+    const byId = id => document.getElementById(id);
+    const ATT_LABEL = { present: 'حضر', absent: 'غائب', excused: 'غياب بإذن' };
+
+    // ---------------------------- teacher dashboard ----------------------------
+    function tdTz() { return detectTz(); }
+    function tdStudentName(id) {
+      const s = tdata && tdata.students.find(x => x.id === id);
+      return s ? (s.name || '—') : '—';
+    }
+
+    async function loadTeacherDashboard() {
+      const box = byId('spTeacherBody');
+      if (!box || !studentUser || !db) return;
+      const tid = portalUser && portalUser.teacherId;
+      if (!tid) { box.innerHTML = '<p class="text-center text-sm font-bold text-red-600 py-6">حسابك غير مرتبط بملف معلم. تواصل مع الإدارة.</p>'; return; }
+      if (!tdMonth) tdMonth = monthKeyOf(Date.now());
+      box.innerHTML = '<p class="text-center text-sm text-charcoal/70 py-8">جارٍ التحميل…</p>';
+      try {
+        const months = [shiftMonth(tdMonth, -1), tdMonth, shiftMonth(tdMonth, 1)];
+        const [sSn, seSn, aSn] = await Promise.all([
+          getDocs(query(collection(db, 'students'), where('teacherId', '==', tid))),
+          getDocs(query(collection(db, 'sessions'), where('teacherId', '==', tid), where('monthKey', 'in', months))),
+          getDocs(query(collection(db, 'attendance'), where('teacherId', '==', tid), where('monthKey', 'in', months)))
+        ]);
+        tdata = {
+          students: sSn.docs.map(d => ({ id: d.id, ...d.data() })),
+          sessions: seSn.docs.map(d => ({ id: d.id, ...d.data() })),
+          att: aSn.docs.map(d => ({ id: d.id, ...d.data() }))
+        };
+        renderTeacherShell();
+        renderTeacherParts();
+      } catch (e) {
+        console.warn('Teacher dashboard error:', e);
+        box.innerHTML = '<p class="text-center text-sm font-bold text-red-600 py-6">تعذر تحميل البيانات. حاول مرة أخرى.</p>';
+      }
+    }
+
+    function renderTeacherShell() {
+      const box = byId('spTeacherBody');
+      const inp = 'w-full px-3 py-2.5 rounded-xl border border-gold/40 bg-cream-light text-sm focus:bg-white focus:border-forest outline-none';
+      const lbl = 'block text-xs font-bold text-forest mb-1';
+      const stuChecks = tdata.students.length
+        ? tdata.students.map(s => `<label class="flex items-center gap-2 text-xs bg-white border border-gold/30 rounded-xl px-3 py-2"><input type="checkbox" value="${escapeHtml(s.id)}"><span>${escapeHtml(s.name || '')}</span>${s.status !== 'active' ? '<span class="text-[10px] text-charcoal/50">(غير مفعّل)</span>' : ''}</label>`).join('')
+        : '<p class="text-xs text-charcoal/60">لا يوجد طلاب مسندون إليك بعد. الإدارة هي التي تحدد معلم كل طالب.</p>';
+      box.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pe-10">
+          <div>
+            <h3 class="font-calligraphy text-2xl font-bold text-forest">لوحة المعلم</h3>
+            <p class="text-xs text-charcoal/60">${escapeHtml(portalUser.name || '')} · <span dir="ltr">${escapeHtml(portalUser.email || '')}</span></p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="tdMonthNav(-1)" class="w-8 h-8 rounded-lg border border-gold/40 text-forest font-bold">›</button>
+            <span id="tdMonthLabel" dir="ltr" class="text-sm font-bold text-forest min-w-[70px] text-center"></span>
+            <button type="button" onclick="tdMonthNav(1)" class="w-8 h-8 rounded-lg border border-gold/40 text-forest font-bold">‹</button>
+          </div>
+        </div>
+        <div id="tdStats" class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-5"></div>
+
+        <details class="rounded-2xl border border-gold/30 bg-cream-light p-4 mb-5">
+          <summary class="cursor-pointer text-sm font-bold text-forest">➕ جدولة حصة جديدة</summary>
+          <form id="tdForm" onsubmit="tdCreateSession(event)" class="mt-4 space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div><label class="${lbl}">عنوان الحصة (اختياري)</label><input type="text" id="tdTitle" maxlength="120" class="${inp}"></div>
+              <div><label class="${lbl}">الموعد (بتوقيت المنطقة المختارة)</label><input type="datetime-local" id="tdWhen" required class="${inp}"></div>
+              <div><label class="${lbl}">المنطقة الزمنية</label><input type="text" id="tdTz" list="tzList" dir="ltr" maxlength="64" value="${escapeHtml(tdTz())}" class="${inp}"></div>
+              <div class="grid grid-cols-2 gap-3">
+                <div><label class="${lbl}">المدة</label><select id="tdDur" class="${inp}"><option>30</option><option selected>45</option><option>60</option><option>90</option></select></div>
+                <div><label class="${lbl}">التكرار أسبوعياً</label><select id="tdRepeat" class="${inp}"><option value="1">مرة واحدة</option><option value="2">2 أسبوع</option><option value="4">4 أسابيع</option><option value="8">8 أسابيع</option><option value="12">12 أسبوع</option></select></div>
+              </div>
+            </div>
+            <div><label class="${lbl}">رابط Google Meet</label><input type="url" id="tdMeet" dir="ltr" maxlength="200" placeholder="https://meet.google.com/abc-defg-hij" value="${escapeHtml(portalUser.meetUrl || '')}" class="${inp}"></div>
+            <div><label class="${lbl}">الطلاب المشاركون</label><div id="tdStuChecks" class="grid grid-cols-1 sm:grid-cols-2 gap-2">${stuChecks}</div></div>
+            <button type="submit" id="tdCreateBtn" class="w-full py-3 rounded-2xl bg-forest hover:bg-forest-light text-white font-bold text-sm disabled:opacity-60">حفظ الحصة</button>
+          </form>
+        </details>
+
+        <div class="rounded-2xl border border-gold/30 p-4 mb-5">
+          <label class="${lbl}">رابط Meet الدائم الخاص بي (يُملأ تلقائياً عند جدولة الحصص)</label>
+          <div class="flex gap-2">
+            <input type="url" id="tdDefaultMeet" dir="ltr" maxlength="200" placeholder="https://meet.google.com/..." value="${escapeHtml(portalUser.meetUrl || '')}" class="${inp}">
+            <button type="button" onclick="tdSaveMeet()" class="px-4 rounded-xl bg-forest text-white text-xs font-bold">حفظ</button>
+          </div>
+          <p class="text-[11px] text-charcoal/60 mt-1.5">أنشئ الرابط من meet.google.com ثم الصقه هنا. يمكنك أيضاً تغيير رابط أي حصة على حدة.</p>
+        </div>
+
+        <div id="tdAttPanel"></div>
+        <h4 class="text-sm font-bold text-forest mb-2">الحصص القادمة</h4>
+        <div id="tdUpcoming" class="space-y-2 mb-5"></div>
+        <h4 class="text-sm font-bold text-forest mb-2">حصص الشهر المنتهية</h4>
+        <div id="tdPast" class="space-y-2 mb-5"></div>
+        <h4 class="text-sm font-bold text-forest mb-2">طلابي</h4>
+        <div id="tdStudents" class="space-y-2"></div>`;
+    }
+
+    function tdSessionEnd(s) { return (Number(s.startMs) || 0) + (Number(s.durationMin) || 45) * 60000; }
+
+    function tdSessionCard(s, past) {
+      const tz = tdTz();
+      const url = safeMeetUrl(s.meetUrl);
+      const names = (s.studentIds || []).map(tdStudentName).join('، ');
+      const btn = 'px-3 py-1.5 rounded-lg text-[11px] font-bold';
+      const status = s.status === 'completed' ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">تمت</span>' : '';
+      return `<div class="rounded-2xl border border-gold/30 bg-white p-3">
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <div class="text-sm font-bold text-forest truncate">${escapeHtml(s.title || 'حصة')} ${status}</div>
+            <div class="text-xs text-charcoal/70">${escapeHtml(fmtInTz(s.startMs, tz))} · ${Number(s.durationMin) || 45} د</div>
+            <div class="text-[11px] text-charcoal/60 mt-0.5">${escapeHtml(names)}</div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-2">
+          ${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="${btn} bg-forest text-white">ابدأ الحصة (Meet)</a>` : `<span class="${btn} bg-cream text-charcoal/60">لا يوجد رابط</span>`}
+          <button type="button" onclick="tdOpenAttendance('${escapeHtml(s.id)}')" class="${btn} border border-forest/30 text-forest">الحضور</button>
+          <button type="button" onclick="tdSetLink('${escapeHtml(s.id)}')" class="${btn} border border-gold/40 text-gold-dark">تغيير الرابط</button>
+          ${past ? '' : `<button type="button" onclick="tdCancelSession('${escapeHtml(s.id)}')" class="${btn} border border-red-300 text-red-600">إلغاء</button>`}
+        </div>
+      </div>`;
+    }
+
+    function renderTeacherParts() {
+      if (!tdata) return;
+      const now = Date.now();
+      byId('tdMonthLabel').textContent = tdMonth;
+      const monthSessions = tdata.sessions.filter(s => s.monthKey === tdMonth);
+      const monthAtt = tdata.att.filter(a => a.monthKey === tdMonth);
+      const cnt = k => monthAtt.filter(a => a.status === k).length;
+      const done = monthSessions.filter(s => s.status === 'completed').length;
+      const upcoming = tdata.sessions.filter(s => s.status === 'scheduled' && tdSessionEnd(s) > now).sort((a, b) => a.startMs - b.startMs);
+      const past = monthSessions.filter(s => s.status !== 'cancelled' && (s.status === 'completed' || tdSessionEnd(s) <= now)).sort((a, b) => b.startMs - a.startMs);
+      const stat = (n, label, cls) => `<div class="rounded-2xl ${cls} p-3 text-center"><div class="text-2xl font-bold">${n}</div><div class="text-[11px] font-bold mt-0.5">${label}</div></div>`;
+      byId('tdStats').innerHTML =
+        stat(tdata.students.length, 'عدد طلابي', 'bg-forest-50 text-forest') +
+        stat(done, 'حصص منفذة', 'bg-emerald-50 text-emerald-800') +
+        stat(upcoming.length, 'حصص قادمة', 'bg-gold/20 text-forest') +
+        stat(cnt('present'), 'حضور', 'bg-emerald-50 text-emerald-800') +
+        stat(cnt('absent') + cnt('excused'), 'غيابات', 'bg-red-50 text-red-700');
+      byId('tdUpcoming').innerHTML = upcoming.length ? upcoming.map(s => tdSessionCard(s, false)).join('') : '<p class="text-xs text-charcoal/60">لا توجد حصص قادمة.</p>';
+      byId('tdPast').innerHTML = past.length ? past.map(s => tdSessionCard(s, true)).join('') : '<p class="text-xs text-charcoal/60">لا توجد حصص منتهية في هذا الشهر.</p>';
+      const tz = tdTz();
+      byId('tdStudents').innerHTML = tdata.students.length ? tdata.students.map(s => {
+        const mine = monthAtt.filter(a => a.studentId === s.id);
+        const c = k => mine.filter(a => a.status === k).length;
+        const stz = validTz(s.timezone) ? s.timezone : 'UTC';
+        return `<div class="rounded-2xl border border-gold/30 bg-white p-3 flex flex-wrap items-center justify-between gap-2">
+          <div><div class="text-sm font-bold text-forest">${escapeHtml(s.name || '')}</div>
+          <div class="text-[11px] text-charcoal/60">${escapeHtml(s.courseName || '')} · ${escapeHtml(s.packageLabel || '')}</div>
+          <div class="text-[11px] text-charcoal/60"><span dir="ltr">${escapeHtml(stz)}</span> · الآن عنده ${escapeHtml(fmtInTz(now, stz, false))}</div></div>
+          <div class="text-[11px] font-bold"><span class="text-emerald-700">حضور ${c('present')}</span> · <span class="text-red-600">غياب ${c('absent')}</span> · <span class="text-gold-dark">بإذن ${c('excused')}</span></div>
+        </div>`;
+      }).join('') : '<p class="text-xs text-charcoal/60">لا يوجد طلاب مسندون إليك بعد.</p>';
+      renderTeacherAttendancePanel();
+    }
+
+    function renderTeacherAttendancePanel() {
+      const el = byId('tdAttPanel'); if (!el) return;
+      const s = tdAttOpen && tdata.sessions.find(x => x.id === tdAttOpen);
+      if (!s) { el.innerHTML = ''; return; }
+      const rows = (s.studentIds || []).map(sid => {
+        const rec = tdata.att.find(a => a.sessionId === s.id && a.studentId === sid);
+        const b = (st, cls) => `<button type="button" onclick="tdMark('${escapeHtml(s.id)}','${escapeHtml(sid)}','${st}')" class="px-3 py-1.5 rounded-lg text-[11px] font-bold border ${rec && rec.status === st ? cls : 'border-gold/40 text-charcoal/70 bg-white'}">${ATT_LABEL[st]}</button>`;
+        return `<div class="flex flex-wrap items-center justify-between gap-2 py-2 border-b border-gold/20 last:border-0">
+          <span class="text-sm font-bold text-forest">${escapeHtml(tdStudentName(sid))}</span>
+          <span class="flex gap-1.5">${b('present', 'bg-emerald-600 text-white border-emerald-600')}${b('absent', 'bg-red-600 text-white border-red-600')}${b('excused', 'bg-gold text-forest-dark border-gold')}</span>
+        </div>`;
+      }).join('');
+      el.innerHTML = `<div class="rounded-2xl border-2 border-gold bg-cream-light p-4 mb-5">
+        <div class="flex items-center justify-between mb-2"><h4 class="text-sm font-bold text-forest">تسجيل الحضور — ${escapeHtml(s.title || 'حصة')} · ${escapeHtml(fmtInTz(s.startMs, tdTz()))}</h4>
+        <button type="button" onclick="tdOpenAttendance(null)" class="text-xs font-bold text-forest">إغلاق ✕</button></div>${rows}</div>`;
+    }
+
+    window.tdMonthNav = function(delta) { tdMonth = shiftMonth(tdMonth || monthKeyOf(Date.now()), delta); tdAttOpen = null; loadTeacherDashboard(); };
+    window.tdOpenAttendance = function(id) { tdAttOpen = id; renderTeacherAttendancePanel(); if (id) byId('tdAttPanel').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+
+    window.tdMark = async function(sessionId, studentId, status) {
+      const s = tdata.sessions.find(x => x.id === sessionId); if (!s) return;
+      const rec = { sessionId, studentId, teacherId: portalUser.teacherId, status, startMs: s.startMs, monthKey: s.monthKey, updatedAtMs: Date.now() };
+      try {
+        await setDoc(doc(db, 'attendance', `${sessionId}_${studentId}`), rec);
+        const i = tdata.att.findIndex(a => a.sessionId === sessionId && a.studentId === studentId);
+        const row = { id: `${sessionId}_${studentId}`, ...rec };
+        if (i >= 0) tdata.att[i] = row; else tdata.att.push(row);
+        if (s.status !== 'completed') { await updateDoc(doc(db, 'sessions', sessionId), { status: 'completed' }); s.status = 'completed'; }
+        renderTeacherParts();
+      } catch (e) { console.warn(e); showToast('تعذر حفظ الحضور', 'error'); }
+    };
+
+    window.tdCancelSession = async function(id) {
+      if (!confirm('إلغاء هذه الحصة؟')) return;
+      try {
+        await updateDoc(doc(db, 'sessions', id), { status: 'cancelled' });
+        const s = tdata.sessions.find(x => x.id === id); if (s) s.status = 'cancelled';
+        renderTeacherParts(); showToast('تم إلغاء الحصة');
+      } catch (e) { showToast('تعذر الإلغاء', 'error'); }
+    };
+
+    window.tdSetLink = async function(id) {
+      const s = tdata.sessions.find(x => x.id === id); if (!s) return;
+      const v = prompt('الصق رابط Google Meet لهذه الحصة', s.meetUrl || '');
+      if (v === null) return;
+      const url = safeMeetUrl(v);
+      if (!url) { showToast('الرابط يجب أن يبدأ بـ https://meet.google.com/', 'error'); return; }
+      try { await updateDoc(doc(db, 'sessions', id), { meetUrl: url }); s.meetUrl = url; renderTeacherParts(); showToast('تم تحديث الرابط'); }
+      catch (e) { showToast('تعذر الحفظ', 'error'); }
+    };
+
+    window.tdSaveMeet = async function() {
+      const raw = byId('tdDefaultMeet').value.trim();
+      const url = safeMeetUrl(raw);
+      if (raw && !url) { showToast('الرابط يجب أن يبدأ بـ https://meet.google.com/', 'error'); return; }
+      try {
+        await updateDoc(doc(db, 'users', studentUser.uid), { meetUrl: url });
+        portalUser.meetUrl = url; byId('tdMeet').value = url;
+        showToast('تم حفظ الرابط الدائم');
+      } catch (e) { showToast('تعذر الحفظ', 'error'); }
+    };
+
+    window.tdCreateSession = async function(e) {
+      e.preventDefault();
+      const tz = byId('tdTz').value.trim();
+      if (!validTz(tz)) { showToast('المنطقة الزمنية غير صحيحة. اختر من القائمة (مثل Africa/Cairo).', 'error'); return; }
+      const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(byId('tdWhen').value);
+      if (!m) { showToast('اختر موعد الحصة.', 'error'); return; }
+      const [y, mo, d, h, mi] = m.slice(1).map(Number);
+      const ids = [...document.querySelectorAll('#tdStuChecks input:checked')].map(i => i.value);
+      if (!ids.length) { showToast('اختر طالباً واحداً على الأقل.', 'error'); return; }
+      const meetRaw = byId('tdMeet').value.trim();
+      const meet = safeMeetUrl(meetRaw);
+      if (meetRaw && !meet) { showToast('رابط Meet يجب أن يبدأ بـ https://meet.google.com/', 'error'); return; }
+      const dur = Number(byId('tdDur').value) || 45;
+      const reps = Math.min(Math.max(Number(byId('tdRepeat').value) || 1, 1), 12);
+      const title = byId('tdTitle').value.trim().slice(0, 120);
+      const starts = [];
+      for (let k = 0; k < reps; k++) {
+        const dt = new Date(Date.UTC(y, mo - 1, d + 7 * k));
+        starts.push(zonedToUtc(dt.getUTCFullYear(), dt.getUTCMonth() + 1, dt.getUTCDate(), h, mi, tz));
+      }
+      if (starts[0] < Date.now() - 5 * 60000) { showToast('الموعد في الماضي. اختر وقتاً قادماً.', 'error'); return; }
+      const btn = byId('tdCreateBtn'); btn.disabled = true;
+      try {
+        await Promise.all(starts.map(startMs => addDoc(collection(db, 'sessions'), {
+          teacherId: portalUser.teacherId, teacherName: portalUser.name || '',
+          studentIds: ids, title, startMs, durationMin: dur, meetUrl: meet,
+          status: 'scheduled', monthKey: monthKeyOf(startMs), createdAtMs: Date.now()
+        })));
+        showToast(reps > 1 ? `تمت جدولة ${reps} حصص` : 'تمت جدولة الحصة');
+        tdMonth = monthKeyOf(starts[0]);
+        loadTeacherDashboard();
+      } catch (err) { console.warn(err); showToast('تعذر حفظ الحصة.', 'error'); btn.disabled = false; }
+    };
+
+    // ---------------------------- admin: teacher accounts ----------------------------
+    function subscribeTeacherAccounts(on) {
+      if (unsubTeacherAcc) { unsubTeacherAcc(); unsubTeacherAcc = null; }
+      if (!on || !db) return;
+      unsubTeacherAcc = onSnapshot(query(collection(db, 'users'), where('role', 'in', ['teacher', 'teacher_suspended'])), (snap) => {
+        teacherAccounts = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+        renderAdminTeacherAccounts();
+      }, (err) => console.warn('Teacher accounts listener error:', err));
+    }
+    function renderAdminTeacherAccounts() {
+      const sel = byId('atTeacher');
+      if (sel) {
+        const prev = sel.value;
+        sel.innerHTML = state.teachers.map(tc => `<option value="${escapeHtml(tc.id)}">${escapeHtml(tc.nameAr)}${teacherAccounts.some(a => a.teacherId === tc.id) ? ' (لديه حساب)' : ''}</option>`).join('');
+        if (prev) sel.value = prev;
+      }
+      const list = byId('adminTeacherAccList'); if (!list) return;
+      if (!teacherAccounts.length) { list.innerHTML = '<p class="text-sm text-charcoal/60 py-4 text-center">لا توجد حسابات معلمين بعد.</p>'; return; }
+      list.innerHTML = teacherAccounts.map(a => {
+        const off = a.role === 'teacher_suspended';
+        return `<div class="rounded-2xl border border-gold/30 bg-white p-3 flex flex-wrap items-center justify-between gap-2">
+          <div><div class="font-bold text-forest text-sm">${escapeHtml(a.name || '')} ${off ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-red-100 text-red-700">موقوف</span>' : ''}</div>
+          <div class="text-[11px] text-charcoal/60" dir="ltr">${escapeHtml(a.email || '')}</div></div>
+          <div class="flex gap-2">
+            <button type="button" onclick="adminTeacherReset('${escapeHtml(a.email || '')}')" class="px-3 py-1.5 rounded-lg border border-gold/40 text-[11px] font-bold text-forest">إرسال رابط كلمة المرور</button>
+            <button type="button" onclick="adminTeacherToggle('${escapeHtml(a.id)}', ${off ? 'false' : 'true'})" class="px-3 py-1.5 rounded-lg border ${off ? 'border-emerald-400 text-emerald-700' : 'border-red-300 text-red-600'} text-[11px] font-bold">${off ? 'تفعيل' : 'إيقاف'}</button>
+          </div></div>`;
+      }).join('');
+    }
+    window.adminCreateTeacherAccount = async function(e) {
+      e.preventDefault();
+      if (!isAdminUnlocked || !auth || !createUserWithEmailAndPassword) return;
+      const tid = byId('atTeacher').value, email = byId('atEmail').value.trim(), pw = byId('atPassword').value;
+      const tc = state.teachers.find(x => x.id === tid);
+      if (!tc) { showToast('اختر المعلم', 'error'); return; }
+      if (pw.length < 8) { showToast('كلمة المرور 8 أحرف على الأقل', 'error'); return; }
+      const btn = byId('atBtn'); btn.disabled = true;
+      let sec = null;
+      try {
+        // A second Firebase app instance creates the account, so the owner stays signed in.
+        sec = initializeApp(firebaseConfig, 'tc-' + Date.now());
+        const secAuth = getAuth(sec);
+        const cred = await createUserWithEmailAndPassword(secAuth, email, pw);
+        await signOut(secAuth);
+        await setDoc(doc(db, 'users', cred.user.uid), { role: 'teacher', teacherId: tid, name: tc.nameAr || '', email, createdAtMs: Date.now() });
+        showToast('تم إنشاء حساب المعلم. أعطه البريد وكلمة المرور.');
+        byId('atForm').reset();
+      } catch (err) {
+        console.warn(err);
+        const c = (err && err.code) || '';
+        showToast(c === 'auth/email-already-in-use' ? 'هذا البريد مستخدم من قبل.' : c === 'auth/invalid-email' ? 'صيغة البريد غير صحيحة.' : 'تعذر إنشاء الحساب.', 'error');
+      } finally { if (sec) deleteApp(sec).catch(() => {}); btn.disabled = false; }
+    };
+    window.adminTeacherReset = async function(email) {
+      if (!email || !auth) return;
+      try { await sendPasswordResetEmail(auth, email); showToast('أُرسل رابط إعادة تعيين كلمة المرور'); } catch (e) { showToast('تعذر الإرسال', 'error'); }
+    };
+    window.adminTeacherToggle = async function(uid, suspend) {
+      if (!isAdminUnlocked) return;
+      try { await updateDoc(doc(db, 'users', uid), { role: suspend ? 'teacher_suspended' : 'teacher' }); showToast(suspend ? 'تم إيقاف الحساب' : 'تم تفعيل الحساب'); }
+      catch (e) { showToast('تعذر التحديث', 'error'); }
+    };
+
+    // ---------------------------- admin: overview & targets ----------------------------
+    function subscribeOverview(on) {
+      [unsubOvSessions, unsubOvAtt, unsubOvTarget].forEach(u => { if (u) u(); });
+      unsubOvSessions = unsubOvAtt = unsubOvTarget = null;
+      if (!on || !db) return;
+      const cur = monthKeyOf(Date.now());
+      const months = [shiftMonth(cur, -1), cur, shiftMonth(cur, 1)];
+      unsubOvSessions = onSnapshot(query(collection(db, 'sessions'), where('monthKey', 'in', months)), (s) => { ov.sessions = s.docs.map(d => ({ id: d.id, ...d.data() })); renderAdminOverview(); }, (e) => console.warn('ov sessions:', e));
+      unsubOvAtt = onSnapshot(query(collection(db, 'attendance'), where('monthKey', 'in', months)), (s) => { ov.att = s.docs.map(d => d.data()); renderAdminOverview(); }, (e) => console.warn('ov attendance:', e));
+      unsubOvTarget = onSnapshot(doc(db, 'targets', cur), (s) => { ov.target = s.exists() ? s.data() : null; renderAdminOverview(); }, (e) => console.warn('ov target:', e));
+    }
+    window.adminSaveTargets = async function(e) {
+      e.preventDefault();
+      if (!isAdminUnlocked) return;
+      const cur = monthKeyOf(Date.now());
+      const n = id => Math.max(0, Math.floor(Number(byId(id).value) || 0));
+      try { await setDoc(doc(db, 'targets', cur), { monthKey: cur, students: n('tgStudents'), sessions: n('tgSessions'), updatedAtMs: Date.now() }); showToast('تم حفظ التارجت'); }
+      catch (err) { showToast('تعذر الحفظ', 'error'); }
+    };
+    function renderAdminOverview() {
+      const box = byId('adminOverview'); if (!box) return;
+      const cur = monthKeyOf(Date.now()), now = Date.now();
+      const stu = state.students || [];
+      const leads = (state.registrations || []).filter(l => l.createdAtMs && monthKeyOf(l.createdAtMs) === cur).length;
+      const ms = ov.sessions.filter(s => s.monthKey === cur);
+      const done = ms.filter(s => s.status === 'completed').length;
+      const cancelled = ms.filter(s => s.status === 'cancelled').length;
+      const upcoming = ov.sessions.filter(s => s.status === 'scheduled' && s.startMs > now).length;
+      const ma = ov.att.filter(a => a.monthKey === cur);
+      const c = k => ma.filter(a => a.status === k).length;
+      const rate = ma.length ? Math.round(c('present') / ma.length * 100) : null;
+      const tgt = ov.target || {};
+      const card = (n, label, cls) => `<div class="rounded-2xl ${cls} p-3 text-center"><div class="text-2xl font-bold">${n}</div><div class="text-[11px] font-bold mt-0.5">${label}</div></div>`;
+      const bar = (val, goal, label) => {
+        const pct = goal ? Math.min(100, Math.round(val / goal * 100)) : 0;
+        return `<div><div class="flex justify-between text-xs font-bold text-forest mb-1"><span>${label}</span><span>${val}${goal ? ' / ' + goal : ''}${goal ? ' (' + pct + '%)' : ''}</span></div>
+          <div class="h-3 rounded-full bg-cream border border-gold/30 overflow-hidden"><div class="h-full bg-forest" style="width:${pct}%"></div></div></div>`;
+      };
+      const teacherRows = state.teachers.map(tc => {
+        const mine = stu.filter(s => s.teacherId === tc.id);
+        const ts = ms.filter(s => s.teacherId === tc.id);
+        const ta = ma.filter(a => a.teacherId === tc.id);
+        const tAbs = ta.filter(a => a.status !== 'present').length;
+        const tRate = ta.length ? Math.round((ta.length - tAbs) / ta.length * 100) + '%' : '—';
+        return `<div class="rounded-2xl border border-gold/30 bg-white p-3">
+          <div class="font-bold text-forest text-sm mb-1">${escapeHtml(tc.nameAr || '')}</div>
+          <div class="grid grid-cols-4 gap-2 text-center text-[11px]">
+            <div><div class="text-lg font-bold text-forest">${mine.length}</div>طلاب</div>
+            <div><div class="text-lg font-bold text-emerald-700">${ts.filter(s => s.status === 'completed').length}</div>منفذة</div>
+            <div><div class="text-lg font-bold text-red-600">${tAbs}</div>غيابات</div>
+            <div><div class="text-lg font-bold text-gold-dark">${tRate}</div>حضور</div>
+          </div></div>`;
+      }).join('') || '<p class="text-xs text-charcoal/60">لا يوجد معلمون.</p>';
+      box.innerHTML = `
+        <p class="text-[11px] text-charcoal/60 mb-3">الشهر: <span dir="ltr" class="font-bold">${cur}</span> (بتوقيت القاهرة)</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          ${card(stu.length, 'طلاب بحسابات', 'bg-forest-50 text-forest')}
+          ${card(stu.filter(s => s.status === 'active').length, 'مفعّلون', 'bg-emerald-50 text-emerald-800')}
+          ${card(stu.filter(s => s.status === 'pending').length, 'بانتظار التفعيل', 'bg-gold/20 text-forest')}
+          ${card(state.teachers.length, 'معلمون', 'bg-forest-50 text-forest')}
+          ${card(done, 'حصص منفذة', 'bg-emerald-50 text-emerald-800')}
+          ${card(upcoming, 'حصص قادمة', 'bg-gold/20 text-forest')}
+          ${card(c('absent') + c('excused'), 'غيابات', 'bg-red-50 text-red-700')}
+          ${card(rate === null ? '—' : rate + '%', 'نسبة الحضور', 'bg-forest-50 text-forest')}
+        </div>
+        ${cancelled ? `<p class="text-[11px] text-charcoal/60 mb-3">حصص ملغاة هذا الشهر: ${cancelled}</p>` : ''}
+        <div class="rounded-2xl border border-gold/30 bg-cream-light p-4 mb-4 space-y-3">
+          <h4 class="text-sm font-bold text-forest">تقدّم تارجت الأكاديمية هذا الشهر</h4>
+          ${bar(leads, Number(tgt.students) || 0, 'طلبات التسجيل الجديدة')}
+          ${bar(done, Number(tgt.sessions) || 0, 'الحصص المنفذة')}
+        </div>
+        <h4 class="text-sm font-bold text-forest mb-2">أداء المعلمين هذا الشهر</h4>
+        <div class="space-y-2">${teacherRows}</div>`;
+      const tgS = byId('tgStudents'), tgH = byId('tgSessions');
+      if (tgS && document.activeElement !== tgS) tgS.value = tgt.students || '';
+      if (tgH && document.activeElement !== tgH) tgH.value = tgt.sessions || '';
+    }
+
     function setupAuthWatcher() {
       setPersistence(auth, browserLocalPersistence).catch(() => {});
       onAuthStateChanged(auth, async (user) => {
@@ -3037,11 +3508,15 @@
         subscribeReviews(true);
         subscribeLeads(true);
         subscribeStudents(true);
+        subscribeOverview(true);
+        subscribeTeacherAccounts(true);
         adminHousekeeping();
       } else if (!ok && was) {
         subscribeLeads(false);
         subscribeReviews(false);
         subscribeStudents(false);
+        subscribeOverview(false);
+        subscribeTeacherAccounts(false);
       }
       if (!adminRoute) return;
       _ae('adminAuthLoading').classList.add('hidden');
@@ -3136,6 +3611,10 @@
       renderAdminVideos();
       renderAdminAnimations();
       renderAdminPrograms();
+      renderAdminTeacherAccounts();
+      renderAdminStudents();
+      renderAdminOverview();
+      switchAdminTab('overview');
     }
 
     window.closeAdminDashboard = function() {
