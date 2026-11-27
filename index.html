@@ -247,6 +247,7 @@
 
         <!-- Action Controls (Language Toggle & Mobile Menu) -->
         <div class="flex items-center gap-2 sm:gap-3">
+          <button type="button" onclick="openStudentPortal()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-forest hover:bg-forest-light text-white text-xs sm:text-sm font-bold transition-all"><span>🎓</span><span id="studentPortalBtnLabel">بوابة الطالب</span></button>
           <button id="langToggleBtn" onclick="toggleLanguage()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gold/40 bg-white hover:bg-forest hover:text-white text-forest text-xs sm:text-sm font-bold transition-all shadow-sm" title="Switch Language">
             <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
             <span id="langToggleLabel">EN</span>
@@ -613,6 +614,24 @@
               </div>
             </div>
 
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs sm:text-sm font-bold text-forest mb-1.5">الدولة / Country</label>
+                <input type="text" id="regCountry" maxlength="80" placeholder="مثال: كندا" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest focus:ring-2 focus:ring-forest/15 outline-none transition-all text-sm">
+              </div>
+              <div>
+                <label class="block text-xs sm:text-sm font-bold text-forest mb-1.5">منطقتك الزمنية (تُحدَّد تلقائياً) / Time zone</label>
+                <input type="text" id="regTimezone" list="tzList" dir="ltr" maxlength="64" placeholder="Africa/Cairo" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest focus:ring-2 focus:ring-forest/15 outline-none transition-all text-sm">
+                <datalist id="tzList"></datalist>
+              </div>
+            </div>
+
+            <div class="rounded-2xl border border-gold/40 bg-cream-light p-4">
+              <label class="block text-xs sm:text-sm font-bold text-forest mb-1.5">🎓 أنشئ حسابك للحصول على لوحة خاصة بك (اختياري)</label>
+              <input type="password" id="regPassword" minlength="6" maxlength="100" autocomplete="new-password" dir="ltr" placeholder="كلمة مرور (٦ أحرف على الأقل)" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest focus:ring-2 focus:ring-forest/15 outline-none transition-all text-sm">
+              <p class="text-[11px] text-charcoal/60 mt-1.5">يلزم كتابة بريدك الإلكتروني أعلاه. تدخل لاحقاً من زر «بوابة الطالب» أعلى الموقع.</p>
+            </div>
+
             <div>
               <label class="block text-xs sm:text-sm font-bold text-forest mb-1.5" data-i18n="field_notes">الأوقات المفضلة أو ملاحظات إضافية</label>
               <textarea id="regNotes" rows="3" placeholder="مثال: أفضل الحصص مساءً بعد الساعة 6 بتوقيت القاهرة..." class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest focus:ring-2 focus:ring-forest/15 outline-none transition-all text-sm"></textarea>
@@ -773,6 +792,45 @@
   </div>
 
   <!-- 2. Admin Login (Firebase Authentication) -->
+  <!-- Student portal: login + personal dashboard -->
+  <div id="studentPortalModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-start sm:items-center justify-center p-3 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-2xl border border-gold/40 relative my-4">
+      <button type="button" onclick="closeModal('studentPortalModal')" class="absolute top-3 end-3 w-9 h-9 rounded-full bg-cream hover:bg-gold/30 text-forest font-bold" aria-label="Close">✕</button>
+
+      <div id="spLoginView">
+        <div class="text-center mb-5">
+          <div class="mx-auto w-14 h-14 rounded-2xl bg-forest text-gold-light flex items-center justify-center text-2xl mb-3">🎓</div>
+          <h3 class="font-calligraphy text-2xl font-bold text-forest">بوابة الطالب</h3>
+          <p class="text-xs text-charcoal/70 mt-1">سجّل الدخول لمتابعة حصصك وحضورك.</p>
+        </div>
+        <form onsubmit="handleStudentLogin(event)" class="space-y-4 max-w-sm mx-auto">
+          <div>
+            <label class="block text-xs font-bold text-forest mb-1" for="spEmail">البريد الإلكتروني</label>
+            <input type="email" id="spEmail" required autocomplete="username" dir="ltr" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest focus:ring-2 focus:ring-forest/15 outline-none transition-all text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-forest mb-1" for="spPassword">كلمة المرور</label>
+            <input type="password" id="spPassword" required autocomplete="current-password" dir="ltr" class="w-full px-4 py-3 rounded-xl border border-gold/40 bg-cream-light focus:bg-white focus:border-forest focus:ring-2 focus:ring-forest/15 outline-none transition-all text-sm">
+          </div>
+          <p id="spError" class="hidden text-xs font-bold text-red-600 text-center"></p>
+          <p id="spInfo" class="hidden text-xs font-bold text-emerald-700 text-center"></p>
+          <button type="submit" id="spLoginBtn" class="w-full py-3.5 rounded-2xl bg-forest hover:bg-forest-light text-white font-bold text-sm shadow-md transition-all disabled:opacity-60">تسجيل الدخول</button>
+          <div class="flex items-center justify-between text-xs">
+            <button type="button" onclick="handleStudentReset()" class="text-forest font-bold hover:underline">نسيت كلمة المرور؟</button>
+            <button type="button" onclick="closeModal('studentPortalModal'); document.getElementById('register')?.scrollIntoView({behavior:'smooth'});" class="text-gold-dark font-bold hover:underline">ليس لديك حساب؟ سجّل الآن</button>
+          </div>
+        </form>
+      </div>
+
+      <div id="spDashView" class="hidden">
+        <div id="spDashBody"></div>
+        <div class="mt-6 text-center">
+          <button type="button" onclick="studentLogout()" class="px-5 py-2 rounded-xl border border-forest/30 text-forest text-xs font-bold hover:bg-cream">تسجيل الخروج</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="adminLoginModal" class="hidden fixed inset-0 z-50 bg-cream flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl border border-gold/40">
       <div class="text-center mb-5">
@@ -885,6 +943,7 @@
         <button onclick="switchAdminTab('programs')" id="tabBtn_programs" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">برامج الأطفال</button>
         <button onclick="switchAdminTab('videos')" id="tabBtn_videos" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الفيديوهات</button>
         <button onclick="switchAdminTab('animations')" id="tabBtn_animations" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">الصور المتحركة</button>
+        <button onclick="switchAdminTab('students')" id="tabBtn_students" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap flex items-center gap-2"><span>الطلاب (الحسابات)</span><span id="adminStudentsCountBadge" class="hidden px-2 py-0.5 rounded-full text-[11px] bg-red-600 text-white font-bold">0</span></button>
         <button onclick="switchAdminTab('settings')" id="tabBtn_settings" class="admin-tab-btn px-4 py-3.5 text-xs sm:text-sm font-bold border-b-2 border-transparent text-charcoal/60 hover:text-forest whitespace-nowrap">إعدادات الأكاديمية</button>
       </div>
 
@@ -1136,6 +1195,11 @@
         </div>
 
         <!-- TAB 4: ACADEMY SETTINGS -->
+        <div id="adminTab_students" class="admin-tab-panel hidden space-y-4">
+          <p class="text-xs text-charcoal/70">طلاب أنشأوا حسابات. فعّل الاشتراك وحدّد المعلم ليظهر في لوحة الطالب.</p>
+          <div id="adminStudentsList" class="space-y-3"></div>
+        </div>
+
         <div id="adminTab_animations" class="admin-tab-panel hidden space-y-4">
           <div id="animFormCard" class="bg-white rounded-2xl p-5 border border-gold/30 shadow-sm space-y-4 transition-all">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gold/20 pb-2">
@@ -1279,7 +1343,7 @@
     // Firebase Auth is loaded separately (see initAuthSafely) so a failure there can never block the public site.
     let getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
         sendPasswordResetEmail, setPersistence, browserLocalPersistence,
-        GoogleAuthProvider, signInWithPopup;
+        GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword;
 
     // =========================================================================
     // 1. REAL FIREBASE CONFIGURATION
@@ -1877,7 +1941,7 @@
         const m = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
         ({ getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
            sendPasswordResetEmail, setPersistence, browserLocalPersistence,
-           GoogleAuthProvider, signInWithPopup } = m);
+           GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword } = m);
         auth = getAuth(app);
         setupAuthWatcher();
       } catch (e) {
@@ -2279,6 +2343,8 @@
     };
 
     function renderAll() {
+      const spb = document.getElementById('studentPortalBtnLabel');
+      if (spb) spb.textContent = currentLang === 'ar' ? 'بوابة الطالب' : 'Student portal';
       renderContacts();
       renderCourses();
       renderPricingFilters();
@@ -2389,19 +2455,50 @@
         teacherId: teacherId || '',
         teacherName: teacherObj ? teacherObj.nameAr : 'أي معلم متاح',
         notes: document.getElementById('regNotes').value.trim(),
+        country: (document.getElementById('regCountry')?.value || '').trim(),
+        timezone: (() => { const z = (document.getElementById('regTimezone')?.value || '').trim(); return validTz(z) ? z : detectTz(); })(),
         status: 'new',
         createdAtMs: Date.now()
       };
 
       try {
-        if (isFirebaseConnected && db) {
-          await addDoc(collection(db, 'registrations'), {
-            ...leadData,
-            createdAt: serverTimestamp()
-          });
-        } else {
-          throw new Error('Database offline');
+        if (!(isFirebaseConnected && db)) throw new Error('Database offline');
+
+        // Optional student account (own dashboard)
+        let accountUid = null;
+        const regPw = document.getElementById('regPassword')?.value || '';
+        if (regPw) {
+          if (!leadData.email) { showToast(sx('اكتب بريدك الإلكتروني لإنشاء الحساب.', 'Enter your email to create an account.'), 'error'); return; }
+          if (!auth || !createUserWithEmailAndPassword) { showToast(sx('خدمة الحسابات لم تُحمَّل بعد، أعد تحميل الصفحة.', 'Account service not loaded yet. Reload the page.'), 'error'); return; }
+          signupInFlight = true;
+          try {
+            const cred = await createUserWithEmailAndPassword(auth, leadData.email, regPw);
+            accountUid = cred.user.uid;
+            await setDoc(doc(db, 'users', accountUid), { role: 'student', name: leadData.name, email: leadData.email, createdAtMs: Date.now() });
+            await setDoc(doc(db, 'students', accountUid), {
+              name: leadData.name, email: leadData.email, phone: leadData.phone,
+              country: leadData.country, timezone: leadData.timezone,
+              category: leadData.category, background: leadData.background,
+              courseId: leadData.courseId, courseName: leadData.courseName,
+              packageId: leadData.packageId, packageLabel: leadData.packageLabel,
+              preferredTeacherId: leadData.teacherId, preferredTeacherName: leadData.teacherName,
+              notes: leadData.notes, status: 'pending',
+              createdAtMs: Date.now(), updatedAtMs: Date.now()
+            });
+          } catch (aerr) {
+            console.warn('Student account error:', aerr);
+            signupInFlight = false;
+            showToast(signupErrorMessage(aerr), 'error');
+            return;
+          }
+          signupInFlight = false;
         }
+
+        await addDoc(collection(db, 'registrations'), {
+          ...leadData,
+          ...(accountUid ? { uid: accountUid } : {}),
+          createdAt: serverTimestamp()
+        });
 
         const summaryEl = document.getElementById('regSuccessSummary');
         if (summaryEl) {
@@ -2410,6 +2507,7 @@
             : `Welcome ${leadData.name}! Your registration for "${courseObj ? courseObj.titleEn : leadData.courseName}" has been received. Our team will contact you shortly.`;
         }
 
+        if (accountUid && summaryEl) summaryEl.textContent += sx(' تم إنشاء حسابك، ادخل لوحتك من زر «بوابة الطالب».', ' Your account is ready — open your dashboard from the "Student portal" button.');
         const waNum = (state.settings.whatsapp && state.settings.whatsapp !== '201000000000')
           ? state.settings.whatsapp.replace(/\D/g, '')
           : '201018301386';
@@ -2420,6 +2518,7 @@
         if (waBtn) waBtn.href = `https://wa.me/${waNum}?text=${waMsg}`;
 
         document.getElementById('registrationForm').reset();
+        initRegTz();
         window.syncRegistrationPackages();
         const paymentOptions = document.getElementById('regPaymentOptions');
         const paymentLink = document.getElementById('regPaymentLink');
@@ -2632,6 +2731,283 @@
       } catch (e) { console.warn('Admin housekeeping skipped:', e); }
     }
 
+    // =========================================================================
+    // STUDENT PORTAL (phase 1): time zones, student accounts, personal dashboard
+    // Session times are stored in UTC (startMs) and shown in each person's own time zone.
+    // =========================================================================
+    let signupInFlight = false;
+    let studentUser = null;
+    let spData = null;
+    let spTimer = null;
+    let unsubStudents = null;
+    const sx = (ar, en) => currentLang === 'ar' ? ar : en;
+
+    function detectTz() {
+      try { return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'; } catch (e) { return 'UTC'; }
+    }
+    function validTz(z) {
+      if (!z || typeof z !== 'string' || z.length > 64) return false;
+      try { new Intl.DateTimeFormat('en', { timeZone: z }); return true; } catch (e) { return false; }
+    }
+    function allTimeZones() {
+      try { if (Intl.supportedValuesOf) return Intl.supportedValuesOf('timeZone'); } catch (e) {}
+      return ['Africa/Cairo','Africa/Casablanca','Asia/Riyadh','Asia/Dubai','Asia/Karachi','Asia/Kuala_Lumpur','Asia/Jakarta','Europe/London','Europe/Paris','America/New_York','America/Chicago','America/Los_Angeles','America/Toronto','Australia/Sydney'];
+    }
+    function fillTzList() {
+      const dl = document.getElementById('tzList');
+      if (!dl || dl.childElementCount) return;
+      const zones = allTimeZones().slice();
+      if (!zones.includes('UTC')) zones.unshift('UTC');
+      dl.innerHTML = zones.map(z => `<option value="${z}"></option>`).join('');
+    }
+    function initRegTz() {
+      fillTzList();
+      const el = document.getElementById('regTimezone');
+      if (el && !el.value) el.value = detectTz();
+    }
+    function fmtInTz(ms, tz, withDate = true) {
+      try {
+        return new Intl.DateTimeFormat(currentLang === 'ar' ? 'ar-EG' : 'en-GB', Object.assign(
+          { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: true },
+          withDate ? { weekday: 'long', day: 'numeric', month: 'long' } : {}
+        )).format(ms);
+      } catch (e) { return new Date(ms).toLocaleString(); }
+    }
+    function safeMeetUrl(u) {
+      u = String(u || '').trim();
+      return /^https:\/\/meet\.google\.com\/[A-Za-z0-9\-_\/]+(\?[A-Za-z0-9=&_\-.%]*)?$/.test(u) ? u : '';
+    }
+    function signupErrorMessage(err) {
+      const c = (err && err.code) || '';
+      if (c === 'auth/email-already-in-use') return sx('هذا البريد مسجّل من قبل. ادخل من «بوابة الطالب».', 'This email is already registered. Sign in from the Student portal.');
+      if (c === 'auth/weak-password') return sx('كلمة المرور ضعيفة (٦ أحرف على الأقل).', 'Password is too weak (at least 6 characters).');
+      if (c === 'auth/invalid-email') return sx('صيغة البريد الإلكتروني غير صحيحة.', 'Invalid email address.');
+      if (c === 'auth/network-request-failed') return sx('تعذر الاتصال بالإنترنت.', 'Network error.');
+      return sx('تعذر إنشاء الحساب. حاول مرة أخرى أو تواصل مع الأكاديمية.', 'Could not create the account. Please try again or contact the academy.');
+    }
+
+    function spMsg(kind, msg) {
+      const e = document.getElementById('spError'), o = document.getElementById('spInfo');
+      if (!e || !o) return;
+      e.classList.add('hidden'); o.classList.add('hidden');
+      if (!msg) return;
+      const el = kind === 'ok' ? o : e;
+      el.textContent = msg; el.classList.remove('hidden');
+    }
+    function showSpView(which) {
+      document.getElementById('spLoginView').classList.toggle('hidden', which !== 'login');
+      document.getElementById('spDashView').classList.toggle('hidden', which !== 'dash');
+    }
+
+    function onStudentAuthChange(user) {
+      studentUser = user || null;
+      if (signupInFlight) return;
+      if (!user) { spData = null; clearInterval(spTimer); }
+      const m = document.getElementById('studentPortalModal');
+      if (m && !m.classList.contains('hidden')) refreshStudentView();
+    }
+    function refreshStudentView() {
+      if (!studentUser) { showSpView('login'); return; }
+      showSpView('dash');
+      loadStudentDashboard();
+    }
+    window.openStudentPortal = function() {
+      fillTzList();
+      document.getElementById('studentPortalModal').classList.remove('hidden');
+      refreshStudentView();
+    };
+
+    window.handleStudentLogin = async function(e) {
+      e.preventDefault();
+      if (!auth) { spMsg('err', sx('الخدمة غير متاحة حالياً، أعد تحميل الصفحة.', 'Service unavailable. Reload the page.')); return; }
+      const btn = document.getElementById('spLoginBtn');
+      spMsg('', ''); btn.disabled = true;
+      try {
+        await signInWithEmailAndPassword(auth, document.getElementById('spEmail').value.trim(), document.getElementById('spPassword').value);
+        document.getElementById('spPassword').value = '';
+      } catch (err) { spMsg('err', authErrorMessage(err)); }
+      finally { btn.disabled = false; }
+    };
+    window.handleStudentReset = async function() {
+      const email = document.getElementById('spEmail').value.trim();
+      if (!email) { spMsg('err', sx('اكتب بريدك الإلكتروني أولاً.', 'Enter your email first.')); return; }
+      if (!auth) return;
+      try { await sendPasswordResetEmail(auth, email); } catch (err) {
+        if (err && (err.code === 'auth/invalid-email' || err.code === 'auth/network-request-failed')) { spMsg('err', authErrorMessage(err)); return; }
+      }
+      spMsg('ok', sx('إن كان البريد مسجلاً فستصلك رسالة لإعادة تعيين كلمة المرور.', 'If the email is registered, a reset message has been sent.'));
+    };
+    window.studentLogout = async function() {
+      try { await signOut(auth); } catch (e) { console.warn(e); }
+      closeModal('studentPortalModal');
+    };
+
+    async function loadStudentDashboard() {
+      const box = document.getElementById('spDashBody');
+      if (!box || !studentUser || !db) return;
+      box.innerHTML = `<p class="text-center text-sm text-charcoal/70 py-8">${sx('جارٍ التحميل…', 'Loading…')}</p>`;
+      const uid = studentUser.uid;
+      try {
+        const sSnap = await getDoc(doc(db, 'students', uid));
+        if (!sSnap.exists()) {
+          spData = null;
+          box.innerHTML = `<p class="text-center text-sm font-bold text-red-600 py-6">${sx('لا توجد بيانات اشتراك مرتبطة بهذا الحساب. سجّل عبر نموذج التسجيل أو تواصل مع الأكاديمية.', 'No subscription is linked to this account. Register through the form or contact the academy.')}</p>`;
+          return;
+        }
+        let sessions = [], att = [];
+        try { sessions = (await getDocs(query(collection(db, 'sessions'), where('studentIds', 'array-contains', uid)))).docs.map(d => ({ id: d.id, ...d.data() })); } catch (e) { console.warn('sessions:', e); }
+        try { att = (await getDocs(query(collection(db, 'attendance'), where('studentId', '==', uid)))).docs.map(d => d.data()); } catch (e) { console.warn('attendance:', e); }
+        spData = { profile: sSnap.data(), sessions, att };
+        renderStudentDashboard();
+        clearInterval(spTimer);
+        spTimer = setInterval(tickStudentDashboard, 30000);
+      } catch (e) {
+        console.warn('Student dashboard error:', e);
+        box.innerHTML = `<p class="text-center text-sm font-bold text-red-600 py-6">${sx('تعذر تحميل بياناتك. حاول مرة أخرى.', 'Could not load your data. Please try again.')}</p>`;
+      }
+    }
+
+    function studentTz() {
+      const z = spData && spData.profile && spData.profile.timezone;
+      return validTz(z) ? z : detectTz();
+    }
+    function tickStudentDashboard() {
+      const m = document.getElementById('studentPortalModal');
+      if (!spData || !m || m.classList.contains('hidden')) return;
+      const el = document.getElementById('spClock');
+      if (el) el.textContent = sx('الوقت الآن عندك: ', 'Your local time now: ') + fmtInTz(Date.now(), studentTz(), false);
+      renderStudentSessions();
+    }
+
+    function renderStudentDashboard() {
+      const box = document.getElementById('spDashBody');
+      if (!box || !spData) return;
+      const p = spData.profile, tz = studentTz();
+      const stLabel = { pending: sx('بانتظار تفعيل الإدارة', 'Awaiting activation'), active: sx('مفعّل', 'Active'), paused: sx('موقوف', 'Paused') }[p.status] || String(p.status || '');
+      const stCls = p.status === 'active' ? 'bg-emerald-100 text-emerald-800' : (p.status === 'paused' ? 'bg-red-100 text-red-700' : 'bg-gold/25 text-forest');
+      const teacher = p.teacherName || p.preferredTeacherName || sx('سيتم تحديده', 'To be assigned');
+      const cnt = s => spData.att.filter(a => a.status === s).length;
+      const card = 'rounded-2xl border border-gold/30 bg-cream-light p-4';
+      const stat = (n, label, cls) => `<div class="rounded-2xl ${cls} p-3 text-center"><div class="text-2xl font-bold">${n}</div><div class="text-[11px] font-bold mt-0.5">${label}</div></div>`;
+      box.innerHTML = `
+        <div class="flex items-start justify-between gap-3 mb-5 pe-10">
+          <div>
+            <h3 class="font-calligraphy text-2xl font-bold text-forest">${sx('أهلاً', 'Welcome')} ${escapeHtml(p.name || '')}</h3>
+            <p class="text-xs text-charcoal/60 mt-0.5" dir="ltr">${escapeHtml(p.email || '')}</p>
+          </div>
+          <span class="px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap ${stCls}">${escapeHtml(stLabel)}</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          <div class="${card}">
+            <div class="text-[11px] font-bold text-gold-dark mb-1">${sx('اشتراكي', 'My subscription')}</div>
+            <div class="text-sm font-bold text-forest">${escapeHtml(p.courseName || '—')}</div>
+            <div class="text-xs text-charcoal/70 mt-0.5">${escapeHtml(p.packageLabel || '')}</div>
+            <div class="text-xs text-charcoal/70 mt-1">${sx('المعلم', 'Teacher')}: <span class="font-bold">${escapeHtml(teacher)}</span></div>
+          </div>
+          <div class="${card}">
+            <div class="text-[11px] font-bold text-gold-dark mb-1">${sx('منطقتي الزمنية', 'My time zone')}</div>
+            <div class="flex gap-2">
+              <input type="text" id="spTzInput" list="tzList" dir="ltr" maxlength="64" value="${escapeHtml(tz)}" class="flex-1 min-w-0 px-3 py-2 rounded-xl border border-gold/40 bg-white text-xs">
+              <button type="button" onclick="saveStudentTz()" class="px-3 py-2 rounded-xl bg-forest text-white text-xs font-bold hover:bg-forest-light">${sx('حفظ', 'Save')}</button>
+            </div>
+            <div id="spClock" class="text-[11px] text-charcoal/70 mt-1.5"></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-5">
+          ${stat(cnt('present'), sx('حضور', 'Present'), 'bg-emerald-50 text-emerald-800')}
+          ${stat(cnt('absent'), sx('غياب', 'Absent'), 'bg-red-50 text-red-700')}
+          ${stat(cnt('excused'), sx('غياب بإذن', 'Excused'), 'bg-gold/20 text-forest')}
+        </div>
+        <h4 class="text-sm font-bold text-forest mb-2">${sx('حصصي القادمة', 'My upcoming sessions')}</h4>
+        <div id="spSessions" class="space-y-2"></div>`;
+      renderStudentSessions();
+      tickStudentDashboard();
+    }
+
+    function renderStudentSessions() {
+      const el = document.getElementById('spSessions');
+      if (!el || !spData) return;
+      const tz = studentTz(), now = Date.now();
+      const endOf = s => (Number(s.startMs) || 0) + (Number(s.durationMin) || 45) * 60000;
+      const up = spData.sessions.filter(s => endOf(s) > now && s.status !== 'cancelled').sort((a, b) => a.startMs - b.startMs).slice(0, 20);
+      if (!up.length) {
+        el.innerHTML = `<p class="text-xs text-charcoal/60 py-3">${sx('لا توجد حصص مجدولة حالياً. ستظهر هنا فور جدولتها.', 'No sessions scheduled yet. They will appear here once scheduled.')}</p>`;
+        return;
+      }
+      el.innerHTML = up.map(s => {
+        const url = safeMeetUrl(s.meetUrl);
+        const open = url && now >= s.startMs - 10 * 60000;
+        const btn = open
+          ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-forest text-white text-xs font-bold hover:bg-forest-light whitespace-nowrap">${sx('ادخل الحصة', 'Join class')}</a>`
+          : `<span class="text-[11px] text-charcoal/50 text-center">${url ? sx('يفتح قبل الموعد بـ 10 دقائق', 'Opens 10 min before') : sx('الرابط لم يُضف بعد', 'Link not added yet')}</span>`;
+        return `<div class="flex items-center justify-between gap-3 rounded-2xl border border-gold/30 bg-white p-3">
+          <div class="min-w-0">
+            <div class="text-sm font-bold text-forest truncate">${escapeHtml(s.title || (spData.profile.courseName || ''))}</div>
+            <div class="text-xs text-charcoal/70">${escapeHtml(fmtInTz(s.startMs, tz))}</div>
+            ${s.teacherName ? `<div class="text-[11px] text-charcoal/60">${escapeHtml(s.teacherName)}</div>` : ''}
+          </div>${btn}</div>`;
+      }).join('');
+    }
+
+    window.saveStudentTz = async function() {
+      const v = (document.getElementById('spTzInput').value || '').trim();
+      if (!validTz(v)) { showToast(sx('المنطقة الزمنية غير صحيحة. اختر من القائمة (مثل Africa/Cairo).', 'Invalid time zone. Pick one from the list (e.g. Africa/Cairo).'), 'error'); return; }
+      try {
+        await updateDoc(doc(db, 'students', studentUser.uid), { timezone: v, updatedAtMs: Date.now() });
+        spData.profile.timezone = v;
+        renderStudentDashboard();
+        showToast(sx('تم حفظ المنطقة الزمنية.', 'Time zone saved.'));
+      } catch (e) { showToast(sx('تعذر الحفظ، حاول مرة أخرى.', 'Could not save. Try again.'), 'error'); }
+    };
+
+    // ---- admin: students with accounts ----
+    function subscribeStudents(on) {
+      if (unsubStudents) { unsubStudents(); unsubStudents = null; }
+      if (!on || !db) return;
+      unsubStudents = onSnapshot(collection(db, 'students'), (snap) => {
+        state.students = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.createdAtMs || 0) - (a.createdAtMs || 0));
+        renderAdminStudents();
+      }, (err) => console.warn('Students listener error:', err));
+    }
+    function renderAdminStudents() {
+      const list = document.getElementById('adminStudentsList');
+      if (!list) return;
+      const arr = state.students || [];
+      const badge = document.getElementById('adminStudentsCountBadge');
+      if (badge) { const n = arr.filter(s => s.status === 'pending').length; badge.textContent = n; badge.classList.toggle('hidden', !n); }
+      if (!arr.length) { list.innerHTML = '<p class="text-sm text-charcoal/60 py-6 text-center">لا يوجد طلاب بحسابات بعد.</p>'; return; }
+      const sel = 'px-3 py-2 rounded-xl border border-gold/40 bg-white text-xs font-bold';
+      list.innerHTML = arr.map(s => {
+        const id = escapeHtml(s.id);
+        const tz = validTz(s.timezone) ? s.timezone : 'UTC';
+        const stOpts = [['pending', 'بانتظار التفعيل'], ['active', 'مفعّل'], ['paused', 'موقوف']]
+          .map(([v, l]) => `<option value="${v}" ${s.status === v ? 'selected' : ''}>${l}</option>`).join('');
+        const tOpts = '<option value="">— بدون معلم —</option>' + state.teachers
+          .map(tc => `<option value="${escapeHtml(tc.id)}" ${tc.id === s.teacherId ? 'selected' : ''}>${escapeHtml(tc.nameAr)}</option>`).join('');
+        return `<div class="rounded-2xl border border-gold/30 bg-white p-4 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="font-bold text-forest">${escapeHtml(s.name || '')}</div>
+            <div class="text-[11px] text-charcoal/60" dir="ltr">${escapeHtml(s.email || '')} · ${escapeHtml(s.phone || '')}</div>
+          </div>
+          <div class="text-xs text-charcoal/70">${escapeHtml(s.courseName || '—')} — ${escapeHtml(s.packageLabel || '')}</div>
+          <div class="text-xs text-charcoal/70">${escapeHtml(s.country || '')} · <span dir="ltr">${escapeHtml(tz)}</span> · ${escapeHtml(fmtInTz(Date.now(), tz, false))}</div>
+          ${s.preferredTeacherName ? `<div class="text-[11px] text-gold-dark">المعلم المفضل: ${escapeHtml(s.preferredTeacherName)}</div>` : ''}
+          <div class="flex flex-wrap gap-2 pt-1">
+            <select class="${sel}" onchange="adminUpdateStudent('${id}','status',this.value)">${stOpts}</select>
+            <select class="${sel}" onchange="adminUpdateStudent('${id}','teacherId',this.value)">${tOpts}</select>
+          </div>
+        </div>`;
+      }).join('');
+    }
+    window.adminUpdateStudent = async function(id, field, value) {
+      if (!isAdminUnlocked || !['status', 'teacherId'].includes(field)) return;
+      const upd = { [field]: value, updatedAtMs: Date.now() };
+      if (field === 'teacherId') { const tc = state.teachers.find(x => x.id === value); upd.teacherName = tc ? tc.nameAr : ''; }
+      try { await updateDoc(doc(db, 'students', id), upd); showToast('تم التحديث'); }
+      catch (e) { console.warn(e); showToast('تعذر التحديث', 'error'); }
+    };
+
+
     function setupAuthWatcher() {
       setPersistence(auth, browserLocalPersistence).catch(() => {});
       onAuthStateChanged(auth, async (user) => {
@@ -2639,15 +3015,17 @@
         if (user) {
           try {
             let r = await user.getIdTokenResult();
-            if (r.claims.admin !== true) r = await user.getIdTokenResult(true);
+            if (r.claims.admin !== true && adminRoute) r = await user.getIdTokenResult(true);
             ok = r.claims.admin === true;
           } catch (e) { console.warn('Token check failed:', e); }
-          if (!ok) {
+          // Only the admin page rejects non-owner accounts; on the public site they are students.
+          if (!ok && adminRoute) {
             await signOut(auth).catch(() => {});
-            if (adminRoute) showAdminLoginMsg('err', 'هذا الحساب غير مصرّح له بدخول لوحة الإدارة.');
+            showAdminLoginMsg('err', 'هذا الحساب غير مصرّح له بدخول لوحة الإدارة.');
           }
         }
         setAdminState(ok);
+        onStudentAuthChange(ok || (user && adminRoute) ? null : user);
       });
     }
 
@@ -2658,10 +3036,12 @@
       if (ok && !was) {
         subscribeReviews(true);
         subscribeLeads(true);
+        subscribeStudents(true);
         adminHousekeeping();
       } else if (!ok && was) {
         subscribeLeads(false);
         subscribeReviews(false);
+        subscribeStudents(false);
       }
       if (!adminRoute) return;
       _ae('adminAuthLoading').classList.add('hidden');
@@ -4518,6 +4898,7 @@
       .forEach(([id, n]) => { const el = document.getElementById(id); if (el) el.maxLength = n; });
 
     document.getElementById('currentYear').textContent = new Date().getFullYear();
+    initRegTz();
 
     // Direct admin entry: /admin/ redirects to /#admin. Real protection = Firebase Auth + Firestore rules.
     if (adminRoute) showAdminLoginShell();
